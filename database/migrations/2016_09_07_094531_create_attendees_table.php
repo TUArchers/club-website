@@ -17,8 +17,8 @@ class CreateAttendeesTable extends Migration
             $table->unsignedInteger('user_id')->nullable();
 
             $table->string('name');
-            $table->string('email');
-            $table->string('phone');
+            $table->string('email_address');
+            $table->string('phone_number');
 
             $table->boolean('is_provisional')->default(true);
             $table->boolean('is_waiting')->default(false);
