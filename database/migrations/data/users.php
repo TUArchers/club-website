@@ -5,6 +5,7 @@ return [
         'first_name'             => 'Goose',
         'gender'                 => 'U',
         'is_student'             => false,
+        'phone_number'           => '01642384461',
         'email_address'          => 'committee@tuarchers.org.uk',
         'email_address_verified' => true,
         'password'               => 'marcoParmo2012',

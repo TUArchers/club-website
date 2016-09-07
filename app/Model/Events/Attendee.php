@@ -20,6 +20,7 @@ class Attendee extends Model
     #use Notifiable;
 
     /** Properties */
+    public $timestamps  = true;
     protected $fillable = [
         'event_id',
         'user_id',
@@ -27,7 +28,7 @@ class Attendee extends Model
         'email_address',
         'phone_number',
     ];
-    protected $dates = [
+    protected $dates    = [
         'registered_at',
         'cancelled_at',
         'attended_at',

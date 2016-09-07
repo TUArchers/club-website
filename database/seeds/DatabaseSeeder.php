@@ -2,6 +2,13 @@
 
 use Illuminate\Database\Seeder;
 
+/**
+ * DatabaseSeeder
+ *
+ * @author
+ * @version 0.1.0
+ * @since   0.1.0
+ */
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -11,6 +18,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //$this->call(RolesTableSeeder::class);
+        $this->call(EventsTableSeeder::class);
     }
 }

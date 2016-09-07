@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use TuaWebsite\Model\Identity\User;
 
 /**
  * Event
@@ -23,6 +24,7 @@ class Event extends Model
     const P_PRIVATE = 'I';
 
     /** Properties */
+    public $timestamps  = true;
     protected $fillable = [
         'type_id',
         'name',
@@ -128,5 +130,46 @@ class Event extends Model
 
         // Notify attendees
         // TODO: Notify attendees
+    }
+
+    /**
+     * Register for this event
+     *
+     * @param string|User $nameOrUser
+     * @param string|null $email_address
+     * @param string|null $phone_number
+     *
+     * @return Attendee
+     * @throws \Exception
+     */
+    public function register($nameOrUser, $email_address = null, $phone_number = null)
+    {
+        // Prepare attributes
+        $attributes = [
+            'event_id' => $this->id,
+        ];
+
+        // Derive properties from a given User instance
+        if($nameOrUser instanceof User){
+            $attributes['user_id']       = $nameOrUser->id;
+            $attributes['name']          = $nameOrUser->name;
+            $attributes['email_address'] = $nameOrUser->email_address;
+            $attributes['phone_number']  = $nameOrUser->phone_number;
+        }
+        // Use explicit properties
+        elseif(is_string($nameOrUser) && is_string($email_address) && is_string($phone_number)){
+            $attributes['name']          = $nameOrUser;
+            $attributes['email_address'] = $email_address;
+            $attributes['phone_number']  = $phone_number;
+        }
+        // Bad parameters, bail!
+        else{
+            throw new \Exception('Bad parameters provided to ' . __METHOD__);
+        }
+
+        // Make the attendee
+        $attendee = new Attendee($attributes);
+
+        return $attendee;
     }
 }
