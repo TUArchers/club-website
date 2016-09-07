@@ -31,7 +31,7 @@ return [
         'parent_name'       => null,
     ],
     [
-        'name'              => 'Taster',
+        'name'              => 'Guest',
         'description'       => null,
         'has_full_access'   => false,
         'parent_name'       => null,

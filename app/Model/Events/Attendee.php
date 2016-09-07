@@ -5,14 +5,14 @@ namespace TuaWebsite\Model\Events;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Booking
+ * Attendee
  *
  * @package TuaWebsite\Model\Events
  * @author
  * @version 0.1.0
  * @since   0.1.0
  */
-class Booking extends Model
+class Attendee extends Model
 {
     //
 }
