@@ -9,540 +9,580 @@
     <schema id="4" parent="1" name="mysql"/>
     <schema id="5" parent="1" name="performance_schema"/>
     <schema id="6" parent="1" name="sys"/>
-    <table id="7" parent="2" name="migrations"/>
-    <table id="8" parent="2" name="password_resets"/>
-    <table id="9" parent="2" name="permission_role"/>
-    <table id="10" parent="2" name="permissions"/>
-    <table id="11" parent="2" name="roles"/>
-    <table id="12" parent="2" name="rounds"/>
-    <table id="13" parent="2" name="scores"/>
-    <table id="14" parent="2" name="users"/>
-    <table id="15" parent="2" name="pages"/>
-    <table id="16" parent="2" name="articles"/>
-    <table id="17" parent="2" name="comments"/>
-    <column id="18" parent="7" name="migration">
-      <mandatory>1</mandatory>
-      <data-type>varchar(255)|0</data-type>
-    </column>
-    <column id="19" parent="7" name="batch">
-      <mandatory>1</mandatory>
-      <data-type>int(11)|0</data-type>
-    </column>
-    <column id="20" parent="8" name="email_address">
-      <mandatory>1</mandatory>
-      <data-type>varchar(255)|0</data-type>
-    </column>
-    <column id="21" parent="8" name="token">
-      <mandatory>1</mandatory>
-      <data-type>varchar(255)|0</data-type>
-    </column>
-    <column id="22" parent="8" name="created_at">
-      <data-type>timestamp|0</data-type>
-    </column>
-    <index id="23" parent="8" name="password_resets_email_address_index">
-      <columns>email_address</columns>
-      <desc-columns></desc-columns>
-    </index>
-    <index id="24" parent="8" name="password_resets_token_index">
-      <columns>token</columns>
-      <desc-columns></desc-columns>
-    </index>
-    <column id="25" parent="9" name="permission_id">
-      <mandatory>1</mandatory>
-      <data-type>int(10) unsigned|0</data-type>
-    </column>
-    <column id="26" parent="9" name="role_id">
-      <mandatory>1</mandatory>
-      <data-type>int(10) unsigned|0</data-type>
-    </column>
-    <index id="27" parent="9" name="permission_role_permission_id_foreign">
-      <columns>permission_id</columns>
-      <desc-columns></desc-columns>
-    </index>
-    <index id="28" parent="9" name="permission_role_role_id_foreign">
-      <columns>role_id</columns>
-      <desc-columns></desc-columns>
-    </index>
-    <foreign-key id="29" parent="9" name="permission_role_permission_id_foreign">
-      <columns>permission_id</columns>
-      <ref-key>~.permissions.PRIMARY</ref-key>
-      <cascade-update-rule>restrict</cascade-update-rule>
-      <cascade-delete-rule>restrict</cascade-delete-rule>
-    </foreign-key>
-    <foreign-key id="30" parent="9" name="permission_role_role_id_foreign">
-      <columns>role_id</columns>
-      <ref-key>~.roles.PRIMARY</ref-key>
-      <cascade-update-rule>restrict</cascade-update-rule>
-      <cascade-delete-rule>restrict</cascade-delete-rule>
-    </foreign-key>
-    <column id="31" parent="10" name="id">
+    <table id="7" parent="2" name="articles"/>
+    <table id="8" parent="2" name="comments"/>
+    <table id="9" parent="2" name="jobs"/>
+    <table id="10" parent="2" name="migrations"/>
+    <table id="11" parent="2" name="pages"/>
+    <table id="12" parent="2" name="password_resets"/>
+    <table id="13" parent="2" name="permission_role"/>
+    <table id="14" parent="2" name="permissions"/>
+    <table id="15" parent="2" name="roles"/>
+    <table id="16" parent="2" name="rounds"/>
+    <table id="17" parent="2" name="scores"/>
+    <table id="18" parent="2" name="users"/>
+    <column id="19" parent="7" name="id">
       <mandatory>1</mandatory>
       <data-type>int(10) unsigned|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="32" parent="10" name="name">
+    <column id="20" parent="7" name="title">
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="33" parent="10" name="slug">
+    <column id="21" parent="7" name="slug">
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="34" parent="10" name="description">
-      <data-type>varchar(255)|0</data-type>
-    </column>
-    <index id="35" parent="10" name="permissions_slug_unique">
-      <columns>slug</columns>
-      <desc-columns></desc-columns>
-      <unique>1</unique>
-    </index>
-    <key id="36" parent="10" name="PRIMARY">
-      <columns>id</columns>
-      <primary>1</primary>
-    </key>
-    <key id="37" parent="10" name="permissions_slug_unique">
-      <columns>slug</columns>
-      <underlying-index>permissions_slug_unique</underlying-index>
-    </key>
-    <column id="38" parent="11" name="id">
-      <mandatory>1</mandatory>
-      <data-type>int(10) unsigned|0</data-type>
-      <sequence-identity>1</sequence-identity>
-    </column>
-    <column id="39" parent="11" name="name">
-      <mandatory>1</mandatory>
-      <data-type>varchar(255)|0</data-type>
-    </column>
-    <column id="40" parent="11" name="slug">
-      <mandatory>1</mandatory>
-      <data-type>varchar(255)|0</data-type>
-    </column>
-    <column id="41" parent="11" name="description">
-      <data-type>varchar(255)|0</data-type>
-    </column>
-    <column id="42" parent="11" name="has_full_access">
-      <mandatory>1</mandatory>
-      <data-type>tinyint(1)|0</data-type>
-    </column>
-    <column id="43" parent="11" name="parent_id">
-      <data-type>int(10) unsigned|0</data-type>
-    </column>
-    <column id="44" parent="11" name="created_at">
-      <data-type>timestamp|0</data-type>
-    </column>
-    <column id="45" parent="11" name="updated_at">
-      <data-type>timestamp|0</data-type>
-    </column>
-    <index id="46" parent="11" name="roles_parent_id_foreign">
-      <columns>parent_id</columns>
-      <desc-columns></desc-columns>
-    </index>
-    <index id="47" parent="11" name="roles_slug_unique">
-      <columns>slug</columns>
-      <desc-columns></desc-columns>
-      <unique>1</unique>
-    </index>
-    <key id="48" parent="11" name="PRIMARY">
-      <columns>id</columns>
-      <primary>1</primary>
-    </key>
-    <key id="49" parent="11" name="roles_slug_unique">
-      <columns>slug</columns>
-      <underlying-index>roles_slug_unique</underlying-index>
-    </key>
-    <foreign-key id="50" parent="11" name="roles_parent_id_foreign">
-      <columns>parent_id</columns>
-      <ref-key>PRIMARY</ref-key>
-      <cascade-update-rule>restrict</cascade-update-rule>
-      <cascade-delete-rule>restrict</cascade-delete-rule>
-    </foreign-key>
-    <column id="51" parent="12" name="id">
-      <mandatory>1</mandatory>
-      <data-type>int(10) unsigned|0</data-type>
-      <sequence-identity>1</sequence-identity>
-    </column>
-    <column id="52" parent="12" name="name">
-      <mandatory>1</mandatory>
-      <data-type>varchar(255)|0</data-type>
-    </column>
-    <column id="53" parent="12" name="organisation">
-      <mandatory>1</mandatory>
-      <data-type>enum(&apos;WA&apos;, &apos;AGB&apos;, &apos;TUA&apos;, &apos;O&apos;)|0</data-type>
-    </column>
-    <column id="54" parent="12" name="season">
-      <mandatory>1</mandatory>
-      <data-type>enum(&apos;I&apos;, &apos;O&apos;)|0</data-type>
-    </column>
-    <column id="55" parent="12" name="total_targets">
-      <mandatory>1</mandatory>
-      <data-type>smallint(5) unsigned|0</data-type>
-      <default-expression>&apos;1&apos;</default-expression>
-    </column>
-    <column id="56" parent="12" name="total_shots">
-      <mandatory>1</mandatory>
-      <data-type>smallint(5) unsigned|0</data-type>
-    </column>
-    <column id="57" parent="12" name="max_score">
-      <mandatory>1</mandatory>
-      <data-type>smallint(5) unsigned|0</data-type>
-    </column>
-    <column id="58" parent="12" name="max_shot_score">
-      <mandatory>1</mandatory>
-      <data-type>smallint(5) unsigned|0</data-type>
-    </column>
-    <column id="59" parent="12" name="min_shot_score">
-      <mandatory>1</mandatory>
-      <data-type>smallint(5) unsigned|0</data-type>
-    </column>
-    <column id="60" parent="12" name="created_at">
-      <data-type>timestamp|0</data-type>
-    </column>
-    <column id="61" parent="12" name="updated_at">
-      <data-type>timestamp|0</data-type>
-    </column>
-    <index id="62" parent="12" name="rounds_name_unique">
-      <columns>name</columns>
-      <desc-columns></desc-columns>
-      <unique>1</unique>
-    </index>
-    <key id="63" parent="12" name="PRIMARY">
-      <columns>id</columns>
-      <primary>1</primary>
-    </key>
-    <key id="64" parent="12" name="rounds_name_unique">
-      <columns>name</columns>
-      <underlying-index>rounds_name_unique</underlying-index>
-    </key>
-    <column id="65" parent="13" name="id">
-      <mandatory>1</mandatory>
-      <data-type>int(10) unsigned|0</data-type>
-      <sequence-identity>1</sequence-identity>
-    </column>
-    <column id="66" parent="13" name="round_id">
-      <mandatory>1</mandatory>
-      <data-type>int(10) unsigned|0</data-type>
-    </column>
-    <column id="67" parent="13" name="archer_id">
-      <mandatory>1</mandatory>
-      <data-type>int(10) unsigned|0</data-type>
-    </column>
-    <column id="68" parent="13" name="scorer_id">
-      <mandatory>1</mandatory>
-      <data-type>int(10) unsigned|0</data-type>
-    </column>
-    <column id="69" parent="13" name="bow_class">
-      <mandatory>1</mandatory>
-      <data-type>enum(&apos;C&apos;, &apos;R&apos;, &apos;B&apos;, &apos;L&apos;, &apos;T&apos;)|0</data-type>
-    </column>
-    <column id="70" parent="13" name="hit_count">
-      <mandatory>1</mandatory>
-      <data-type>smallint(5) unsigned|0</data-type>
-    </column>
-    <column id="71" parent="13" name="gold_count">
-      <mandatory>1</mandatory>
-      <data-type>smallint(5) unsigned|0</data-type>
-    </column>
-    <column id="72" parent="13" name="total_score">
-      <mandatory>1</mandatory>
-      <data-type>smallint(5) unsigned|0</data-type>
-    </column>
-    <column id="73" parent="13" name="shot_at">
-      <mandatory>1</mandatory>
-      <data-type>datetime|0</data-type>
-    </column>
-    <column id="74" parent="13" name="created_at">
-      <data-type>timestamp|0</data-type>
-    </column>
-    <column id="75" parent="13" name="updated_at">
-      <data-type>timestamp|0</data-type>
-    </column>
-    <index id="76" parent="13" name="scores_archer_id_foreign">
-      <columns>archer_id</columns>
-      <desc-columns></desc-columns>
-    </index>
-    <index id="77" parent="13" name="scores_round_id_foreign">
-      <columns>round_id</columns>
-      <desc-columns></desc-columns>
-    </index>
-    <index id="78" parent="13" name="scores_scorer_id_foreign">
-      <columns>scorer_id</columns>
-      <desc-columns></desc-columns>
-    </index>
-    <key id="79" parent="13" name="PRIMARY">
-      <columns>id</columns>
-      <primary>1</primary>
-    </key>
-    <foreign-key id="80" parent="13" name="scores_round_id_foreign">
-      <columns>round_id</columns>
-      <ref-key>~.rounds.PRIMARY</ref-key>
-      <cascade-update-rule>restrict</cascade-update-rule>
-      <cascade-delete-rule>restrict</cascade-delete-rule>
-    </foreign-key>
-    <foreign-key id="81" parent="13" name="scores_archer_id_foreign">
-      <columns>archer_id</columns>
-      <ref-key>~.users.PRIMARY</ref-key>
-      <cascade-update-rule>restrict</cascade-update-rule>
-      <cascade-delete-rule>restrict</cascade-delete-rule>
-    </foreign-key>
-    <foreign-key id="82" parent="13" name="scores_scorer_id_foreign">
-      <columns>scorer_id</columns>
-      <ref-key>~.users.PRIMARY</ref-key>
-      <cascade-update-rule>restrict</cascade-update-rule>
-      <cascade-delete-rule>restrict</cascade-delete-rule>
-    </foreign-key>
-    <column id="83" parent="14" name="id">
-      <mandatory>1</mandatory>
-      <data-type>int(10) unsigned|0</data-type>
-      <sequence-identity>1</sequence-identity>
-    </column>
-    <column id="84" parent="14" name="role_id">
-      <mandatory>1</mandatory>
-      <data-type>int(10) unsigned|0</data-type>
-    </column>
-    <column id="85" parent="14" name="first_name">
-      <mandatory>1</mandatory>
-      <data-type>varchar(255)|0</data-type>
-    </column>
-    <column id="86" parent="14" name="last_name">
-      <data-type>varchar(255)|0</data-type>
-    </column>
-    <column id="87" parent="14" name="gender">
-      <mandatory>1</mandatory>
-      <data-type>enum(&apos;U&apos;, &apos;M&apos;, &apos;F&apos;, &apos;O&apos;)|0</data-type>
-    </column>
-    <column id="88" parent="14" name="date_of_birth">
-      <data-type>datetime|0</data-type>
-    </column>
-    <column id="89" parent="14" name="picture_url">
-      <data-type>varchar(255)|0</data-type>
-    </column>
-    <column id="90" parent="14" name="tusc_id">
-      <data-type>varchar(8)|0</data-type>
-    </column>
-    <column id="91" parent="14" name="isStudent">
-      <mandatory>1</mandatory>
-      <data-type>tinyint(1)|0</data-type>
-    </column>
-    <column id="92" parent="14" name="agb_id">
-      <data-type>varchar(255)|0</data-type>
-    </column>
-    <column id="93" parent="14" name="email_address">
-      <mandatory>1</mandatory>
-      <data-type>varchar(255)|0</data-type>
-    </column>
-    <column id="94" parent="14" name="email_address_verified">
-      <mandatory>1</mandatory>
-      <data-type>tinyint(1)|0</data-type>
-    </column>
-    <column id="95" parent="14" name="password_hash">
-      <mandatory>1</mandatory>
-      <data-type>varchar(255)|0</data-type>
-    </column>
-    <column id="96" parent="14" name="remember_token">
-      <data-type>varchar(100)|0</data-type>
-    </column>
-    <column id="97" parent="14" name="registered_at">
-      <mandatory>1</mandatory>
-      <data-type>datetime|0</data-type>
-    </column>
-    <column id="98" parent="14" name="created_at">
-      <data-type>timestamp|0</data-type>
-    </column>
-    <column id="99" parent="14" name="updated_at">
-      <data-type>timestamp|0</data-type>
-    </column>
-    <index id="100" parent="14" name="users_agb_id_unique">
-      <columns>agb_id</columns>
-      <desc-columns></desc-columns>
-      <unique>1</unique>
-    </index>
-    <index id="101" parent="14" name="users_email_address_unique">
-      <columns>email_address</columns>
-      <desc-columns></desc-columns>
-      <unique>1</unique>
-    </index>
-    <index id="102" parent="14" name="users_role_id_foreign">
-      <columns>role_id</columns>
-      <desc-columns></desc-columns>
-    </index>
-    <index id="103" parent="14" name="users_tusc_id_unique">
-      <columns>tusc_id</columns>
-      <desc-columns></desc-columns>
-      <unique>1</unique>
-    </index>
-    <key id="104" parent="14" name="PRIMARY">
-      <columns>id</columns>
-      <primary>1</primary>
-    </key>
-    <key id="105" parent="14" name="users_tusc_id_unique">
-      <columns>tusc_id</columns>
-      <underlying-index>users_tusc_id_unique</underlying-index>
-    </key>
-    <key id="106" parent="14" name="users_agb_id_unique">
-      <columns>agb_id</columns>
-      <underlying-index>users_agb_id_unique</underlying-index>
-    </key>
-    <key id="107" parent="14" name="users_email_address_unique">
-      <columns>email_address</columns>
-      <underlying-index>users_email_address_unique</underlying-index>
-    </key>
-    <foreign-key id="108" parent="14" name="users_role_id_foreign">
-      <columns>role_id</columns>
-      <ref-key>~.roles.PRIMARY</ref-key>
-      <cascade-update-rule>restrict</cascade-update-rule>
-      <cascade-delete-rule>restrict</cascade-delete-rule>
-    </foreign-key>
-    <column id="109" parent="15" name="id">
-      <mandatory>1</mandatory>
-      <data-type>int(10) unsigned|0</data-type>
-      <sequence-identity>1</sequence-identity>
-    </column>
-    <column id="110" parent="15" name="title">
-      <mandatory>1</mandatory>
-      <data-type>varchar(255)|0</data-type>
-    </column>
-    <column id="111" parent="15" name="slug">
-      <mandatory>1</mandatory>
-      <data-type>varchar(255)|0</data-type>
-    </column>
-    <column id="112" parent="15" name="body">
-      <mandatory>1</mandatory>
-      <data-type>longtext|0</data-type>
-    </column>
-    <column id="113" parent="15" name="author_id">
-      <mandatory>1</mandatory>
-      <data-type>int(10) unsigned|0</data-type>
-    </column>
-    <column id="114" parent="15" name="created_at">
-      <data-type>timestamp|0</data-type>
-    </column>
-    <column id="115" parent="15" name="updated_at">
-      <data-type>timestamp|0</data-type>
-    </column>
-    <index id="116" parent="15" name="pages_author_id_foreign">
-      <columns>author_id</columns>
-      <desc-columns></desc-columns>
-    </index>
-    <key id="117" parent="15" name="PRIMARY">
-      <columns>id</columns>
-      <primary>1</primary>
-    </key>
-    <foreign-key id="118" parent="15" name="pages_author_id_foreign">
-      <columns>author_id</columns>
-      <ref-key>~.users.PRIMARY</ref-key>
-      <cascade-update-rule>restrict</cascade-update-rule>
-      <cascade-delete-rule>restrict</cascade-delete-rule>
-    </foreign-key>
-    <column id="119" parent="16" name="id">
-      <mandatory>1</mandatory>
-      <data-type>int(10) unsigned|0</data-type>
-      <sequence-identity>1</sequence-identity>
-    </column>
-    <column id="120" parent="16" name="title">
-      <mandatory>1</mandatory>
-      <data-type>varchar(255)|0</data-type>
-    </column>
-    <column id="121" parent="16" name="slug">
-      <mandatory>1</mandatory>
-      <data-type>varchar(255)|0</data-type>
-    </column>
-    <column id="122" parent="16" name="excerpt">
+    <column id="22" parent="7" name="excerpt">
       <mandatory>1</mandatory>
       <data-type>varchar(250)|0</data-type>
     </column>
-    <column id="123" parent="16" name="picture_url">
+    <column id="23" parent="7" name="picture_url">
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="124" parent="16" name="body">
+    <column id="24" parent="7" name="body">
       <mandatory>1</mandatory>
       <data-type>longtext|0</data-type>
     </column>
-    <column id="125" parent="16" name="author_id">
+    <column id="25" parent="7" name="author_id">
       <mandatory>1</mandatory>
       <data-type>int(10) unsigned|0</data-type>
     </column>
-    <column id="126" parent="16" name="comments_enabled">
+    <column id="26" parent="7" name="comments_enabled">
       <mandatory>1</mandatory>
       <data-type>tinyint(1)|0</data-type>
       <default-expression>&apos;1&apos;</default-expression>
     </column>
-    <column id="127" parent="16" name="created_at">
+    <column id="27" parent="7" name="created_at">
       <data-type>timestamp|0</data-type>
     </column>
-    <column id="128" parent="16" name="updated_at">
+    <column id="28" parent="7" name="updated_at">
       <data-type>timestamp|0</data-type>
     </column>
-    <index id="129" parent="16" name="articles_author_id_foreign">
+    <index id="29" parent="7" name="articles_author_id_foreign">
       <columns>author_id</columns>
       <desc-columns></desc-columns>
     </index>
-    <key id="130" parent="16" name="PRIMARY">
+    <key id="30" parent="7" name="PRIMARY">
       <columns>id</columns>
       <primary>1</primary>
     </key>
-    <foreign-key id="131" parent="16" name="articles_author_id_foreign">
+    <foreign-key id="31" parent="7" name="articles_author_id_foreign">
       <columns>author_id</columns>
       <ref-key>~.users.PRIMARY</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
-    <column id="132" parent="17" name="id">
+    <column id="32" parent="8" name="id">
       <mandatory>1</mandatory>
       <data-type>int(10) unsigned|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="133" parent="17" name="author_id">
+    <column id="33" parent="8" name="author_id">
       <mandatory>1</mandatory>
       <data-type>int(10) unsigned|0</data-type>
     </column>
-    <column id="134" parent="17" name="article_id">
+    <column id="34" parent="8" name="article_id">
       <mandatory>1</mandatory>
       <data-type>int(10) unsigned|0</data-type>
     </column>
-    <column id="135" parent="17" name="parent_id">
+    <column id="35" parent="8" name="parent_id">
       <data-type>int(10) unsigned|0</data-type>
     </column>
-    <column id="136" parent="17" name="body">
+    <column id="36" parent="8" name="body">
       <mandatory>1</mandatory>
       <data-type>text|0</data-type>
     </column>
-    <column id="137" parent="17" name="created_at">
+    <column id="37" parent="8" name="created_at">
       <data-type>timestamp|0</data-type>
     </column>
-    <column id="138" parent="17" name="updated_at">
+    <column id="38" parent="8" name="updated_at">
       <data-type>timestamp|0</data-type>
     </column>
-    <index id="139" parent="17" name="comments_article_id_foreign">
+    <index id="39" parent="8" name="comments_article_id_foreign">
       <columns>article_id</columns>
       <desc-columns></desc-columns>
     </index>
-    <index id="140" parent="17" name="comments_author_id_foreign">
+    <index id="40" parent="8" name="comments_author_id_foreign">
       <columns>author_id</columns>
       <desc-columns></desc-columns>
     </index>
-    <index id="141" parent="17" name="comments_parent_id_foreign">
+    <index id="41" parent="8" name="comments_parent_id_foreign">
       <columns>parent_id</columns>
       <desc-columns></desc-columns>
     </index>
-    <key id="142" parent="17" name="PRIMARY">
+    <key id="42" parent="8" name="PRIMARY">
       <columns>id</columns>
       <primary>1</primary>
     </key>
-    <foreign-key id="143" parent="17" name="comments_author_id_foreign">
+    <foreign-key id="43" parent="8" name="comments_author_id_foreign">
       <columns>author_id</columns>
       <ref-key>~.users.PRIMARY</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
-    <foreign-key id="144" parent="17" name="comments_article_id_foreign">
+    <foreign-key id="44" parent="8" name="comments_article_id_foreign">
       <columns>article_id</columns>
       <ref-key>~.articles.PRIMARY</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
-    <foreign-key id="145" parent="17" name="comments_parent_id_foreign">
+    <foreign-key id="45" parent="8" name="comments_parent_id_foreign">
       <columns>parent_id</columns>
       <ref-key>PRIMARY</ref-key>
+      <cascade-update-rule>restrict</cascade-update-rule>
+      <cascade-delete-rule>restrict</cascade-delete-rule>
+    </foreign-key>
+    <column id="46" parent="9" name="id">
+      <mandatory>1</mandatory>
+      <data-type>bigint(20) unsigned|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="47" parent="9" name="queue">
+      <mandatory>1</mandatory>
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="48" parent="9" name="payload">
+      <mandatory>1</mandatory>
+      <data-type>longtext|0</data-type>
+    </column>
+    <column id="49" parent="9" name="attempts">
+      <mandatory>1</mandatory>
+      <data-type>tinyint(3) unsigned|0</data-type>
+    </column>
+    <column id="50" parent="9" name="reserved_at">
+      <data-type>int(10) unsigned|0</data-type>
+    </column>
+    <column id="51" parent="9" name="available_at">
+      <mandatory>1</mandatory>
+      <data-type>int(10) unsigned|0</data-type>
+    </column>
+    <column id="52" parent="9" name="created_at">
+      <mandatory>1</mandatory>
+      <data-type>int(10) unsigned|0</data-type>
+    </column>
+    <index id="53" parent="9" name="jobs_queue_reserved_at_index">
+      <columns>queue
+reserved_at</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="54" parent="9" name="PRIMARY">
+      <columns>id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="55" parent="10" name="migration">
+      <mandatory>1</mandatory>
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="56" parent="10" name="batch">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="57" parent="11" name="id">
+      <mandatory>1</mandatory>
+      <data-type>int(10) unsigned|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="58" parent="11" name="title">
+      <mandatory>1</mandatory>
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="59" parent="11" name="slug">
+      <mandatory>1</mandatory>
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="60" parent="11" name="body">
+      <mandatory>1</mandatory>
+      <data-type>longtext|0</data-type>
+    </column>
+    <column id="61" parent="11" name="author_id">
+      <mandatory>1</mandatory>
+      <data-type>int(10) unsigned|0</data-type>
+    </column>
+    <column id="62" parent="11" name="created_at">
+      <data-type>timestamp|0</data-type>
+    </column>
+    <column id="63" parent="11" name="updated_at">
+      <data-type>timestamp|0</data-type>
+    </column>
+    <index id="64" parent="11" name="pages_author_id_foreign">
+      <columns>author_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="65" parent="11" name="PRIMARY">
+      <columns>id</columns>
+      <primary>1</primary>
+    </key>
+    <foreign-key id="66" parent="11" name="pages_author_id_foreign">
+      <columns>author_id</columns>
+      <ref-key>~.users.PRIMARY</ref-key>
+      <cascade-update-rule>restrict</cascade-update-rule>
+      <cascade-delete-rule>restrict</cascade-delete-rule>
+    </foreign-key>
+    <column id="67" parent="12" name="email_address">
+      <mandatory>1</mandatory>
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="68" parent="12" name="token">
+      <mandatory>1</mandatory>
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="69" parent="12" name="created_at">
+      <data-type>timestamp|0</data-type>
+    </column>
+    <index id="70" parent="12" name="password_resets_email_address_index">
+      <columns>email_address</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <index id="71" parent="12" name="password_resets_token_index">
+      <columns>token</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <column id="72" parent="13" name="permission_id">
+      <mandatory>1</mandatory>
+      <data-type>int(10) unsigned|0</data-type>
+    </column>
+    <column id="73" parent="13" name="role_id">
+      <mandatory>1</mandatory>
+      <data-type>int(10) unsigned|0</data-type>
+    </column>
+    <index id="74" parent="13" name="permission_role_permission_id_foreign">
+      <columns>permission_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <index id="75" parent="13" name="permission_role_role_id_foreign">
+      <columns>role_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <foreign-key id="76" parent="13" name="permission_role_permission_id_foreign">
+      <columns>permission_id</columns>
+      <ref-key>~.permissions.PRIMARY</ref-key>
+      <cascade-update-rule>restrict</cascade-update-rule>
+      <cascade-delete-rule>restrict</cascade-delete-rule>
+    </foreign-key>
+    <foreign-key id="77" parent="13" name="permission_role_role_id_foreign">
+      <columns>role_id</columns>
+      <ref-key>~.roles.PRIMARY</ref-key>
+      <cascade-update-rule>restrict</cascade-update-rule>
+      <cascade-delete-rule>restrict</cascade-delete-rule>
+    </foreign-key>
+    <column id="78" parent="14" name="id">
+      <mandatory>1</mandatory>
+      <data-type>int(10) unsigned|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="79" parent="14" name="name">
+      <mandatory>1</mandatory>
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="80" parent="14" name="slug">
+      <mandatory>1</mandatory>
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="81" parent="14" name="description">
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <index id="82" parent="14" name="permissions_slug_unique">
+      <columns>slug</columns>
+      <desc-columns></desc-columns>
+      <unique>1</unique>
+    </index>
+    <key id="83" parent="14" name="PRIMARY">
+      <columns>id</columns>
+      <primary>1</primary>
+    </key>
+    <key id="84" parent="14" name="permissions_slug_unique">
+      <columns>slug</columns>
+      <underlying-index>permissions_slug_unique</underlying-index>
+    </key>
+    <column id="85" parent="15" name="id">
+      <mandatory>1</mandatory>
+      <data-type>int(10) unsigned|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="86" parent="15" name="name">
+      <mandatory>1</mandatory>
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="87" parent="15" name="slug">
+      <mandatory>1</mandatory>
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="88" parent="15" name="description">
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="89" parent="15" name="has_full_access">
+      <mandatory>1</mandatory>
+      <data-type>tinyint(1)|0</data-type>
+    </column>
+    <column id="90" parent="15" name="parent_id">
+      <data-type>int(10) unsigned|0</data-type>
+    </column>
+    <column id="91" parent="15" name="created_at">
+      <data-type>timestamp|0</data-type>
+    </column>
+    <column id="92" parent="15" name="updated_at">
+      <data-type>timestamp|0</data-type>
+    </column>
+    <index id="93" parent="15" name="roles_parent_id_foreign">
+      <columns>parent_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <index id="94" parent="15" name="roles_slug_unique">
+      <columns>slug</columns>
+      <desc-columns></desc-columns>
+      <unique>1</unique>
+    </index>
+    <key id="95" parent="15" name="PRIMARY">
+      <columns>id</columns>
+      <primary>1</primary>
+    </key>
+    <key id="96" parent="15" name="roles_slug_unique">
+      <columns>slug</columns>
+      <underlying-index>roles_slug_unique</underlying-index>
+    </key>
+    <foreign-key id="97" parent="15" name="roles_parent_id_foreign">
+      <columns>parent_id</columns>
+      <ref-key>PRIMARY</ref-key>
+      <cascade-update-rule>restrict</cascade-update-rule>
+      <cascade-delete-rule>restrict</cascade-delete-rule>
+    </foreign-key>
+    <column id="98" parent="16" name="id">
+      <mandatory>1</mandatory>
+      <data-type>int(10) unsigned|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="99" parent="16" name="name">
+      <mandatory>1</mandatory>
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="100" parent="16" name="organisation">
+      <mandatory>1</mandatory>
+      <data-type>enum(&apos;WA&apos;, &apos;AGB&apos;, &apos;TUA&apos;, &apos;O&apos;)|0</data-type>
+    </column>
+    <column id="101" parent="16" name="season">
+      <mandatory>1</mandatory>
+      <data-type>enum(&apos;I&apos;, &apos;O&apos;)|0</data-type>
+    </column>
+    <column id="102" parent="16" name="total_targets">
+      <mandatory>1</mandatory>
+      <data-type>smallint(5) unsigned|0</data-type>
+      <default-expression>&apos;1&apos;</default-expression>
+    </column>
+    <column id="103" parent="16" name="total_shots">
+      <mandatory>1</mandatory>
+      <data-type>smallint(5) unsigned|0</data-type>
+    </column>
+    <column id="104" parent="16" name="max_score">
+      <mandatory>1</mandatory>
+      <data-type>smallint(5) unsigned|0</data-type>
+    </column>
+    <column id="105" parent="16" name="max_shot_score">
+      <mandatory>1</mandatory>
+      <data-type>smallint(5) unsigned|0</data-type>
+    </column>
+    <column id="106" parent="16" name="min_shot_score">
+      <mandatory>1</mandatory>
+      <data-type>smallint(5) unsigned|0</data-type>
+    </column>
+    <column id="107" parent="16" name="created_at">
+      <data-type>timestamp|0</data-type>
+    </column>
+    <column id="108" parent="16" name="updated_at">
+      <data-type>timestamp|0</data-type>
+    </column>
+    <index id="109" parent="16" name="rounds_name_unique">
+      <columns>name</columns>
+      <desc-columns></desc-columns>
+      <unique>1</unique>
+    </index>
+    <key id="110" parent="16" name="PRIMARY">
+      <columns>id</columns>
+      <primary>1</primary>
+    </key>
+    <key id="111" parent="16" name="rounds_name_unique">
+      <columns>name</columns>
+      <underlying-index>rounds_name_unique</underlying-index>
+    </key>
+    <column id="112" parent="17" name="id">
+      <mandatory>1</mandatory>
+      <data-type>int(10) unsigned|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="113" parent="17" name="round_id">
+      <mandatory>1</mandatory>
+      <data-type>int(10) unsigned|0</data-type>
+    </column>
+    <column id="114" parent="17" name="archer_id">
+      <mandatory>1</mandatory>
+      <data-type>int(10) unsigned|0</data-type>
+    </column>
+    <column id="115" parent="17" name="scorer_id">
+      <mandatory>1</mandatory>
+      <data-type>int(10) unsigned|0</data-type>
+    </column>
+    <column id="116" parent="17" name="bow_class">
+      <mandatory>1</mandatory>
+      <data-type>enum(&apos;C&apos;, &apos;R&apos;, &apos;B&apos;, &apos;L&apos;, &apos;T&apos;)|0</data-type>
+    </column>
+    <column id="117" parent="17" name="hit_count">
+      <mandatory>1</mandatory>
+      <data-type>smallint(5) unsigned|0</data-type>
+    </column>
+    <column id="118" parent="17" name="gold_count">
+      <mandatory>1</mandatory>
+      <data-type>smallint(5) unsigned|0</data-type>
+    </column>
+    <column id="119" parent="17" name="total_score">
+      <mandatory>1</mandatory>
+      <data-type>smallint(5) unsigned|0</data-type>
+    </column>
+    <column id="120" parent="17" name="shot_at">
+      <mandatory>1</mandatory>
+      <data-type>datetime|0</data-type>
+    </column>
+    <column id="121" parent="17" name="created_at">
+      <data-type>timestamp|0</data-type>
+    </column>
+    <column id="122" parent="17" name="updated_at">
+      <data-type>timestamp|0</data-type>
+    </column>
+    <index id="123" parent="17" name="scores_archer_id_foreign">
+      <columns>archer_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <index id="124" parent="17" name="scores_round_id_foreign">
+      <columns>round_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <index id="125" parent="17" name="scores_scorer_id_foreign">
+      <columns>scorer_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="126" parent="17" name="PRIMARY">
+      <columns>id</columns>
+      <primary>1</primary>
+    </key>
+    <foreign-key id="127" parent="17" name="scores_round_id_foreign">
+      <columns>round_id</columns>
+      <ref-key>~.rounds.PRIMARY</ref-key>
+      <cascade-update-rule>restrict</cascade-update-rule>
+      <cascade-delete-rule>restrict</cascade-delete-rule>
+    </foreign-key>
+    <foreign-key id="128" parent="17" name="scores_archer_id_foreign">
+      <columns>archer_id</columns>
+      <ref-key>~.users.PRIMARY</ref-key>
+      <cascade-update-rule>restrict</cascade-update-rule>
+      <cascade-delete-rule>restrict</cascade-delete-rule>
+    </foreign-key>
+    <foreign-key id="129" parent="17" name="scores_scorer_id_foreign">
+      <columns>scorer_id</columns>
+      <ref-key>~.users.PRIMARY</ref-key>
+      <cascade-update-rule>restrict</cascade-update-rule>
+      <cascade-delete-rule>restrict</cascade-delete-rule>
+    </foreign-key>
+    <column id="130" parent="18" name="id">
+      <mandatory>1</mandatory>
+      <data-type>int(10) unsigned|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="131" parent="18" name="role_id">
+      <mandatory>1</mandatory>
+      <data-type>int(10) unsigned|0</data-type>
+    </column>
+    <column id="132" parent="18" name="first_name">
+      <mandatory>1</mandatory>
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="133" parent="18" name="last_name">
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="134" parent="18" name="gender">
+      <mandatory>1</mandatory>
+      <data-type>enum(&apos;U&apos;, &apos;M&apos;, &apos;F&apos;, &apos;O&apos;)|0</data-type>
+      <default-expression>&apos;U&apos;</default-expression>
+    </column>
+    <column id="135" parent="18" name="date_of_birth">
+      <data-type>datetime|0</data-type>
+    </column>
+    <column id="136" parent="18" name="picture_url">
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="137" parent="18" name="tusc_id">
+      <data-type>varchar(8)|0</data-type>
+    </column>
+    <column id="138" parent="18" name="is_student">
+      <mandatory>1</mandatory>
+      <data-type>tinyint(1)|0</data-type>
+      <default-expression>&apos;1&apos;</default-expression>
+    </column>
+    <column id="139" parent="18" name="agb_id">
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="140" parent="18" name="email_address">
+      <mandatory>1</mandatory>
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="141" parent="18" name="email_address_verified">
+      <mandatory>1</mandatory>
+      <data-type>tinyint(1)|0</data-type>
+    </column>
+    <column id="142" parent="18" name="password_hash">
+      <mandatory>1</mandatory>
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="143" parent="18" name="remember_token">
+      <data-type>varchar(100)|0</data-type>
+    </column>
+    <column id="144" parent="18" name="registered_at">
+      <mandatory>1</mandatory>
+      <data-type>datetime|0</data-type>
+    </column>
+    <column id="145" parent="18" name="created_at">
+      <data-type>timestamp|0</data-type>
+    </column>
+    <column id="146" parent="18" name="updated_at">
+      <data-type>timestamp|0</data-type>
+    </column>
+    <index id="147" parent="18" name="users_agb_id_unique">
+      <columns>agb_id</columns>
+      <desc-columns></desc-columns>
+      <unique>1</unique>
+    </index>
+    <index id="148" parent="18" name="users_email_address_unique">
+      <columns>email_address</columns>
+      <desc-columns></desc-columns>
+      <unique>1</unique>
+    </index>
+    <index id="149" parent="18" name="users_role_id_foreign">
+      <columns>role_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <index id="150" parent="18" name="users_tusc_id_unique">
+      <columns>tusc_id</columns>
+      <desc-columns></desc-columns>
+      <unique>1</unique>
+    </index>
+    <key id="151" parent="18" name="PRIMARY">
+      <columns>id</columns>
+      <primary>1</primary>
+    </key>
+    <key id="152" parent="18" name="users_tusc_id_unique">
+      <columns>tusc_id</columns>
+      <underlying-index>users_tusc_id_unique</underlying-index>
+    </key>
+    <key id="153" parent="18" name="users_agb_id_unique">
+      <columns>agb_id</columns>
+      <underlying-index>users_agb_id_unique</underlying-index>
+    </key>
+    <key id="154" parent="18" name="users_email_address_unique">
+      <columns>email_address</columns>
+      <underlying-index>users_email_address_unique</underlying-index>
+    </key>
+    <foreign-key id="155" parent="18" name="users_role_id_foreign">
+      <columns>role_id</columns>
+      <ref-key>~.roles.PRIMARY</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>

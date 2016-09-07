@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.3.6 on 2016-09-05.
+ * Generated for Laravel 5.3.6 on 2016-09-06.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -1118,7 +1118,7 @@ namespace {
          */
         public static function handle($input, $output = null){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            return \App\Console\Kernel::handle($input, $output);
+            return \TuaWebsite\Console\Kernel::handle($input, $output);
         }
         
         /**
@@ -1131,7 +1131,7 @@ namespace {
          */
         public static function terminate($input, $status){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            \App\Console\Kernel::terminate($input, $status);
+            \TuaWebsite\Console\Kernel::terminate($input, $status);
         }
         
         /**
@@ -1144,7 +1144,7 @@ namespace {
          */
         public static function command($signature, $callback){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            return \App\Console\Kernel::command($signature, $callback);
+            return \TuaWebsite\Console\Kernel::command($signature, $callback);
         }
         
         /**
@@ -1156,7 +1156,7 @@ namespace {
          */
         public static function registerCommand($command){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            \App\Console\Kernel::registerCommand($command);
+            \TuaWebsite\Console\Kernel::registerCommand($command);
         }
         
         /**
@@ -1169,7 +1169,7 @@ namespace {
          */
         public static function call($command, $parameters = array()){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            return \App\Console\Kernel::call($command, $parameters);
+            return \TuaWebsite\Console\Kernel::call($command, $parameters);
         }
         
         /**
@@ -1182,7 +1182,7 @@ namespace {
          */
         public static function queue($command, $parameters = array()){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            \App\Console\Kernel::queue($command, $parameters);
+            \TuaWebsite\Console\Kernel::queue($command, $parameters);
         }
         
         /**
@@ -1193,7 +1193,7 @@ namespace {
          */
         public static function all(){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            return \App\Console\Kernel::all();
+            return \TuaWebsite\Console\Kernel::all();
         }
         
         /**
@@ -1204,7 +1204,7 @@ namespace {
          */
         public static function output(){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            return \App\Console\Kernel::output();
+            return \TuaWebsite\Console\Kernel::output();
         }
         
         /**
@@ -1215,7 +1215,7 @@ namespace {
          */
         public static function bootstrap(){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            \App\Console\Kernel::bootstrap();
+            \TuaWebsite\Console\Kernel::bootstrap();
         }
         
     }
@@ -1362,7 +1362,7 @@ namespace {
         /**
          * Get the currently authenticated user.
          *
-         * @return \App\User|null 
+         * @return \TuaWebsite\User|null 
          * @static 
          */
         public static function user(){
@@ -1466,7 +1466,7 @@ namespace {
          *
          * @param mixed $id
          * @param bool $remember
-         * @return \App\User|false 
+         * @return \TuaWebsite\User|false 
          * @static 
          */
         public static function loginUsingId($id, $remember = false){
@@ -1477,7 +1477,7 @@ namespace {
          * Log the given user ID into the application without sessions or cookies.
          *
          * @param mixed $id
-         * @return \App\User|false 
+         * @return \TuaWebsite\User|false 
          * @static 
          */
         public static function onceUsingId($id){
@@ -1571,7 +1571,7 @@ namespace {
         /**
          * Return the currently cached user.
          *
-         * @return \App\User|null 
+         * @return \TuaWebsite\User|null 
          * @static 
          */
         public static function getUser(){
@@ -1613,7 +1613,7 @@ namespace {
         /**
          * Get the last user we attempted to authenticate.
          *
-         * @return \App\User 
+         * @return \TuaWebsite\User 
          * @static 
          */
         public static function getLastAttempted(){
@@ -1653,7 +1653,7 @@ namespace {
         /**
          * Determine if the current user is authenticated.
          *
-         * @return \App\User 
+         * @return \TuaWebsite\User 
          * @throws \Illuminate\Auth\AuthenticationException
          * @static 
          */

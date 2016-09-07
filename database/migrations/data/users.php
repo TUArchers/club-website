@@ -4,7 +4,7 @@ return [
     [
         'first_name'             => 'Goose',
         'gender'                 => 'U',
-        'isStudent'              => false,
+        'is_student'             => false,
         'email_address'          => 'committee@tuarchers.org.uk',
         'email_address_verified' => true,
         'password'               => 'marcoParmo2012',
