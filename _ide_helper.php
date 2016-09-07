@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.3.6 on 2016-09-06.
+ * Generated for Laravel 5.3.6 on 2016-09-07.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -1362,7 +1362,7 @@ namespace {
         /**
          * Get the currently authenticated user.
          *
-         * @return \TuaWebsite\User|null 
+         * @return \TuaWebsite\Model\Identity\User|null 
          * @static 
          */
         public static function user(){
@@ -1466,7 +1466,7 @@ namespace {
          *
          * @param mixed $id
          * @param bool $remember
-         * @return \TuaWebsite\User|false 
+         * @return \TuaWebsite\Model\Identity\User|false 
          * @static 
          */
         public static function loginUsingId($id, $remember = false){
@@ -1477,7 +1477,7 @@ namespace {
          * Log the given user ID into the application without sessions or cookies.
          *
          * @param mixed $id
-         * @return \TuaWebsite\User|false 
+         * @return \TuaWebsite\Model\Identity\User|false 
          * @static 
          */
         public static function onceUsingId($id){
@@ -1571,7 +1571,7 @@ namespace {
         /**
          * Return the currently cached user.
          *
-         * @return \TuaWebsite\User|null 
+         * @return \TuaWebsite\Model\Identity\User|null 
          * @static 
          */
         public static function getUser(){
@@ -1613,7 +1613,7 @@ namespace {
         /**
          * Get the last user we attempted to authenticate.
          *
-         * @return \TuaWebsite\User 
+         * @return \TuaWebsite\Model\Identity\User 
          * @static 
          */
         public static function getLastAttempted(){
@@ -1653,7 +1653,7 @@ namespace {
         /**
          * Determine if the current user is authenticated.
          *
-         * @return \TuaWebsite\User 
+         * @return \TuaWebsite\Model\Identity\User 
          * @throws \Illuminate\Auth\AuthenticationException
          * @static 
          */

@@ -84,6 +84,32 @@ class Event extends Model
         return $endTime->diffInMinutes($startTime);
     }
 
+    /**
+     * Get the number of spaces left in this event
+     *
+     * @return int
+     */
+    public function getSpacesRemainingAttribute()
+    {
+        $this->load(['attendees' => function($query){
+            $query->where('cancelled_at', null);
+        }]);
+
+        $taken = $this->attendees->count();
+
+        return $this->capacity - $taken;
+    }
+
+    /**
+     * Check if this event is full
+     *
+     * @return bool
+     */
+    public function getIsFullAttribute()
+    {
+        return $this->spaces_remaining < 1;
+    }
+
     /** Methods */
     /**
      * Cancel this event
@@ -133,42 +159,51 @@ class Event extends Model
     }
 
     /**
-     * Register for this event
+     * Reserve a space for this event
      *
-     * @param string|User $nameOrUser
-     * @param string|null $email_address
-     * @param string|null $phone_number
+     * This is usually used for the taster session booking process
      *
      * @return Attendee
      * @throws \Exception
      */
-    public function register($nameOrUser, $email_address = null, $phone_number = null)
+    public function reserveSpace()
     {
-        // Prepare attributes
-        $attributes = [
-            'event_id' => $this->id,
-        ];
-
-        // Derive properties from a given User instance
-        if($nameOrUser instanceof User){
-            $attributes['user_id']       = $nameOrUser->id;
-            $attributes['name']          = $nameOrUser->name;
-            $attributes['email_address'] = $nameOrUser->email_address;
-            $attributes['phone_number']  = $nameOrUser->phone_number;
-        }
-        // Use explicit properties
-        elseif(is_string($nameOrUser) && is_string($email_address) && is_string($phone_number)){
-            $attributes['name']          = $nameOrUser;
-            $attributes['email_address'] = $email_address;
-            $attributes['phone_number']  = $phone_number;
-        }
-        // Bad parameters, bail!
-        else{
-            throw new \Exception('Bad parameters provided to ' . __METHOD__);
+        if($this->is_full){
+            throw new \Exception('This event is full');
         }
 
+        // Make a dummy attendee
+        $attendee = new Attendee([
+            'event_id'      => $this->id,
+            'name'          => 'Reserved Space',
+            'email_address' => 'events@tuarchers.org.uk',
+            'phone_number'  => 'Unknown'
+        ]);
+
+        return $attendee;
+    }
+
+    /**
+     * Sign up for this event
+     *
+     * @param User $user
+     *
+     * @return Attendee
+     * @throws \Exception
+     */
+    public function register(User $user)
+    {
         // Make the attendee
-        $attendee = new Attendee($attributes);
+        $attendee = new Attendee([
+            'event_id'      => $this->id,
+            'user_id'       => $user->id,
+            'name'          => $user->full_name,
+            'email_address' => $user->email_address,
+            'phone_number'  => $user->phone_number
+        ]);
+
+        // Confirm
+        $attendee->registered_at = Carbon::now();
 
         return $attendee;
     }

@@ -20,10 +20,9 @@ class CreateAttendeesTable extends Migration
             $table->string('email_address');
             $table->string('phone_number');
 
-            $table->boolean('is_provisional')->default(true);
             $table->boolean('is_waiting')->default(false);
 
-            $table->dateTime('registered_at');
+            $table->dateTime('registered_at')->nullable();
             $table->dateTime('cancelled_at')->nullable();
             $table->dateTime('attended_at')->nullable();
 

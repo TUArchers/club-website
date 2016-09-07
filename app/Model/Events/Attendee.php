@@ -26,7 +26,7 @@ class Attendee extends Model
         'user_id',
         'name',
         'email_address',
-        'phone_number',
+        'phone_number'
     ];
     protected $dates    = [
         'registered_at',
@@ -43,6 +43,14 @@ class Attendee extends Model
     public function user()
     {
         return $this->belongsTo('TuaWebsite\Model\Identity\User');
+    }
+
+    /**
+     * @return BelongsTo|Event|null
+     */
+    public function event()
+    {
+        return $this->belongsTo('TuaWebsite\Model\Events\Event');
     }
 
     /** Accessors */
@@ -63,7 +71,7 @@ class Attendee extends Model
      */
     public function isConfirmed()
     {
-        return !$this->is_provisional && !is_null($this->registered_at);
+        return !is_null($this->registered_at);
     }
 
     /**
@@ -88,16 +96,24 @@ class Attendee extends Model
 
     /** Methods */
     /**
-     * Confirm this attendee's spot
+     * Confirm this attendee's reserved spot
+     * @param string $name
+     * @param string $email_address
+     * @param string $phone_number
      */
-    public function confirm()
+    public function confirm($name, $email_address, $phone_number)
     {
-        if(!$this->isConfirmed()){
+        if($this->isConfirmed()){
             return;
         }
 
-        $this->is_provisional = false;
-        $this->registered_at  = Carbon::now();
+        $this->name          = $name;
+        $this->email_address = $email_address;
+        $this->phone_number  = $phone_number;
+        $this->registered_at = Carbon::now();
+
+        // Notify attendee
+        // TODO: Notify attendee
     }
 
     /**

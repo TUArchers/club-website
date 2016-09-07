@@ -21,19 +21,40 @@ Route::get('/history', 'PublicPages\ClubController@history');
 Route::get('/records', 'PublicPages\ClubController@records');
 Route::get('/contact', 'PublicPages\ContactController@contact');
 
+# Join
+Route::get('/join', 'PublicPages\JoinController@join');
+Route::get('/join/taster', 'PublicPages\JoinController@showTasterBookingForm');
+Route::post('/join/taster/reserve', 'PublicPages\JoinController@reserveTasterSpace');
+Route::post('/join/taster/reserve/confirm', 'PublicPages\JoinController@confirmTasterBooking');
+Route::get('/join/taster/change/{attendeeId}', 'PublicPages\JoinController@showTasterBookingChangeForm');
+Route::post('/join/taster/change/confirm', 'PublicPages\JoinController@confirmTasterBookingChange');
+
 # Login
 Route::get('/login', 'Auth\LoginController@showLoginForm');
 Route::post('/login', 'Auth\LoginController@login');
 
+
 // Members' content
-# Information
+# Profile
 Route::get('/members/{userId}', 'Members\ProfileController@showProfile');
+
+# Scores
 Route::get('/members/{userId}/scores', 'Members\ScoreController@showMemberScores');
 Route::post('/members/{userId}/scores', 'Members\ScoreController@submitScore');
+
+# Events
+Route::get('/events');
+Route::get('/events/{eventId}');
+Route::post('/events/{eventId}/register');
+
+# News
+//Route::get('/news', 'Members\NewsController@showArticles');
+//Route::get('/news/article/{articleId}', 'Members\NewsController@showArticleDetails');
 //Route::post('/news/article/{articleId}/comments', 'Members\NewsController@submitComment');
 
 # Logout
 Route::post('/logout', 'Auth\LoginController@logout');
+
 
 // Committee content
 # Members
@@ -42,6 +63,13 @@ Route::post('/admin/members/{memberId}', 'Admin\MemberController@modifyMemberDet
 Route::get('/admin/members', 'Admin\MemberController@showMembers');
 Route::get('/admin/members/{memberId}', 'Admin\MemberController@showMemberDetails');
 Route::post('/admin/members/{memberId}/remove', 'Admin\MemberController@removeMember');
+
+# Events
+Route::post('/admin/events');
+Route::post('/admin/events/{eventId}');
+Route::get('/admin/events');
+Route::get('/admin/events/{eventId}');
+Route::post('/admin/events/{eventId}/cancel');
 
 # News
 Route::post('/admin/articles', 'Admin\NewsController@publishArticle');
