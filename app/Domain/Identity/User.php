@@ -89,4 +89,24 @@ class User extends Authenticatable
 
         return $dob->diffInYears(Carbon::now());
     }
+
+    /**
+     * Used for emailing
+     *
+     * @return string
+     */
+    public function getEmailAttribute()
+    {
+        return $this->email_address;
+    }
+
+    /**
+     * Used for emailing
+     *
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return $this->full_name;
+    }
 }

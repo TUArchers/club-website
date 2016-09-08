@@ -1,0 +1,1 @@
+Reminder: {{ $venue }} at {{ $arrive_at }} is in 2 hours!

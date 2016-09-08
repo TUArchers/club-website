@@ -4,12 +4,15 @@ namespace TuaWebsite\Http\Controllers\PublicPages;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Mailable;
 use TuaWebsite\Domain\Event\EventRepositoryInterface;
 use TuaWebsite\Domain\Event\ReservationRepositoryInterface;
 use TuaWebsite\Domain\Identity\RoleRepositoryInterface;
 use TuaWebsite\Domain\Identity\User;
 use TuaWebsite\Domain\Identity\UserRepositoryInterface;
 use TuaWebsite\Http\Controllers\Controller;
+use TuaWebsite\Mail\EventReservationConfirmed;
+use TuaWebsite\Mail\EventReservationReminder;
 use View;
 
 /**
@@ -98,6 +101,10 @@ class JoinController extends Controller
         $reservation->confirm($user);
         $this->reservations->update($reservation);
 
+        // Queue up emails
+        $this->queueEmail(new EventReservationConfirmed($reservation), $user);
+        $this->queueEmail(new EventReservationReminder($reservation), $user, $reservation->event->starts_at->subHours(2));
+
         // Show the view
         return View::make('public.taster.confirm', [
             'event_name' => $reservation->event->name
@@ -112,5 +119,20 @@ class JoinController extends Controller
     public function postConfirmTasterBookingChange()
     {
         //
+    }
+
+    /**
+     * @param Mailable $email
+     * @param User     $recipient
+     * @param Carbon   $sendDate
+     */
+    private function queueEmail(Mailable $email, User $recipient, Carbon $sendDate = null)
+    {
+        if(!$sendDate){
+            \Mail::to($recipient)->queue($email);
+        }
+        else{
+            \Mail::to($recipient)->later($sendDate, $email);
+        }
     }
 }
