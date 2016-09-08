@@ -3,6 +3,13 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
+/**
+ * Create Attendees Table
+ *
+ * @author
+ * @version 0.1.0
+ * @since   0.1.0
+ */
 class CreateAttendeesTable extends Migration
 {
     /**
@@ -13,22 +20,15 @@ class CreateAttendeesTable extends Migration
         Schema::create('attendees', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->unsignedInteger('event_id');
             $table->unsignedInteger('user_id')->nullable();
 
-            $table->string('name');
+            $table->string('first_name');
+            $table->string('last_name')->nullable();
             $table->string('email_address');
             $table->string('phone_number');
 
-            $table->boolean('is_waiting')->default(false);
-
-            $table->dateTime('registered_at')->nullable();
-            $table->dateTime('cancelled_at')->nullable();
-            $table->dateTime('attended_at')->nullable();
-
             $table->timestamps();
 
-            $table->foreign('event_id')->references('id')->on('events');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
@@ -39,7 +39,6 @@ class CreateAttendeesTable extends Migration
     public function down()
     {
         Schema::table('attendees', function (Blueprint $table) {
-            $table->dropForeign(['event_id']);
             $table->dropForeign(['user_id']);
         });
 

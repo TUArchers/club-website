@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use TuaWebsite\Http\Controllers\Controller;
 use TuaWebsite\Model\Events\Attendee;
 use TuaWebsite\Model\Events\Event;
+use TuaWebsite\Model\Events\Reservation;
 use View;
 
 /**
@@ -19,6 +20,7 @@ use View;
  */
 class JoinController extends Controller
 {
+    // Actions ----
     /**
      * @return \Illuminate\Contracts\View\View
      */
@@ -49,14 +51,14 @@ class JoinController extends Controller
         /** @var Event $event */
         $event = Event::find($data->getInt('event_id'));
 
-        $attendee = $event->reserveSpace();
-        $attendee->save();
+        $reservation = $event->reserveSpace();
+        $reservation->save();
 
         return View::make('public.taster.reserve', [
-            'event_id'    => $event->id,
-            'attendee_id' => $attendee->id,
-            'expires_at'  => Carbon::now()->addMinutes(5)->getTimestamp(),
-            'event_name'  => $event->name,
+            'event_id'       => $event->id,
+            'event_name'     => $event->name,
+            'reservation_id' => $reservation->id,
+            'expires_at'     => $reservation->expires_at,
         ]);
     }
 
@@ -69,22 +71,24 @@ class JoinController extends Controller
         // Get the data from the request
         $data = $request->request;
 
-        /** @var Attendee $attendee */
-        $attendee = Attendee::find($data->getInt('attendee_id'));
+        /** @var Reservation $reservation */
+        $reservation = Reservation::find($data->getInt('reservation_id'));
 
-        // Put together the full name
-        $name = trim($data->get('first_name') . ' ' . $data->get('last_name'));
-
-        $attendee->confirm(
-            $name,
-            $data->get('email_address'),
-            $data->getDigits('phone_number')
-        );
-
+        // Construct attendee
+        $attendee = new Attendee([
+            'first_name'    => $data->get('first_name'),
+            'last_name'     => $data->get('last_name'),
+            'email_address' => $data->get('email_address'),
+            'phone_number'  => $data->get('phone_number')
+        ]);
         $attendee->save();
 
+        // Confirm the reservation
+        $reservation->confirm($attendee);
+        $reservation->save();
+
         return View::make('public.taster.confirm', [
-            'event_name' => $attendee->event->name
+            'event_name' => $reservation->event->name
         ]);
     }
 
@@ -98,6 +102,7 @@ class JoinController extends Controller
         //
     }
 
+    // Internals ----
     /**
      * @param int $typeId
      *

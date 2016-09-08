@@ -3,6 +3,13 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
+/**
+ * CreateEventsTable
+ *
+ * @author
+ * @version 0.1.0
+ * @since   0.1.0
+ */
 class CreateEventsTable extends Migration
 {
     /**

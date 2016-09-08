@@ -7,7 +7,7 @@
         {{ csrf_field() }}
 
         <input type="hidden" id="event_input" name="event_id" value="{{ $event_id }}">
-        <input type="hidden" id="attendee_input" name="attendee_id" value="{{ $attendee_id }}">
+        <input type="hidden" id="reservation_input" name="reservation_id" value="{{ $reservation_id }}">
         <p>
             Event: {{ $event_name }}
         </p>

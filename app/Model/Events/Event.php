@@ -49,19 +49,19 @@ class Event extends Model
 
     /** Relationships */
     /**
-     * @return HasMany|Attendee[]
-     */
-    public function attendees()
-    {
-        return $this->hasMany('TuaWebsite\Model\Events\Attendee');
-    }
-
-    /**
      * @return BelongsTo|EventType
      */
     public function type()
     {
         return $this->belongsTo('TuaWebsite\Model\Events\EventType');
+    }
+
+    /**
+     * @return HasMany|Reservation[]
+     */
+    public function reservations()
+    {
+        return $this->hasMany('TuaWebsite\Model\Events\Reservation');
     }
 
     /** Accessors */
@@ -91,13 +91,11 @@ class Event extends Model
      */
     public function getSpacesRemainingAttribute()
     {
-        $this->load(['attendees' => function($query){
+        $this->load(['reservations' => function($query){
             $query->where('cancelled_at', null);
         }]);
 
-        $taken = $this->attendees->count();
-
-        return $this->capacity - $taken;
+        return $this->capacity - $this->reservations->count();
     }
 
     /**
@@ -161,9 +159,7 @@ class Event extends Model
     /**
      * Reserve a space for this event
      *
-     * This is usually used for the taster session booking process
-     *
-     * @return Attendee
+     * @return Reservation
      * @throws \Exception
      */
     public function reserveSpace()
@@ -172,15 +168,13 @@ class Event extends Model
             throw new \Exception('This event is full');
         }
 
-        // Make a dummy attendee
-        $attendee = new Attendee([
-            'event_id'      => $this->id,
-            'name'          => 'Reserved Space',
-            'email_address' => 'events@tuarchers.org.uk',
-            'phone_number'  => 'Unknown'
+        // Make an anonymous reservation
+        $reservation = new Reservation([
+            'event_id'   => $this->id,
+            'expires_at' => Carbon::now()->addMinutes(5)
         ]);
 
-        return $attendee;
+        return $reservation;
     }
 
     /**
@@ -193,17 +187,19 @@ class Event extends Model
      */
     public function register(User $user)
     {
+        $reservation = $this->reserveSpace();
+
         // Make the attendee
         $attendee = new Attendee([
-            'event_id'      => $this->id,
             'user_id'       => $user->id,
-            'name'          => $user->full_name,
+            'first_name'    => $user->first_name,
+            'last_name'     => $user->last_name,
             'email_address' => $user->email_address,
             'phone_number'  => $user->phone_number
         ]);
 
         // Confirm
-        $attendee->registered_at = Carbon::now();
+        $reservation->confirm($attendee);
 
         return $attendee;
     }
