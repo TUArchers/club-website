@@ -23,9 +23,24 @@ interface ReservationRepositoryInterface
     public function update(Reservation $reservation);
 
     /**
+     * @param Reservation $reservation
+     */
+    public function remove(Reservation $reservation);
+
+    /**
+     * @param \Traversable $reservations
+     */
+    public function removeListed(\Traversable $reservations);
+
+    /**
      * @param int $reservation_id
      *
      * @return Reservation
      */
     public function get($reservation_id);
+
+    /**
+     * @return \Traversable|Reservation[]
+     */
+    public function findExpiredReservations();
 }

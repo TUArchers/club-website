@@ -1,10 +1,18 @@
 <?php
-
 namespace TuaWebsite\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use TuaWebsite\Console\Commands\RemoveExpiredEventReservations;
 
+/**
+ * Kernel
+ *
+ * @package TuaWebsite\Console
+ * @author
+ * @version 0.1.0
+ * @since   0.1.0
+ */
 class Kernel extends ConsoleKernel
 {
     /**
@@ -13,19 +21,17 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        RemoveExpiredEventReservations::class
     ];
 
     /**
      * Define the application's command schedule.
      *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('calendar:clear-expiries')->everyMinute();
     }
 
     /**

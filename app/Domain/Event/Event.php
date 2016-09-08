@@ -198,7 +198,7 @@ class Event extends Model
         // Make an anonymous reservation
         $reservation = new Reservation([
             'event_id'   => $this->id,
-            'expires_at' => Carbon::now()->addMinutes(5)
+            'expires_at' => Carbon::now()->addMinutes(3)
         ]);
 
         return $reservation;
