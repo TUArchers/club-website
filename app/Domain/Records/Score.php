@@ -1,5 +1,5 @@
 <?php
-namespace TuaWebsite\Model\Records;
+namespace TuaWebsite\Domain\Records;
 
 use Illuminate\Database\Eloquent\Model;
 

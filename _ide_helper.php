@@ -1362,7 +1362,7 @@ namespace {
         /**
          * Get the currently authenticated user.
          *
-         * @return \TuaWebsite\Model\Identity\User|null 
+         * @return \TuaWebsite\Domain\Identity\User|null 
          * @static 
          */
         public static function user(){
@@ -1466,7 +1466,7 @@ namespace {
          *
          * @param mixed $id
          * @param bool $remember
-         * @return \TuaWebsite\Model\Identity\User|false 
+         * @return \TuaWebsite\Domain\Identity\User|false 
          * @static 
          */
         public static function loginUsingId($id, $remember = false){
@@ -1477,7 +1477,7 @@ namespace {
          * Log the given user ID into the application without sessions or cookies.
          *
          * @param mixed $id
-         * @return \TuaWebsite\Model\Identity\User|false 
+         * @return \TuaWebsite\Domain\Identity\User|false 
          * @static 
          */
         public static function onceUsingId($id){
@@ -1571,7 +1571,7 @@ namespace {
         /**
          * Return the currently cached user.
          *
-         * @return \TuaWebsite\Model\Identity\User|null 
+         * @return \TuaWebsite\Domain\Identity\User|null 
          * @static 
          */
         public static function getUser(){
@@ -1613,7 +1613,7 @@ namespace {
         /**
          * Get the last user we attempted to authenticate.
          *
-         * @return \TuaWebsite\Model\Identity\User 
+         * @return \TuaWebsite\Domain\Identity\User 
          * @static 
          */
         public static function getLastAttempted(){
@@ -1653,7 +1653,7 @@ namespace {
         /**
          * Determine if the current user is authenticated.
          *
-         * @return \TuaWebsite\Model\Identity\User 
+         * @return \TuaWebsite\Domain\Identity\User 
          * @throws \Illuminate\Auth\AuthenticationException
          * @static 
          */

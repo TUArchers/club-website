@@ -1,7 +1,8 @@
 <?php
-namespace TuaWebsite\Model\Identity;
+namespace TuaWebsite\Domain\Identity;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
@@ -49,6 +50,15 @@ class User extends Authenticatable
         'created_at',
         'updated_at'
     ];
+
+    // Relationships ----
+    /**
+     * @return BelongsTo|Role
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 
     /** Accessors */
     /**

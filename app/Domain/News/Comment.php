@@ -1,18 +1,18 @@
 <?php
 
-namespace TuaWebsite\Model\Identity;
+namespace TuaWebsite\Domain\News;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Permission
+ * Comment
  *
  * @package TuaWebsite\Model
  * @author
  * @version 0.1.0
  * @since   0.1.0
  */
-class Permission extends Model
+class Comment extends Model
 {
     //
 }

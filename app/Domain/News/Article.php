@@ -1,6 +1,6 @@
 <?php
 
-namespace TuaWebsite\Model\News;
+namespace TuaWebsite\Domain\News;
 
 use Illuminate\Database\Eloquent\Model;
 

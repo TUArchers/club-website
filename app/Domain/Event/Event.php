@@ -1,13 +1,14 @@
 <?php
 
-namespace TuaWebsite\Model\Events;
+namespace TuaWebsite\Domain\Event;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use TuaWebsite\Model\Identity\User;
+use TuaWebsite\Domain\Identity\User;
+use TuaWebsite\Model\Events\Attendee;
 
 /**
  * Event
@@ -49,7 +50,7 @@ class Event extends Model
      */
     public function type()
     {
-        return $this->belongsTo('TuaWebsite\Model\Events\EventType');
+        return $this->belongsTo(EventType::class);
     }
 
     /**
@@ -57,7 +58,7 @@ class Event extends Model
      */
     public function reservations()
     {
-        return $this->hasMany('TuaWebsite\Model\Events\Reservation');
+        return $this->hasMany(Reservation::class);
     }
 
     /** Scopes */

@@ -1,18 +1,18 @@
 <?php
 
-namespace TuaWebsite\Model\PublicContent;
+namespace TuaWebsite\Domain\Identity;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Page
+ * Role
  *
  * @package TuaWebsite\Model
  * @author
  * @version 0.1.0
  * @since   0.1.0
  */
-class Page extends Model
+class Role extends Model
 {
     //
 }

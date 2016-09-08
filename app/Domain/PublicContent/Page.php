@@ -1,18 +1,18 @@
 <?php
 
-namespace TuaWebsite\Model\News;
+namespace TuaWebsite\Domain\PublicContent;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Comment
+ * Page
  *
  * @package TuaWebsite\Model
  * @author
  * @version 0.1.0
  * @since   0.1.0
  */
-class Comment extends Model
+class Page extends Model
 {
     //
 }

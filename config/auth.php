@@ -1,6 +1,6 @@
 <?php
 
-use TuaWebsite\Model\Identity\User;
+use TuaWebsite\Domain\Identity\User;
 
 return [
 

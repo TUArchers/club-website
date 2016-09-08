@@ -2,12 +2,14 @@
 
 namespace TuaWebsite\Http\Controllers\PublicPages;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use TuaWebsite\Domain\Event\EventRepositoryInterface;
+use TuaWebsite\Domain\Event\ReservationRepositoryInterface;
+use TuaWebsite\Domain\Identity\RoleRepositoryInterface;
+use TuaWebsite\Domain\Identity\User;
+use TuaWebsite\Domain\Identity\UserRepositoryInterface;
 use TuaWebsite\Http\Controllers\Controller;
-use TuaWebsite\Model\Events\Attendee;
-use TuaWebsite\Model\Events\Event;
-use TuaWebsite\Services\CalendarService;
-use TuaWebsite\Services\IdentityService;
 use View;
 
 /**
@@ -20,57 +22,54 @@ use View;
  */
 class JoinController extends Controller
 {
-    // Setup ----
-    /** @var IdentityService $identityService */
-    private $identityService;
-    /** @var CalendarService */
-    private $calendarService;
+    /** @var EventRepositoryInterface */
+    private $events;
+    /** @var ReservationRepositoryInterface */
+    private $reservations;
+    /** @var UserRepositoryInterface */
+    private $users;
+    /** @var RoleRepositoryInterface */
+    private $roles;
 
     /**
      * JoinController constructor.
      *
-     * @param IdentityService $identityService
-     * @param CalendarService $calendarService
+     * @param EventRepositoryInterface $eventRepository
+     * @param ReservationRepositoryInterface $reservationRepository
+     * @param UserRepositoryInterface $userRepository
+     * @param RoleRepositoryInterface $roleRepository
      */
-    public function __construct(IdentityService $identityService, CalendarService $calendarService)
+    public function __construct(EventRepositoryInterface $eventRepository, ReservationRepositoryInterface $reservationRepository, UserRepositoryInterface $userRepository, RoleRepositoryInterface $roleRepository)
     {
-        $this->identityService = $identityService;
-        $this->calendarService = $calendarService;
+        $this->events       = $eventRepository;
+        $this->reservations = $reservationRepository;
+        $this->users        = $userRepository;
+        $this->roles        = $roleRepository;
     }
 
     // Actions ----
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
     public function showJoin()
     {
         return View::make('public.join');
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
     public function showChooseTaster()
     {
-        return View::make('public.taster.choose', [
-            'events' => Event::openToPublic()->inFuture()->get()
-        ]);
+        $events = $this->events->findPublicEvents();
+        
+        return View::make('public.taster.choose', compact('events'));
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return \Illuminate\Contracts\View\View
-     */
-    public function postReserveTasterSpace(Request $request)
+    public function postCreateReservation(Request $request)
     {
-        // Get the data from the request
-        $data = $request->request;
+        // Grab the event and make a reservation
+        $event       = $this->events->get($request->get('event_id'));
+        $reservation = $event->reserveSpace();
 
-        $reservation = $this->calendarService->reserveEventSpace(
-            $data->getInt('event_id')
-        );
+        // Store the new reservation
+        $this->reservations->add($reservation);
 
+        // Show the view
         return View::make('public.taster.reserve', [
             'event_id'       => $reservation->event->id,
             'event_name'     => $reservation->event->name,
@@ -79,30 +78,27 @@ class JoinController extends Controller
         ]);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return \Illuminate\Contracts\View\View
-     */
-    public function postConfirmTasterBooking(Request $request)
+    public function postConfirmReservation(Request $request)
     {
-        // Get the data from the request
-        $data = $request->request;
+        // Grab the reservation and a user role
+        $reservation = $this->reservations->get($request->get('reservation_id'));
+        $role        = $this->roles->withSlug('guest');
 
-        // Set up a basic user account
-        $user = $this->identityService->registerBasicUser(
-            $data->get('email_address'),
-            $data->get('phone_number'),
-            $data->get('first_name'),
-            $data->get('last_name')
-        );
+        // Make a basic user account
+        $user_data = $request->only(['email_address', 'phone_number', 'first_name', 'last_name']);
+        $user_data['password_hash'] = \Hash::make(str_random(12));
+        $user_data['registered_at'] = Carbon::now();
+
+        $user = new User($user_data);
+        $user->role()->associate($role);
+
+        $this->users->add($user);
 
         // Confirm the reservation
-        $reservation = $this->calendarService->confirmEventReservation(
-            $data->getInt('reservation_id'),
-            $user->id
-        );
+        $reservation->confirm($user);
+        $this->reservations->update($reservation);
 
+        // Show the view
         return View::make('public.taster.confirm', [
             'event_name' => $reservation->event->name
         ]);
