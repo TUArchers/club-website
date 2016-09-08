@@ -177,7 +177,8 @@ return [
         TuaWebsite\Providers\AuthServiceProvider::class,
         TuaWebsite\Providers\EventServiceProvider::class,
         TuaWebsite\Providers\RouteServiceProvider::class,
-
+        TuaWebsite\Providers\IdentityServiceProvider::class,
+        TuaWebsite\Providers\CalendarServiceProvider::class,
     ],
 
     /*

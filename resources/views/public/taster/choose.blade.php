@@ -3,16 +3,25 @@
 @section('title', 'Choose A Taster Session')
 
 @section('content')
-    <form action="/join/taster/reserve" method="post">
-        {{ csrf_field() }}
+    @foreach($events as $event)
+        <form action="/join/taster/reserve" method="post">
+            {{ csrf_field() }}
+            <input type="hidden" name="event_id" value="{{ $event->id }}">
 
-        <select name="event_id" id="event_select">
-            <option value="" selected disabled>Choose a session...</option>
-            @foreach($events as $event)
-                <option value="{{ $event->id }}" @if($event->spacesRemaining < 1) disabled @endif>{{ $event->name }} ({{ $event->spacesRemaining }} spaces)</option>
-            @endforeach
-        </select>
-
-        <button type="submit">Next</button>
-    </form>
+            <div>
+                <strong>{{ $event->name }}</strong>
+            </div>
+            <div>
+                {{ $event->starts_at->format('H:i') }} <br>
+                {{ $event->duration }} mins<br>
+                {{ $event->spacesRemaining }} spaces left
+            </div>
+            <div>
+                @unless($event->is_full)
+                    <button type="submit">Choose</button>
+                @endunless
+            </div>
+        </form>
+        <hr>
+    @endforeach
 @endsection

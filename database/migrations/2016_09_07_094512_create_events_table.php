@@ -33,9 +33,10 @@ class CreateEventsTable extends Migration
 
             $table->unsignedTinyInteger('capacity');
             $table->boolean('has_waiting_list')->default(false);
-            $table->enum('privacy', ['P', 'C', 'I'])->default('C'); # P: Public, C: Club, I: Invite-only
-            $table->dateTime('cancelled_at')->nullable();
+            $table->boolean('invite_only')->default(false);
+            $table->boolean('members_only')->default(true);
 
+            $table->dateTime('cancelled_at')->nullable();
             $table->timestamps();
 
             $table->foreign('type_id')->references('id')->on('event_types');

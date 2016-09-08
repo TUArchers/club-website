@@ -31,7 +31,7 @@ class CreateReservationsTable extends Migration
             $table->timestamps();
 
             $table->foreign('event_id')->references('id')->on('events');
-            $table->foreign('attendee_id')->references('id')->on('attendees');
+            $table->foreign('attendee_id')->references('id')->on('users');
         });
     }
 
@@ -40,6 +40,11 @@ class CreateReservationsTable extends Migration
      */
     public function down()
     {
+        Schema::table('reservations', function (Blueprint $table) {
+            $table->dropForeign(['event_id']);
+            $table->dropForeign(['attendee_id']);
+        });
+
         Schema::drop('reservations');
     }
 }

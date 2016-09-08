@@ -25,6 +25,7 @@ class User extends Authenticatable
     /** Properties */
     public $timestamps  = true;
     protected $fillable = [
+        'role_id',
         'first_name',
         'last_name',
         'gender',

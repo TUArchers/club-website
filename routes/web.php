@@ -22,12 +22,12 @@ Route::get('/records', 'PublicPages\ClubController@records');
 Route::get('/contact', 'PublicPages\ContactController@contact');
 
 # Join
-Route::get('/join', 'PublicPages\JoinController@join');
-Route::get('/join/taster', 'PublicPages\JoinController@showTasterBookingForm');
-Route::post('/join/taster/reserve', 'PublicPages\JoinController@reserveTasterSpace');
-Route::post('/join/taster/reserve/confirm', 'PublicPages\JoinController@confirmTasterBooking');
+Route::get('/join', 'PublicPages\JoinController@showJoin');
+Route::get('/join/taster', 'PublicPages\JoinController@showChooseTaster');
+Route::post('/join/taster/reserve', 'PublicPages\JoinController@postReserveTasterSpace');
+Route::post('/join/taster/reserve/confirm', 'PublicPages\JoinController@postConfirmTasterBooking');
 Route::get('/join/taster/change/{attendeeId}', 'PublicPages\JoinController@showTasterBookingChangeForm');
-Route::post('/join/taster/change/confirm', 'PublicPages\JoinController@confirmTasterBookingChange');
+Route::post('/join/taster/change/confirm', 'PublicPages\JoinController@postConfirmTasterBookingChange');
 
 # Login
 Route::get('/login', 'Auth\LoginController@showLoginForm');

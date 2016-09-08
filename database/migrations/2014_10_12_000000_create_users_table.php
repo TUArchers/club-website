@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('agb_id')->nullable()->unique();
             $table->string('phone_number', 12);
             $table->string('email_address')->unique();
-            $table->boolean('email_address_verified');
+            $table->boolean('email_address_verified')->default(false);
 
             $table->string('password_hash');
             $table->rememberToken();
@@ -54,7 +54,8 @@ class CreateUsersTable extends Migration
         foreach($data as $datum){
 
             $datum['password_hash'] = Hash::make($datum['password']);
-            $datum['created_at']    = Carbon::now()->toDateTimeString();
+            $datum['created_at']    = Carbon::now();
+            $datum['updated_at']    = $datum['created_at'];
 
             unset($datum['password']);
 

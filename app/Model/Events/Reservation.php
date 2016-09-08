@@ -5,6 +5,7 @@ namespace TuaWebsite\Model\Events;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use TuaWebsite\Model\Identity\User;
 
 /**
  * Reservation
@@ -37,15 +38,15 @@ class Reservation extends Model
      */
     public function event()
     {
-        return $this->belongsTo('TuaWebsite\Model\Events\Event');
+        return $this->belongsTo(Event::class);
     }
 
     /**
-     * @return BelongsTo|Attendee
+     * @return BelongsTo|User|null
      */
     public function attendee()
     {
-        return $this->belongsTo('TuaWebsite\Model\Events\Attendee');
+        return $this->belongsTo(User::class);
     }
 
     /** Accessors */
@@ -89,9 +90,9 @@ class Reservation extends Model
     /**
      * Confirm this reservation
      *
-     * @param Attendee $attendee
+     * @param User $attendee
      */
-    public function confirm(Attendee $attendee)
+    public function confirm(User $attendee)
     {
         // TODO: This needs to throw an exception that can be shown as an error message
         if($this->is_confirmed || $this->has_expired){

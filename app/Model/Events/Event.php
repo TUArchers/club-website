@@ -3,6 +3,7 @@
 namespace TuaWebsite\Model\Events;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,11 +19,6 @@ use TuaWebsite\Model\Identity\User;
  */
 class Event extends Model
 {
-    /** Constants */
-    const P_PUBLIC  = 'P';
-    const P_CLUB    = 'C';
-    const P_PRIVATE = 'I';
-
     /** Properties */
     public $timestamps  = true;
     protected $fillable = [
@@ -62,6 +58,36 @@ class Event extends Model
     public function reservations()
     {
         return $this->hasMany('TuaWebsite\Model\Events\Reservation');
+    }
+
+    /** Scopes */
+    /**
+     * Find events that are open to the public
+     *
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeOpenToPublic(Builder $query)
+    {
+        return $query->where([
+            ['invite_only', false],
+            ['members_only', false]
+        ]);
+    }
+
+    /**
+     * Find events that are due to occur in the future
+     *
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeInFuture(Builder $query)
+    {
+        return $query->where([
+            ['starts_at', '>', Carbon::now()]
+        ]);
     }
 
     /** Accessors */

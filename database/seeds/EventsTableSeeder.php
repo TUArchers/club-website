@@ -2,7 +2,6 @@
 
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use TuaWebsite\Model\Events\Event;
 
 /**
  * Events Table Seeder
@@ -22,7 +21,8 @@ class EventsTableSeeder extends Seeder
             'ends_at'       => '2016-09-20 17:40:00',
             'location_name' => 'T6.10 (Middlesbrough Tower)',
             'capacity'      => 24,
-            'privacy'       => Event::P_PUBLIC,
+            'invite_only'   => false,
+            'members_only'  => false,
         ],
         [
             'type_id'       => 1,
@@ -31,7 +31,8 @@ class EventsTableSeeder extends Seeder
             'ends_at'       => '2016-09-20 18:40:00',
             'location_name' => 'T6.10 (Middlesbrough Tower)',
             'capacity'      => 24,
-            'privacy'       => Event::P_PUBLIC,
+            'invite_only'   => false,
+            'members_only'  => false,
         ],
         [
             'type_id'       => 1,
@@ -40,7 +41,8 @@ class EventsTableSeeder extends Seeder
             'ends_at'       => '2016-09-20 19:40:00',
             'location_name' => 'T6.10 (Middlesbrough Tower)',
             'capacity'      => 24,
-            'privacy'       => Event::P_PUBLIC,
+            'invite_only'   => false,
+            'members_only'  => false,
         ],
     ];
 

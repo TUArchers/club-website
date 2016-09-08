@@ -2,12 +2,12 @@
 
 namespace TuaWebsite\Http\Controllers\PublicPages;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use TuaWebsite\Http\Controllers\Controller;
 use TuaWebsite\Model\Events\Attendee;
 use TuaWebsite\Model\Events\Event;
-use TuaWebsite\Model\Events\Reservation;
+use TuaWebsite\Services\CalendarService;
+use TuaWebsite\Services\IdentityService;
 use View;
 
 /**
@@ -20,11 +20,29 @@ use View;
  */
 class JoinController extends Controller
 {
+    // Setup ----
+    /** @var IdentityService $identityService */
+    private $identityService;
+    /** @var CalendarService */
+    private $calendarService;
+
+    /**
+     * JoinController constructor.
+     *
+     * @param IdentityService $identityService
+     * @param CalendarService $calendarService
+     */
+    public function __construct(IdentityService $identityService, CalendarService $calendarService)
+    {
+        $this->identityService = $identityService;
+        $this->calendarService = $calendarService;
+    }
+
     // Actions ----
     /**
      * @return \Illuminate\Contracts\View\View
      */
-    public function join()
+    public function showJoin()
     {
         return View::make('public.join');
     }
@@ -32,31 +50,30 @@ class JoinController extends Controller
     /**
      * @return \Illuminate\Contracts\View\View
      */
-    public function showTasterBookingForm()
+    public function showChooseTaster()
     {
         return View::make('public.taster.choose', [
-            'events' => $this->findAvailableEvents(1)
+            'events' => Event::openToPublic()->inFuture()->get()
         ]);
     }
 
     /**
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\View\View
      */
-    public function reserveTasterSpace(Request $request)
+    public function postReserveTasterSpace(Request $request)
     {
         // Get the data from the request
         $data = $request->request;
 
-        /** @var Event $event */
-        $event = Event::find($data->getInt('event_id'));
-
-        $reservation = $event->reserveSpace();
-        $reservation->save();
+        $reservation = $this->calendarService->reserveEventSpace(
+            $data->getInt('event_id')
+        );
 
         return View::make('public.taster.reserve', [
-            'event_id'       => $event->id,
-            'event_name'     => $event->name,
+            'event_id'       => $reservation->event->id,
+            'event_name'     => $reservation->event->name,
             'reservation_id' => $reservation->id,
             'expires_at'     => $reservation->expires_at,
         ]);
@@ -64,28 +81,27 @@ class JoinController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\View\View
      */
-    public function confirmTasterBooking(Request $request)
+    public function postConfirmTasterBooking(Request $request)
     {
         // Get the data from the request
         $data = $request->request;
 
-        /** @var Reservation $reservation */
-        $reservation = Reservation::find($data->getInt('reservation_id'));
-
-        // Construct attendee
-        $attendee = new Attendee([
-            'first_name'    => $data->get('first_name'),
-            'last_name'     => $data->get('last_name'),
-            'email_address' => $data->get('email_address'),
-            'phone_number'  => $data->get('phone_number')
-        ]);
-        $attendee->save();
+        // Set up a basic user account
+        $user = $this->identityService->registerBasicUser(
+            $data->get('email_address'),
+            $data->get('phone_number'),
+            $data->get('first_name'),
+            $data->get('last_name')
+        );
 
         // Confirm the reservation
-        $reservation->confirm($attendee);
-        $reservation->save();
+        $reservation = $this->calendarService->confirmEventReservation(
+            $data->getInt('reservation_id'),
+            $user->id
+        );
 
         return View::make('public.taster.confirm', [
             'event_name' => $reservation->event->name
@@ -97,22 +113,8 @@ class JoinController extends Controller
         //
     }
 
-    public function confirmTasterBookingChange()
+    public function postConfirmTasterBookingChange()
     {
         //
-    }
-
-    // Internals ----
-    /**
-     * @param int $typeId
-     *
-     * @return Event[]
-     */
-    private function findAvailableEvents($typeId)
-    {
-        return Event::where([
-            ['type_id', '=', $typeId],
-            ['starts_at', '>', Carbon::now()],
-        ])->get();
     }
 }
