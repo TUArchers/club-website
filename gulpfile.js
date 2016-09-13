@@ -12,5 +12,10 @@ const elixir = require('laravel-elixir');
  */
 
 elixir(function(mix){
+    // Compile CSS
     mix.sass('error.scss');
+
+    // Copy required plugin files
+    mix.copy('node_modules/adminbsb-materialdesign/plugins/node-waves/waves.min.css', 'public/css/waves.min.css')
+        .copy('node_modules/adminbsb-materialdesign/plugins/node-waves/waves.min.js', 'public/js/waves.min.js')
 });
