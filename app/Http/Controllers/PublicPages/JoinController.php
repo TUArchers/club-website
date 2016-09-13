@@ -12,7 +12,6 @@ use TuaWebsite\Domain\Identity\User;
 use TuaWebsite\Domain\Identity\UserRepositoryInterface;
 use TuaWebsite\Http\Controllers\Controller;
 use TuaWebsite\Mail\EventReservationConfirmed;
-use TuaWebsite\Mail\EventReservationReminder;
 use View;
 
 /**
@@ -103,7 +102,7 @@ class JoinController extends Controller
 
         // Queue up emails
         $this->queueEmail(new EventReservationConfirmed($reservation), $user);
-        $this->queueEmail(new EventReservationReminder($reservation), $user, $reservation->event->starts_at->subHours(2));
+        #TODO: Currently broken... $this->queueEmail(new EventReservationReminder($reservation), $user, $reservation->event->starts_at->subHours(2));
 
         // Show the view
         return View::make('public.taster.confirm', [

@@ -5,16 +5,23 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+//require('./bootstrap');
 
 /**
- * Next, we will create a fresh Vue application instance and attach it to
- * the body of the page. From here, you may begin adding components to
- * the application, or feel free to tweak this setup for your needs.
- */
+* Next, we will create a fresh Vue application instance and attach it to
+* the body of the page. From here, you may begin adding components to
+* the application, or feel free to tweak this setup for your needs.
+*/
 
-Vue.component('example', require('./components/Example.vue'));
+// Vue.component('example', require('./components/Example.vue'));
+//
+// const app = new Vue({
+//     el: 'body'
+// });
 
-const app = new Vue({
-    el: 'body'
-});
+
+// Waves Effect
+const waves = require('node-waves');
+
+waves.attach('.btn', ['waves-button', 'waves-float']);
+waves.init();

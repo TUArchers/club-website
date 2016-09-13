@@ -1,0 +1,26 @@
+@import 'node_modules/adminbsb-materialdesign/scss/mixins';
+@import 'node_modules/adminbsb-materialdesign/scss/variables';
+@import 'node_modules/adminbsb-materialdesign/scss/general';
+
+.error-page {
+  width: 100%;
+  text-align: center;
+  margin: 5% auto;
+
+  .error-page-container {
+    .error-code {
+      font-size: 160px;
+    }
+
+    .error-message {
+      font-size: 27px;
+      color: #333;
+      font-weight: bold;
+      margin-top: -40px;
+    }
+
+    .button-place {
+      margin-top: 32px;
+    }
+  }
+}

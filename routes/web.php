@@ -11,6 +11,16 @@
 |
 */
 
+// Testing
+Route::get('/error/{id}', function($id){
+
+    if(!in_array($id, [403, 404, 500, 503])){
+        abort(404);
+    }
+
+    return view('errors.' . $id);
+});
+
 // Public content
 # Information
 Route::get('/', 'PublicPages\NewsController@home');

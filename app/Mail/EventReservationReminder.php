@@ -49,7 +49,6 @@ class EventReservationReminder extends Mailable
         $arrive_at = $starts_at->subMinutes(15);
         $venue     = $event->location_name;
 
-        return $this->view('mail.events.reminder')
-            ->with(compact('venue', 'arrive_at', 'starts_at'));
+        return $this->view('mail.events.reminder', compact('venue', 'arrive_at', 'starts_at'));
     }
 }
