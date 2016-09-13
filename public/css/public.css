@@ -150,18 +150,4 @@ section.content {
 .waves-block {
   display: block; }
 
-.error-page {
-  width: 100%;
-  text-align: center;
-  margin: 5% auto; }
-  .error-page .error-page-container .error-code {
-    font-size: 160px; }
-  .error-page .error-page-container .error-message {
-    font-size: 27px;
-    color: #333;
-    font-weight: bold;
-    margin-top: -40px; }
-  .error-page .error-page-container .button-place {
-    margin-top: 32px; }
-
-/*# sourceMappingURL=error.css.map */
+/*# sourceMappingURL=public.css.map */
