@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Members')
+@section('title', 'Users')
 
 @section('content')
     <div class="block-header">
@@ -9,7 +9,7 @@
 
     <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        	<div class="card">
+            <div class="card">
                 <div class="header">
                     <h2>
                         ALL USERS
@@ -20,42 +20,48 @@
                                 <i class="material-icons">more_vert</i>
                             </a>
                             <ul class="dropdown-menu pull-right">
-                                <li><a href="{{ url('/admin/members/add') }}">Add User</a></li>
+                                <li><a href="{{ route('users.create') }}">Add User</a></li>
                             </ul>
                         </li>
                     </ul>
                 </div>
                 <div class="body table-responsive">
                     <table class="table table-striped table-hover">
-                    	<thead>
-                    		<tr>
-                    			<th>Name</th>
-                    			<th>Email</th>
-                    			<th>TUSC ID</th>
-                    			<th>Role</th>
-                    			<th>Joined</th>
-                    			<th><i class="material-icons">build</i></th>
-                    		</tr>
-                    	</thead>
-                    	<tbody>
-                            @foreach($users as $user)
-                                <tr>
-                                    <td>{{ $user->full_name }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->tusc_id?:'N/A' }}</td>
-                                    <td>{{ $user->role->name}}</td>
-                                    <td>{{ $user->registered_at->toFormattedDateString() }}</td>
-                                    <td>
-                                        @if(1 != $user->id)
-                                        <form action="{{ url('/admin/members/' . $user->id . '/remove') }}" method="post">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>TUSC ID</th>
+                            <th>Role</th>
+                            <th>Joined</th>
+                            <th><i class="material-icons">build</i></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($users as $user)
+                            <tr>
+                                <td>{{ $user->full_name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->tusc_id?:'N/A' }}</td>
+                                <td>{{ $user->role->name}}</td>
+                                <td>{{ $user->registered_at->toFormattedDateString() }}</td>
+                                <td>
+                                    <a href="{{ route('users.edit', [$user->id]) }}" class="btn btn-default btn-circle waves-effect waves-circle waves-float">
+                                        <i class="material-icons">mode_edit</i>
+                                    </a>
+                                    @if(1 != $user->id)
+                                        <form style="display: inline-block;" action="{{ route('users.destroy', $user->id) }}" method="post">
+                                            {{ method_field('DELETE') }}
                                             {{ csrf_field() }}
-                                            <button type="submit" class="btn btn-sm btn-danger" data-alert-type="confirm" data-user-name="{{ $user->first_name }}"><i class="material-icons">delete_forever</i></button>
+                                            <button type="submit" class="btn btn-default btn-circle waves-effect waves-circle waves-float" data-alert-type="confirm" data-user-name="{{ $user->first_name }}">
+                                                <i class="material-icons">delete</i>
+                                            </button>
                                         </form>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                    	</tbody>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
                     </table>
                 </div>
             </div>

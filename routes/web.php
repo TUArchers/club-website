@@ -60,13 +60,8 @@ Route::get('/logout', 'Auth\LoginController@logout');
 // Committee content
 Route::get('/admin', 'Admin\DashboardController@showDashboard');
 
-# Members
-Route::get('/admin/members/add', 'Admin\MemberController@showCreateUserForm');
-Route::post('/admin/members/add', 'Admin\MemberController@createUser');
-Route::post('/admin/members/{memberId}', 'Admin\MemberController@modifyMemberDetails');
-Route::get('/admin/members', 'Admin\MemberController@listMembers');
-Route::get('/admin/members/{memberId}', 'Admin\MemberController@showMemberDetails');
-Route::post('/admin/members/{memberId}/remove', 'Admin\MemberController@removeMember');
+# Users (Including members)
+Route::resource('admin/users', 'Admin\UsersController');
 
 # Events
 Route::post('/admin/events');

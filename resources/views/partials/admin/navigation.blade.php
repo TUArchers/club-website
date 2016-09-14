@@ -18,10 +18,10 @@
             </a>
             <ul class="ml-menu">
                 <li>
-                    <a href="{{ url('/admin/members') }}">Find User</a>
+                    <a href="{{ route('users.index') }}">Find User</a>
                 </li>
                 <li>
-                    <a href="{{ url('/admin/members/add') }}">Add User</a>
+                    <a href="{{ route('users.create') }}">Add User</a>
                 </li>
             </ul>
         </li>
