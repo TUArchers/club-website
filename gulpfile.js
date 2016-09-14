@@ -12,21 +12,9 @@ const elixir = require('laravel-elixir');
  */
 
 elixir(function(mix){
-    /**
-     * Copy Waves plugin for import
-     *
-     * This is due to the fact that Sass won't currently import the contents of CSS files
-     */
-    mix.copy('node_modules/adminbsb-materialdesign/plugins/node-waves/waves.css', 'resources/assets/sass/vendor/waves.scss')
-        .copy('node_modules/adminbsb-materialdesign/plugins/node-waves/waves.js', 'resources/assets/js/vendor/waves.js');
-
     // Compile CSS
-    mix.sass('error.scss')
-        .sass('public.scss')
-        .sass('admin.scss');
+    mix.sass('main.scss');
 
     // Compile JS
-    mix.webpack('error.js')
-        .webpack('public.js')
-        .webpack('admin.js');
+    mix.webpack('main.js');
 });
