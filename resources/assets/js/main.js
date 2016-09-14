@@ -4,5 +4,5 @@
 require('./bootstrap');
 
 // Start up Waves
-Waves.attach('.btn', ['waves-button', 'waves-float']);
-Waves.init();
+//Waves.attach('.btn', ['waves-button', 'waves-float']);
+//Waves.init();

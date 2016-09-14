@@ -6,6 +6,17 @@
 //require('bootstrap-sass');
 
 /**
- * Make the Waves plugin available
+ * Register jQuery plugins
+ */
+require('jquery-slimscroll');
+require('jquery-countto');
+
+/**
+ * Register Bootstrap plugins
+ */
+require('bootstrap-select');
+
+/**
+ * Register other plugins
  */
 window.Waves = require('node-waves');

@@ -1,9 +1,10 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
-    "license": "MIT",
+    "name": "dru1x/tua-website",
+    "description": "Website for Teesside University Archers",
+    "keywords": ["website", "teesside university archers", "archery"],
+    "license": "proprietary",
     "type": "project",
+    "version": "0.1.0",
     "require": {
         "php": ">=5.6.4",
         "laravel/framework": "5.3.*"

@@ -54,9 +54,12 @@ Route::post('/events/{eventId}/register');
 
 # Logout
 Route::post('/logout', 'Auth\LoginController@logout');
+Route::get('/logout', 'Auth\LoginController@logout');
 
 
 // Committee content
+Route::get('/admin', 'Admin\DashboardController@showDashboard');
+
 # Members
 Route::post('/admin/members', 'Admin\MemberController@registerMember');
 Route::post('/admin/members/{memberId}', 'Admin\MemberController@modifyMemberDetails');

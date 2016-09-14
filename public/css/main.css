@@ -157,4 +157,7 @@ section.content {
   .error-page .error-page-container .button-place {
     margin-top: 32px; }
 
+.sidebar .user-info {
+  background: url("../img/user-background-default.jpg") !important; }
+
 /*# sourceMappingURL=main.css.map */

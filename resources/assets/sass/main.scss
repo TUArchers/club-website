@@ -2,3 +2,8 @@
 
 // Error pages ----
 @import "partials/error";
+
+// Overrides ----
+.sidebar .user-info {
+  background: url('../img/user-background-default.jpg') !important;
+}
