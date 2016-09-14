@@ -62,6 +62,7 @@ Route::get('/admin', 'Admin\DashboardController@showDashboard');
 
 # Users (Including members)
 Route::resource('admin/users', 'Admin\UsersController');
+Route::resource('admin/roles', 'Admin\RolesController');
 
 # Events
 Route::post('/admin/events');

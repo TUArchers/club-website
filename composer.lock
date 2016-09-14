@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "92362bea709edb025a1da293443afd45",
-    "content-hash": "fcd47caaccf422d32f02c09358dd8907",
+    "hash": "c0bbe93dc43362df1bf5ae558dad24e3",
+    "content-hash": "38d3119937daa1f3f95f50498e7606cf",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -308,16 +308,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.3.7",
+            "version": "v5.3.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "443764337de22705c115abe169472c24446764bd"
+                "reference": "f6fbb481672f8dc4bc6882d5d654bbfa3588c8ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/443764337de22705c115abe169472c24446764bd",
-                "reference": "443764337de22705c115abe169472c24446764bd",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/f6fbb481672f8dc4bc6882d5d654bbfa3588c8ec",
+                "reference": "f6fbb481672f8dc4bc6882d5d654bbfa3588c8ec",
                 "shasum": ""
             },
             "require": {
@@ -431,7 +431,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-09-08 17:10:45"
+            "time": "2016-09-12 14:08:29"
         },
         {
             "name": "league/flysystem",
@@ -2187,16 +2187,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.5.2",
+            "version": "1.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "da8529775f14f4fdae33f916eb0cf65f6afbddbc"
+                "reference": "94e5ca3e90aa5b34663780393e10914f7438f991"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/da8529775f14f4fdae33f916eb0cf65f6afbddbc",
-                "reference": "da8529775f14f4fdae33f916eb0cf65f6afbddbc",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/94e5ca3e90aa5b34663780393e10914f7438f991",
+                "reference": "94e5ca3e90aa5b34663780393e10914f7438f991",
                 "shasum": ""
             },
             "require": {
@@ -2225,7 +2225,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2016-09-06 16:07:05"
+            "time": "2016-09-07 15:34:10"
         },
         {
             "name": "phpdocumentor/reflection-common",
