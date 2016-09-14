@@ -19,6 +19,11 @@ use TuaWebsite\Http\Controllers\Controller;
  */
 class MemberController extends Controller
 {
+    /**
+     * Show the form that's used to register a new user
+     *
+     * @return \Illuminate\View\View
+     */
     public function showCreateUserForm()
     {
         $roles = Role::all();
@@ -26,6 +31,13 @@ class MemberController extends Controller
         return view('admin.members.create', compact('roles'));
     }
 
+    /**
+     * Carry out a user registration request
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function createUser(Request $request)
     {
         $user_data = $request->only(['email_address', 'phone_number', 'first_name', 'last_name', 'role_id', 'tusc_id']);
@@ -56,8 +68,20 @@ class MemberController extends Controller
         //
     }
 
+    /**
+     * Permanently remove a user from the system
+     *
+     * @param int $memberId
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function removeMember($memberId)
     {
-        //
+        /** @var User $user */
+        $user = User::find($memberId);
+
+        $user->delete();
+
+        return redirect('/admin/members');
     }
 }

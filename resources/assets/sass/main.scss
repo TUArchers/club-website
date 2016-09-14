@@ -6,6 +6,9 @@
 // Bootstrap Select ----
 @import "node_modules/bootstrap-select/sass/bootstrap-select";
 
+// Sweet Alert ----
+@import "node_modules/sweetalert/dev/sweetalert";
+
 // Overrides ----
 .sidebar .user-info {
   background: url('../img/user-background-default.jpg') !important;

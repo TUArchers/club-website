@@ -20,3 +20,4 @@ require('../../../node_modules/bootstrap-select/js/bootstrap-select'); // The di
  * Register other plugins
  */
 window.Waves = require('node-waves');
+require('sweetalert');

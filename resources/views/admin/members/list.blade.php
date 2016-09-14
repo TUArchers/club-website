@@ -34,6 +34,7 @@
                     			<th>TUSC ID</th>
                     			<th>Role</th>
                     			<th>Joined</th>
+                    			<th><i class="material-icons">build</i></th>
                     		</tr>
                     	</thead>
                     	<tbody>
@@ -44,6 +45,14 @@
                                     <td>{{ $user->tusc_id?:'N/A' }}</td>
                                     <td>{{ $user->role->name}}</td>
                                     <td>{{ $user->registered_at->toFormattedDateString() }}</td>
+                                    <td>
+                                        @if(1 != $user->id)
+                                        <form action="{{ url('/admin/members/' . $user->id . '/remove') }}" method="post">
+                                            {{ csrf_field() }}
+                                            <button type="submit" class="btn btn-sm btn-danger" data-alert-type="confirm" data-user-name="{{ $user->first_name }}"><i class="material-icons">delete_forever</i></button>
+                                        </form>
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                     	</tbody>
@@ -53,3 +62,34 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(function(){
+        $('button[data-alert-type="confirm"]').on('click', function(e){
+            e.preventDefault();
+
+            var $form = $(this).closest('form');
+            var $user = $(this).data('user-name');
+
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover " + $user + "'s account!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#fb483a",
+                confirmButtonText: "Yes, delete them!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    $form.submit();
+                } else {
+                    swal("Cancelled", $user + " is safe :)", "error");
+                }
+            });
+        })
+    });
+</script>
+@endpush
