@@ -3,6 +3,9 @@
 // Error pages ----
 @import "partials/error";
 
+// Bootstrap Select ----
+@import "node_modules/bootstrap-select/sass/bootstrap-select";
+
 // Overrides ----
 .sidebar .user-info {
   background: url('../img/user-background-default.jpg') !important;

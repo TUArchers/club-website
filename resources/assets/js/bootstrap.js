@@ -14,7 +14,7 @@ require('jquery-countto');
 /**
  * Register Bootstrap plugins
  */
-require('bootstrap-select');
+require('../../../node_modules/bootstrap-select/js/bootstrap-select'); // The distribution doesn't play nice with WebPack
 
 /**
  * Register other plugins
