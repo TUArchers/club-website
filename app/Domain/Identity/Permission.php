@@ -14,5 +14,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Permission extends Model
 {
-    //
+    // Settings ----
+    public $timestamps  = false;
+    protected $fillable = [
+        'name',
+        'slug',
+        'group',
+    ];
 }

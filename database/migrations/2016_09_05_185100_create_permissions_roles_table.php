@@ -42,7 +42,7 @@ class CreatePermissionsRolesTable extends Migration
         $data = require __DIR__ . '/data/permission_roles.php';
 
         foreach($data as $datum){
-            $role_id = DB::table('roles')->where('name', '=', $datum['role_name'])->first()->id;
+            $role_id   = DB::table('roles')->where('name', '=', $datum['role_name'])->first()->id;
 
             foreach($datum['permission_names'] as $name){
                 $permission_id = DB::table('permissions')->where('name', '=', $name)->first()->id;

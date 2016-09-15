@@ -273,7 +273,7 @@
                 </div>
 
                 <!-- Menu -->
-                @include('partials.admin.navigation')
+                @include('admin._navigation')
 
                 <!-- Footer -->
                 <div class="legal">

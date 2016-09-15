@@ -18,7 +18,6 @@ return [
             'Register User',
             'Modify User Account',
             'Modify User Profile',
-            'Modify Own Profile',
             'Remove User',
         ]
     ],

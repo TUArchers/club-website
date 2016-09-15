@@ -33,9 +33,12 @@ class RolesController extends Controller
      */
     public function create()
     {
-        $permissions = Permission::all();
+        $permission_groups = Permission::all()->groupBy('group');
+        $other_roles       = Role::where([
+            ['has_full_access', false] #TODO: This filters out roles with full access marked as it's pointless inheriting from them
+        ])->get();
 
-        return view('admin.roles.create', compact('permissions'));
+        return view('admin.roles.create', compact('permission_groups', 'other_roles'));
     }
 
     /**
@@ -46,8 +49,19 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        $role = new Role($request->only('name', 'parent_id'));
-        $role->permissions()->attach($request->get('permission_ids'));
+        $role_data                    = $request->only('name', 'description');
+        $role_data['slug']            = str_slug($role_data['name']);
+        $role_data['has_full_access'] = $request->has('has_full_access');
+
+        $role = Role::create($role_data);
+
+        if(!$request->has('has_full_access')){
+            $role->parent_id = $request->get('parent_id');
+
+            if($request->has('permissions')){
+                $role->permissions()->sync($request->get('permissions'));
+            }
+        }
 
         $role->save();
 
@@ -77,10 +91,14 @@ class RolesController extends Controller
      */
     public function edit($id)
     {
-        $role        = Role::findOrFail($id);
-        $permissions = Permission::all();
+        $role              = Role::findOrFail($id);
+        $permission_groups = Permission::all()->groupBy('group');
+        $other_roles       = Role::where([
+            ['id', '!=', $id],
+            ['has_full_access', false] #TODO: This filters out roles with full access marked as it's pointless inheriting from them
+        ])->get();
 
-        return view('admin.roles.edit', compact('role', 'permissions'));
+        return view('admin.roles.edit', compact('role', 'permission_groups', 'other_roles'));
     }
 
     /**
@@ -95,10 +113,24 @@ class RolesController extends Controller
         /** @var Role $role */
         $role = Role::find($id);
 
-        $role->update($request->all());
+        $role_data                    = $request->only('name', 'description');
+        $role_data['slug']            = str_slug($role_data['name']);
+        $role_data['has_full_access'] = $request->has('has_full_access');
+
+        $role->fill($role_data);
+
+        if(!$request->has('has_full_access')){
+            $role->parent_id = $request->get('parent_id');
+
+            if($request->has('permissions')){
+                $role->permissions()->sync($request->get('permissions'));
+            }
+        }
+
+        $role->save();
 
         return redirect(
-            route('roles.show', [$id])
+            route('roles.index')
         );
     }
 

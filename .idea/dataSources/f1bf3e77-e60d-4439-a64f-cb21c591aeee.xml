@@ -397,366 +397,370 @@ reserved_at</columns>
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="112" parent="16" name="description">
+    <column id="112" parent="16" name="group">
+      <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
     </column>
-    <index id="113" parent="16" name="permissions_slug_unique">
+    <column id="113" parent="16" name="description">
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <index id="114" parent="16" name="permissions_slug_unique">
       <columns>slug</columns>
       <desc-columns></desc-columns>
       <unique>1</unique>
     </index>
-    <key id="114" parent="16" name="PRIMARY">
+    <key id="115" parent="16" name="PRIMARY">
       <columns>id</columns>
       <primary>1</primary>
     </key>
-    <key id="115" parent="16" name="permissions_slug_unique">
+    <key id="116" parent="16" name="permissions_slug_unique">
       <columns>slug</columns>
       <underlying-index>permissions_slug_unique</underlying-index>
     </key>
-    <column id="116" parent="17" name="id">
+    <column id="117" parent="17" name="id">
       <mandatory>1</mandatory>
       <data-type>int(10) unsigned|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="117" parent="17" name="event_id">
+    <column id="118" parent="17" name="event_id">
       <mandatory>1</mandatory>
       <data-type>int(10) unsigned|0</data-type>
     </column>
-    <column id="118" parent="17" name="attendee_id">
+    <column id="119" parent="17" name="attendee_id">
       <data-type>int(10) unsigned|0</data-type>
     </column>
-    <column id="119" parent="17" name="expires_at">
+    <column id="120" parent="17" name="expires_at">
       <data-type>datetime|0</data-type>
     </column>
-    <column id="120" parent="17" name="confirmed_at">
+    <column id="121" parent="17" name="confirmed_at">
       <data-type>datetime|0</data-type>
     </column>
-    <column id="121" parent="17" name="cancelled_at">
+    <column id="122" parent="17" name="cancelled_at">
       <data-type>datetime|0</data-type>
     </column>
-    <column id="122" parent="17" name="used_at">
+    <column id="123" parent="17" name="used_at">
       <data-type>datetime|0</data-type>
     </column>
-    <column id="123" parent="17" name="created_at">
+    <column id="124" parent="17" name="created_at">
       <data-type>timestamp|0</data-type>
     </column>
-    <column id="124" parent="17" name="updated_at">
+    <column id="125" parent="17" name="updated_at">
       <data-type>timestamp|0</data-type>
     </column>
-    <index id="125" parent="17" name="reservations_attendee_id_foreign">
+    <index id="126" parent="17" name="reservations_attendee_id_foreign">
       <columns>attendee_id</columns>
       <desc-columns></desc-columns>
     </index>
-    <index id="126" parent="17" name="reservations_event_id_foreign">
+    <index id="127" parent="17" name="reservations_event_id_foreign">
       <columns>event_id</columns>
       <desc-columns></desc-columns>
     </index>
-    <key id="127" parent="17" name="PRIMARY">
+    <key id="128" parent="17" name="PRIMARY">
       <columns>id</columns>
       <primary>1</primary>
     </key>
-    <foreign-key id="128" parent="17" name="reservations_event_id_foreign">
+    <foreign-key id="129" parent="17" name="reservations_event_id_foreign">
       <columns>event_id</columns>
       <ref-key>~.events.PRIMARY</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
-    <foreign-key id="129" parent="17" name="reservations_attendee_id_foreign">
+    <foreign-key id="130" parent="17" name="reservations_attendee_id_foreign">
       <columns>attendee_id</columns>
       <ref-key>~.users.PRIMARY</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
-    <column id="130" parent="18" name="id">
+    <column id="131" parent="18" name="id">
       <mandatory>1</mandatory>
       <data-type>int(10) unsigned|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="131" parent="18" name="name">
+    <column id="132" parent="18" name="name">
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="132" parent="18" name="slug">
+    <column id="133" parent="18" name="slug">
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="133" parent="18" name="description">
+    <column id="134" parent="18" name="description">
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="134" parent="18" name="has_full_access">
+    <column id="135" parent="18" name="has_full_access">
       <mandatory>1</mandatory>
       <data-type>tinyint(1)|0</data-type>
     </column>
-    <column id="135" parent="18" name="parent_id">
+    <column id="136" parent="18" name="parent_id">
       <data-type>int(10) unsigned|0</data-type>
     </column>
-    <column id="136" parent="18" name="created_at">
+    <column id="137" parent="18" name="created_at">
       <data-type>timestamp|0</data-type>
     </column>
-    <column id="137" parent="18" name="updated_at">
+    <column id="138" parent="18" name="updated_at">
       <data-type>timestamp|0</data-type>
     </column>
-    <index id="138" parent="18" name="roles_parent_id_foreign">
+    <index id="139" parent="18" name="roles_parent_id_foreign">
       <columns>parent_id</columns>
       <desc-columns></desc-columns>
     </index>
-    <index id="139" parent="18" name="roles_slug_unique">
+    <index id="140" parent="18" name="roles_slug_unique">
       <columns>slug</columns>
       <desc-columns></desc-columns>
       <unique>1</unique>
     </index>
-    <key id="140" parent="18" name="PRIMARY">
+    <key id="141" parent="18" name="PRIMARY">
       <columns>id</columns>
       <primary>1</primary>
     </key>
-    <key id="141" parent="18" name="roles_slug_unique">
+    <key id="142" parent="18" name="roles_slug_unique">
       <columns>slug</columns>
       <underlying-index>roles_slug_unique</underlying-index>
     </key>
-    <foreign-key id="142" parent="18" name="roles_parent_id_foreign">
+    <foreign-key id="143" parent="18" name="roles_parent_id_foreign">
       <columns>parent_id</columns>
       <ref-key>PRIMARY</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
-    <column id="143" parent="19" name="id">
+    <column id="144" parent="19" name="id">
       <mandatory>1</mandatory>
       <data-type>int(10) unsigned|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="144" parent="19" name="name">
+    <column id="145" parent="19" name="name">
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="145" parent="19" name="organisation">
+    <column id="146" parent="19" name="organisation">
       <mandatory>1</mandatory>
       <data-type>enum(&apos;WA&apos;, &apos;AGB&apos;, &apos;TUA&apos;, &apos;O&apos;)|0</data-type>
     </column>
-    <column id="146" parent="19" name="season">
+    <column id="147" parent="19" name="season">
       <mandatory>1</mandatory>
       <data-type>enum(&apos;I&apos;, &apos;O&apos;)|0</data-type>
     </column>
-    <column id="147" parent="19" name="total_targets">
+    <column id="148" parent="19" name="total_targets">
       <mandatory>1</mandatory>
       <data-type>smallint(5) unsigned|0</data-type>
       <default-expression>&apos;1&apos;</default-expression>
     </column>
-    <column id="148" parent="19" name="total_shots">
+    <column id="149" parent="19" name="total_shots">
       <mandatory>1</mandatory>
       <data-type>smallint(5) unsigned|0</data-type>
     </column>
-    <column id="149" parent="19" name="max_score">
+    <column id="150" parent="19" name="max_score">
       <mandatory>1</mandatory>
       <data-type>smallint(5) unsigned|0</data-type>
     </column>
-    <column id="150" parent="19" name="max_shot_score">
+    <column id="151" parent="19" name="max_shot_score">
       <mandatory>1</mandatory>
       <data-type>smallint(5) unsigned|0</data-type>
     </column>
-    <column id="151" parent="19" name="min_shot_score">
+    <column id="152" parent="19" name="min_shot_score">
       <mandatory>1</mandatory>
       <data-type>smallint(5) unsigned|0</data-type>
     </column>
-    <column id="152" parent="19" name="created_at">
+    <column id="153" parent="19" name="created_at">
       <data-type>timestamp|0</data-type>
     </column>
-    <column id="153" parent="19" name="updated_at">
+    <column id="154" parent="19" name="updated_at">
       <data-type>timestamp|0</data-type>
     </column>
-    <index id="154" parent="19" name="rounds_name_unique">
+    <index id="155" parent="19" name="rounds_name_unique">
       <columns>name</columns>
       <desc-columns></desc-columns>
       <unique>1</unique>
     </index>
-    <key id="155" parent="19" name="PRIMARY">
+    <key id="156" parent="19" name="PRIMARY">
       <columns>id</columns>
       <primary>1</primary>
     </key>
-    <key id="156" parent="19" name="rounds_name_unique">
+    <key id="157" parent="19" name="rounds_name_unique">
       <columns>name</columns>
       <underlying-index>rounds_name_unique</underlying-index>
     </key>
-    <column id="157" parent="20" name="id">
+    <column id="158" parent="20" name="id">
       <mandatory>1</mandatory>
       <data-type>int(10) unsigned|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="158" parent="20" name="round_id">
+    <column id="159" parent="20" name="round_id">
       <mandatory>1</mandatory>
       <data-type>int(10) unsigned|0</data-type>
     </column>
-    <column id="159" parent="20" name="archer_id">
+    <column id="160" parent="20" name="archer_id">
       <mandatory>1</mandatory>
       <data-type>int(10) unsigned|0</data-type>
     </column>
-    <column id="160" parent="20" name="scorer_id">
+    <column id="161" parent="20" name="scorer_id">
       <mandatory>1</mandatory>
       <data-type>int(10) unsigned|0</data-type>
     </column>
-    <column id="161" parent="20" name="bow_class">
+    <column id="162" parent="20" name="bow_class">
       <mandatory>1</mandatory>
       <data-type>enum(&apos;C&apos;, &apos;R&apos;, &apos;B&apos;, &apos;L&apos;, &apos;T&apos;)|0</data-type>
     </column>
-    <column id="162" parent="20" name="hit_count">
+    <column id="163" parent="20" name="hit_count">
       <mandatory>1</mandatory>
       <data-type>smallint(5) unsigned|0</data-type>
     </column>
-    <column id="163" parent="20" name="gold_count">
+    <column id="164" parent="20" name="gold_count">
       <mandatory>1</mandatory>
       <data-type>smallint(5) unsigned|0</data-type>
     </column>
-    <column id="164" parent="20" name="total_score">
+    <column id="165" parent="20" name="total_score">
       <mandatory>1</mandatory>
       <data-type>smallint(5) unsigned|0</data-type>
     </column>
-    <column id="165" parent="20" name="shot_at">
+    <column id="166" parent="20" name="shot_at">
       <mandatory>1</mandatory>
       <data-type>datetime|0</data-type>
     </column>
-    <column id="166" parent="20" name="created_at">
+    <column id="167" parent="20" name="created_at">
       <data-type>timestamp|0</data-type>
     </column>
-    <column id="167" parent="20" name="updated_at">
+    <column id="168" parent="20" name="updated_at">
       <data-type>timestamp|0</data-type>
     </column>
-    <index id="168" parent="20" name="scores_archer_id_foreign">
+    <index id="169" parent="20" name="scores_archer_id_foreign">
       <columns>archer_id</columns>
       <desc-columns></desc-columns>
     </index>
-    <index id="169" parent="20" name="scores_round_id_foreign">
+    <index id="170" parent="20" name="scores_round_id_foreign">
       <columns>round_id</columns>
       <desc-columns></desc-columns>
     </index>
-    <index id="170" parent="20" name="scores_scorer_id_foreign">
+    <index id="171" parent="20" name="scores_scorer_id_foreign">
       <columns>scorer_id</columns>
       <desc-columns></desc-columns>
     </index>
-    <key id="171" parent="20" name="PRIMARY">
+    <key id="172" parent="20" name="PRIMARY">
       <columns>id</columns>
       <primary>1</primary>
     </key>
-    <foreign-key id="172" parent="20" name="scores_round_id_foreign">
+    <foreign-key id="173" parent="20" name="scores_round_id_foreign">
       <columns>round_id</columns>
       <ref-key>~.rounds.PRIMARY</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
-    <foreign-key id="173" parent="20" name="scores_archer_id_foreign">
+    <foreign-key id="174" parent="20" name="scores_archer_id_foreign">
       <columns>archer_id</columns>
       <ref-key>~.users.PRIMARY</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
-    <foreign-key id="174" parent="20" name="scores_scorer_id_foreign">
+    <foreign-key id="175" parent="20" name="scores_scorer_id_foreign">
       <columns>scorer_id</columns>
       <ref-key>~.users.PRIMARY</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
-    <column id="175" parent="21" name="id">
+    <column id="176" parent="21" name="id">
       <mandatory>1</mandatory>
       <data-type>int(10) unsigned|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="176" parent="21" name="role_id">
+    <column id="177" parent="21" name="role_id">
       <mandatory>1</mandatory>
       <data-type>int(10) unsigned|0</data-type>
     </column>
-    <column id="177" parent="21" name="first_name">
+    <column id="178" parent="21" name="first_name">
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="178" parent="21" name="last_name">
+    <column id="179" parent="21" name="last_name">
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="179" parent="21" name="gender">
+    <column id="180" parent="21" name="gender">
       <mandatory>1</mandatory>
       <data-type>enum(&apos;U&apos;, &apos;M&apos;, &apos;F&apos;, &apos;O&apos;)|0</data-type>
       <default-expression>&apos;U&apos;</default-expression>
     </column>
-    <column id="180" parent="21" name="date_of_birth">
+    <column id="181" parent="21" name="date_of_birth">
       <data-type>datetime|0</data-type>
     </column>
-    <column id="181" parent="21" name="picture_url">
+    <column id="182" parent="21" name="picture_url">
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="182" parent="21" name="tusc_id">
+    <column id="183" parent="21" name="tusc_id">
       <data-type>varchar(8)|0</data-type>
     </column>
-    <column id="183" parent="21" name="is_student">
+    <column id="184" parent="21" name="is_student">
       <mandatory>1</mandatory>
       <data-type>tinyint(1)|0</data-type>
       <default-expression>&apos;1&apos;</default-expression>
     </column>
-    <column id="184" parent="21" name="agb_id">
+    <column id="185" parent="21" name="agb_id">
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="185" parent="21" name="phone_number">
+    <column id="186" parent="21" name="phone_number">
       <mandatory>1</mandatory>
       <data-type>varchar(12)|0</data-type>
     </column>
-    <column id="186" parent="21" name="email_address">
+    <column id="187" parent="21" name="email_address">
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="187" parent="21" name="email_address_verified">
+    <column id="188" parent="21" name="email_address_verified">
       <mandatory>1</mandatory>
       <data-type>tinyint(1)|0</data-type>
       <default-expression>&apos;0&apos;</default-expression>
     </column>
-    <column id="188" parent="21" name="password_hash">
+    <column id="189" parent="21" name="password_hash">
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="189" parent="21" name="remember_token">
+    <column id="190" parent="21" name="remember_token">
       <data-type>varchar(100)|0</data-type>
     </column>
-    <column id="190" parent="21" name="registered_at">
+    <column id="191" parent="21" name="registered_at">
       <mandatory>1</mandatory>
       <data-type>datetime|0</data-type>
     </column>
-    <column id="191" parent="21" name="created_at">
+    <column id="192" parent="21" name="created_at">
       <data-type>timestamp|0</data-type>
     </column>
-    <column id="192" parent="21" name="updated_at">
+    <column id="193" parent="21" name="updated_at">
       <data-type>timestamp|0</data-type>
     </column>
-    <index id="193" parent="21" name="users_agb_id_unique">
+    <index id="194" parent="21" name="users_agb_id_unique">
       <columns>agb_id</columns>
       <desc-columns></desc-columns>
       <unique>1</unique>
     </index>
-    <index id="194" parent="21" name="users_email_address_unique">
+    <index id="195" parent="21" name="users_email_address_unique">
       <columns>email_address</columns>
       <desc-columns></desc-columns>
       <unique>1</unique>
     </index>
-    <index id="195" parent="21" name="users_role_id_foreign">
+    <index id="196" parent="21" name="users_role_id_foreign">
       <columns>role_id</columns>
       <desc-columns></desc-columns>
     </index>
-    <index id="196" parent="21" name="users_tusc_id_unique">
+    <index id="197" parent="21" name="users_tusc_id_unique">
       <columns>tusc_id</columns>
       <desc-columns></desc-columns>
       <unique>1</unique>
     </index>
-    <key id="197" parent="21" name="PRIMARY">
+    <key id="198" parent="21" name="PRIMARY">
       <columns>id</columns>
       <primary>1</primary>
     </key>
-    <key id="198" parent="21" name="users_tusc_id_unique">
+    <key id="199" parent="21" name="users_tusc_id_unique">
       <columns>tusc_id</columns>
       <underlying-index>users_tusc_id_unique</underlying-index>
     </key>
-    <key id="199" parent="21" name="users_agb_id_unique">
+    <key id="200" parent="21" name="users_agb_id_unique">
       <columns>agb_id</columns>
       <underlying-index>users_agb_id_unique</underlying-index>
     </key>
-    <key id="200" parent="21" name="users_email_address_unique">
+    <key id="201" parent="21" name="users_email_address_unique">
       <columns>email_address</columns>
       <underlying-index>users_email_address_unique</underlying-index>
     </key>
-    <foreign-key id="201" parent="21" name="users_role_id_foreign">
+    <foreign-key id="202" parent="21" name="users_role_id_foreign">
       <columns>role_id</columns>
       <ref-key>~.roles.PRIMARY</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>

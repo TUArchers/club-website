@@ -20,7 +20,7 @@
                                 <i class="material-icons">more_vert</i>
                             </a>
                             <ul class="dropdown-menu pull-right">
-                                <li><a href="{{ route('users.create') }}">Add User</a></li>
+                                <li><a href="{{ route('users.create') }}"><i class="material-icons">add</i> Add User</a></li>
                             </ul>
                         </li>
                     </ul>

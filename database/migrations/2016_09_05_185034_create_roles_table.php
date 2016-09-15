@@ -47,6 +47,7 @@ class CreateRolesTable extends Migration
     {
         $data = require __DIR__ . '/data/roles.php';
 
+        // Add the roles
         foreach($data as $datum){
 
             $datum['slug']       = str_slug($datum['name']);
@@ -55,6 +56,19 @@ class CreateRolesTable extends Migration
             unset($datum['parent_name']);
 
             DB::table('roles')->insert($datum);
+        }
+
+        // Set parent roles
+        foreach($data as $datum){
+            if(!isset($datum['parent_name'])){
+                continue;
+            }
+
+            $parent = DB::table('roles')->where('name', '=', $datum['parent_name'])->first();
+
+            DB::table('roles')->where('name', '=', $datum['name'])->update([
+                'parent_id' => $parent->id
+            ]);
         }
     }
 }
