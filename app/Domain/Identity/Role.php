@@ -31,6 +31,16 @@ class Role extends Model
         'updated_at'
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($role){
+            $role->parent()->dissociate();
+            $role->permissions()->detach();
+        });
+    }
+
     // Relationships ----
     /**
      * Get the role that this one inherits from
@@ -124,4 +134,6 @@ class Role extends Model
 
         return $inheritedPermissions->contains($permission);
     }
+
+
 }

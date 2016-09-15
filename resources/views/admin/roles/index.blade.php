@@ -51,6 +51,15 @@
                                     <a href="{{ route('roles.edit', [$role->id]) }}" class="btn btn-default btn-circle waves-effect waves-circle waves-float">
                                         <i class="material-icons">mode_edit</i>
                                     </a>
+                                    @if(1 != $role->id)
+                                        <form style="display: inline-block;" action="{{ route('roles.destroy', $role->id) }}" method="post">
+                                            {{ method_field('DELETE') }}
+                                            {{ csrf_field() }}
+                                            <button type="submit" class="btn btn-default btn-circle waves-effect waves-circle waves-float" data-alert-type="confirm" data-role-name="{{ $role->name }}">
+                                                <i class="material-icons">delete</i>
+                                            </button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -61,3 +70,34 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(function(){
+        $('button[data-alert-type="confirm"]').on('click', function(e){
+            e.preventDefault();
+
+            var $form = $(this).closest('form');
+            var $role = $(this).data('role-name');
+
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover the \"" + $role + "\" role!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#fb483a",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    $form.submit();
+                } else {
+                    swal("Cancelled", $role + " is safe :)", "error");
+                }
+            });
+        })
+    });
+</script>
+@endpush
