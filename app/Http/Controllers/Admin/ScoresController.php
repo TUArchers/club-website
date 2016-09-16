@@ -27,9 +27,26 @@ class ScoresController extends Controller
      */
     public function index()
     {
-        $scores = Score::all();
+        // Calculate the date this academic year started
+        $months_passed = 9 - Carbon::now()->month;
+        $year_start    = Carbon::now()->subMonths($months_passed)->startOfMonth();
 
-        return view('admin.scores.index', compact('scores'));
+        // Get the period counts
+        $yearly_scores  = $this->scoresRecordedSince($year_start);
+        $monthly_scores = $this->scoresRecordedSince(Carbon::now()->startOfMonth());
+        $weekly_scores  = $this->scoresRecordedSince(Carbon::now()->startOfWeek());
+
+        // Get club records
+        $records = new Collection();
+        foreach(Round::all() as $round){
+            $score = $this->highScoreForRound($round);
+
+            if($score){
+                $records->add($score);
+            }
+        }
+
+        return view('admin.scores.index', compact('yearly_scores', 'monthly_scores', 'weekly_scores', 'records'));
     }
 
     /**
@@ -84,5 +101,25 @@ class ScoresController extends Controller
         }
 
         return $collection;
+    }
+
+    /**
+     * @param Carbon $date
+     *
+     * @return int
+     */
+    private function scoresRecordedSince(Carbon $date)
+    {
+        return Score::where('shot_at', '>=', $date)->count();
+    }
+
+    /**
+     * @param Round $round
+     *
+     * @return Score|null
+     */
+    private function highScoreForRound(Round $round)
+    {
+        return Score::where('round_id', '=', $round->id)->orderBy('total_score', 'desc')->first();
     }
 }
