@@ -16,6 +16,7 @@ elixir(function(mix){
     mix.copy('node_modules/adminbsb-materialdesign/plugins/animate-css/animate.css', 'public/css/animate.css');
     mix.copy('node_modules/adminbsb-materialdesign/plugins/material-design-preloader/md-preloader.css', 'public/css/preloader.css');
     mix.copy('node_modules/adminbsb-materialdesign/css/materialize.css', 'public/css/materialize.css');
+    mix.copy('node_modules/adminbsb-materialdesign/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css', 'public/css/datetimepicker.css');
     mix.copy('node_modules/adminbsb-materialdesign/css/style.css', 'public/css/admin.css');
     mix.copy('node_modules/adminbsb-materialdesign/css/themes/theme-orange.css', 'public/css/admin-theme.css');
 

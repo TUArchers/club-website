@@ -1,0 +1,1 @@
+<button type="submit" class="btn{{ isset($colour)? ' '.$colour:null }} m-t-15 waves-effect">{{ $label }}</button>

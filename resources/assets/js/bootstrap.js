@@ -6,6 +6,13 @@
 //require('bootstrap-sass');
 
 /**
+ * Register plugins
+ */
+window.Waves = require('node-waves');
+require('sweetalert');
+window.moment = require('moment');
+
+/**
  * Register jQuery plugins
  */
 require('jquery-slimscroll');
@@ -15,9 +22,4 @@ require('jquery-countto');
  * Register Bootstrap plugins
  */
 require('../../../node_modules/bootstrap-select/js/bootstrap-select'); // The distribution doesn't play nice with WebPack
-
-/**
- * Register other plugins
- */
-window.Waves = require('node-waves');
-require('sweetalert');
+require('../../../node_modules/adminbsb-materialdesign/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker');

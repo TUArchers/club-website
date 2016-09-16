@@ -67,6 +67,7 @@ Route::resource('admin/users', 'Admin\UsersController', [
         'index'   => 'admin.users.index',
         'create'  => 'admin.users.create',
         'store'   => 'admin.users.store',
+        'show'    => 'admin.users.show',
         'edit'    => 'admin.users.edit',
         'update'  => 'admin.users.update',
         'destroy' => 'admin.users.destroy',
@@ -85,7 +86,7 @@ Route::resource('admin/roles', 'Admin\RolesController', [
 ]);
 
 # Scores
-Route::resource('admin/scores', 'Admin\ScoresController@index', [
+Route::resource('admin/scores', 'Admin\ScoresController', [
     'only'  => ['index', 'create', 'store'],
     'names' => [
         'index'   => 'admin.scores.index',
@@ -98,6 +99,7 @@ Route::resource('admin/rounds', 'Admin\RoundsController', [
         'index'   => 'admin.rounds.index',
         'create'  => 'admin.rounds.create',
         'store'   => 'admin.rounds.store',
+        'show'    => 'admin.rounds.show',
         'edit'    => 'admin.rounds.edit',
         'update'  => 'admin.rounds.update',
         'destroy' => 'admin.rounds.destroy',

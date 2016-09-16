@@ -18,6 +18,7 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/animate.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/preloader.css') }}">
+        @stack('styles')
         <link rel="stylesheet" type="text/css" href="{{ asset('css/admin.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/admin-theme.css') }}">
     </head>

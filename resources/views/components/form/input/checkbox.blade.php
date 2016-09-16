@@ -1,0 +1,2 @@
+<input type="checkbox" id="{{ isset($id)? $id:$name }}_checkbox" name="{{ $name }}" class="filled-in{{ isset($colour)? ' chk-col-'.$colour:null }}{{ isset($classes)? ' '.$classes:null }}" title="{{ $label }}" value="{{ isset($checked_value)? $checked_value:1 }}"{{ isset($checked) && $checked? ' checked':null }}{{ isset($disabled) && $disabled? ' disabled':null }}>
+<label for="{{ isset($id)? $id:$name }}_checkbox" class="form-label">{{ $label }}</label>
