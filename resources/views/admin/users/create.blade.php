@@ -14,7 +14,7 @@
                     <h2>ADD USER</h2>
                 </div>
                 <div class="body">
-                    <form action="{{ route('users.store') }}" method="post">
+                    <form action="{{ route('admin.users.store') }}" method="post">
                         @include('admin.users._form', ['submitLabel' => 'Add User'])
                     </form>
                 </div>

@@ -20,7 +20,7 @@
                                 <i class="material-icons">more_vert</i>
                             </a>
                             <ul class="dropdown-menu pull-right">
-                                <li><a href="{{ route('roles.create') }}"><i class="material-icons">add</i> Add Role</a></li>
+                                <li><a href="{{ route('admin.roles.create') }}"><i class="material-icons">add</i> Add Role</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -30,7 +30,8 @@
                     	<thead>
                     		<tr>
                     			<th>Name</th>
-                    			<th>Inherits From</th>
+                                <th class="hidden-xs hidden-sm">Description</th>
+                    			<th class="hidden-xs">Inherits From</th>
                     			<th>Permissions</th>
                                 <th><i class="material-icons">build</i></th>
                     		</tr>
@@ -39,7 +40,8 @@
                         @foreach($roles as $role)
                             <tr>
                                 <td>{{ $role->name }}</td>
-                                <td>{{ $role->parent? $role->parent->name : '-' }}</td>
+                                <td class="hidden-xs hidden-sm">{{ $role->description }}</td>
+                                <td class="hidden-xs">{{ $role->parent? $role->parent->name : '-' }}</td>
                                 <td>
                                 @if($role->has_full_access)
                                     <span class="badge bg-grey">All</span>
@@ -48,11 +50,11 @@
                                 @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('roles.edit', [$role->id]) }}" class="btn btn-default btn-circle waves-effect waves-circle waves-float">
+                                    <a href="{{ route('admin.roles.edit', [$role->id]) }}" class="btn btn-default btn-circle waves-effect waves-circle waves-float">
                                         <i class="material-icons">mode_edit</i>
                                     </a>
                                     @if(1 != $role->id)
-                                        <form style="display: inline-block;" action="{{ route('roles.destroy', $role->id) }}" method="post">
+                                        <form style="display: inline-block;" action="{{ route('admin.roles.destroy', $role->id) }}" method="post">
                                             {{ method_field('DELETE') }}
                                             {{ csrf_field() }}
                                             <button type="submit" class="btn btn-default btn-circle waves-effect waves-circle waves-float" data-alert-type="confirm" data-role-name="{{ $role->name }}">

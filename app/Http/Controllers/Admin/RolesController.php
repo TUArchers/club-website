@@ -66,7 +66,7 @@ class RolesController extends Controller
         $role->save();
 
         return redirect(
-            route('roles.index')
+            route('admin.roles.index')
         );
     }
 
@@ -128,7 +128,7 @@ class RolesController extends Controller
         $role->save();
 
         return redirect(
-            route('roles.index')
+            route('admin.roles.index')
         );
     }
 
@@ -143,7 +143,7 @@ class RolesController extends Controller
         Role::destroy($id);
 
         return redirect(
-            route('roles.index')
+            route('admin.roles.index')
         );
     }
 }

@@ -14,7 +14,7 @@
                     <h2>ADD ROLE</h2>
                 </div>
                 <div class="body">
-                    <form action="{{ route('roles.store') }}" method="post">
+                    <form action="{{ route('admin.roles.store') }}" method="post">
                         @include('admin.roles._form', ['submitLabel' => 'Add Role'])
                     </form>
                 </div>

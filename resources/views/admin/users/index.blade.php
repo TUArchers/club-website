@@ -20,7 +20,7 @@
                                 <i class="material-icons">more_vert</i>
                             </a>
                             <ul class="dropdown-menu pull-right">
-                                <li><a href="{{ route('users.create') }}"><i class="material-icons">add</i> Add User</a></li>
+                                <li><a href="{{ route('admin.users.create') }}"><i class="material-icons">add</i> Add User</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -46,11 +46,11 @@
                                 <td>{{ $user->role->name}}</td>
                                 <td>{{ $user->registered_at->toFormattedDateString() }}</td>
                                 <td>
-                                    <a href="{{ route('users.edit', [$user->id]) }}" class="btn btn-default btn-circle waves-effect waves-circle waves-float">
+                                    <a href="{{ route('admin.users.edit', [$user->id]) }}" class="btn btn-default btn-circle waves-effect waves-circle waves-float">
                                         <i class="material-icons">mode_edit</i>
                                     </a>
                                     @if(1 != $user->id)
-                                        <form style="display: inline-block;" action="{{ route('users.destroy', $user->id) }}" method="post">
+                                        <form style="display: inline-block;" action="{{ route('admin.users.destroy', $user->id) }}" method="post">
                                             {{ method_field('DELETE') }}
                                             {{ csrf_field() }}
                                             <button type="submit" class="btn btn-default btn-circle waves-effect waves-circle waves-float" data-alert-type="confirm" data-user-name="{{ $user->first_name }}">

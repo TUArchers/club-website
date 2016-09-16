@@ -57,23 +57,63 @@ Route::post('/logout', 'Auth\LoginController@logout');
 Route::get('/logout', 'Auth\LoginController@logout');
 
 
-// Committee content
-Route::get('/admin', 'Admin\DashboardController@showDashboard');
+// Committee content ----
+# Dashboard
+Route::get('/admin', 'Admin\DashboardController@showDashboard')->name('admin.index');
 
 # Users (Including members)
-Route::resource('admin/users', 'Admin\UsersController');
-Route::resource('admin/roles', 'Admin\RolesController');
+Route::resource('admin/users', 'Admin\UsersController', [
+    'names'  => [
+        'index'   => 'admin.users.index',
+        'create'  => 'admin.users.create',
+        'store'   => 'admin.users.store',
+        'edit'    => 'admin.users.edit',
+        'update'  => 'admin.users.update',
+        'destroy' => 'admin.users.destroy',
+    ]
+]);
+Route::resource('admin/roles', 'Admin\RolesController', [
+    'except' => ['show'],
+    'names'  => [
+        'index'   => 'admin.roles.index',
+        'create'  => 'admin.roles.create',
+        'store'   => 'admin.roles.store',
+        'edit'    => 'admin.roles.edit',
+        'update'  => 'admin.roles.update',
+        'destroy' => 'admin.roles.destroy',
+    ]
+]);
+
+# Scores
+Route::resource('admin/scores', 'Admin\ScoresController@index', [
+    'only'  => ['index', 'create', 'store'],
+    'names' => [
+        'index'   => 'admin.scores.index',
+        'create'  => 'admin.scores.create',
+        'store'   => 'admin.scores.store',
+    ]
+]);
+Route::resource('admin/rounds', 'Admin\RoundsController', [
+    'names'  => [
+        'index'   => 'admin.rounds.index',
+        'create'  => 'admin.rounds.create',
+        'store'   => 'admin.rounds.store',
+        'edit'    => 'admin.rounds.edit',
+        'update'  => 'admin.rounds.update',
+        'destroy' => 'admin.rounds.destroy',
+    ]
+]);
 
 # Events
-Route::post('/admin/events');
-Route::post('/admin/events/{eventId}');
-Route::get('/admin/events');
-Route::get('/admin/events/{eventId}');
-Route::post('/admin/events/{eventId}/cancel');
+//Route::post('/admin/events');
+//Route::post('/admin/events/{eventId}');
+//Route::get('/admin/events');
+//Route::get('/admin/events/{eventId}');
+//Route::post('/admin/events/{eventId}/cancel');
 
 # News
-Route::post('/admin/articles', 'Admin\NewsController@publishArticle');
-Route::post('/admin/articles/{articleId}', 'Admin\NewsController@editArticle');
-Route::get('/admin/articles', 'Admin\NewsController@showArticles');
-Route::get('/admin/articles/{articleId}', 'Admin\NewsController@showArticleDetails');
-Route::post('/admin/articles/{articleId}/remove', 'Admin\NewsController@removeArticle');
+//Route::post('/admin/articles', 'Admin\NewsController@publishArticle');
+//Route::post('/admin/articles/{articleId}', 'Admin\NewsController@editArticle');
+//Route::get('/admin/articles', 'Admin\NewsController@showArticles');
+//Route::get('/admin/articles/{articleId}', 'Admin\NewsController@showArticleDetails');
+//Route::post('/admin/articles/{articleId}/remove', 'Admin\NewsController@removeArticle');

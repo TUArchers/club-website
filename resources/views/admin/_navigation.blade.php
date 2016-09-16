@@ -5,7 +5,7 @@
 
         <!--Dashboard-->
         <li class="active">
-            <a href="{{ url('/admin') }}">
+            <a href="{{ route('admin.index') }}">
                 <i class="material-icons">home</i>
                 <span>Dashboard</span>
             </a>
@@ -19,16 +19,38 @@
             </a>
             <ul class="ml-menu">
                 <li>
-                    <a href="{{ route('users.index') }}">Find User</a>
+                    <a href="{{ route('admin.users.index') }}">All Users</a>
                 </li>
                 <li>
-                    <a href="{{ route('users.create') }}">Add A User</a>
+                    <a href="{{ route('admin.users.create') }}">Add New User</a>
                 </li>
                 <li>
-                    <a href="{{ route('roles.index') }}">Find Role</a>
+                    <a href="{{ route('admin.roles.index') }}">Roles &amp; Permissions</a>
                 </li>
                 <li>
-                    <a href="{{ route('roles.create') }}">Add A Role</a>
+                    <a href="{{ route('admin.roles.create') }}">Define New Role</a>
+                </li>
+            </ul>
+        </li>
+
+        <!--Scores-->
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle">
+                <i class="material-icons">timeline</i>
+                <span>Scores</span>
+            </a>
+            <ul class="ml-menu">
+                <li>
+                    <a href="{{ route('admin.scores.index') }}">Scoring Summary</a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.scores.create') }}">Record Score</a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.rounds.index') }}">Round Definitions</a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.rounds.create') }}">Define New Round</a>
                 </li>
             </ul>
         </li>

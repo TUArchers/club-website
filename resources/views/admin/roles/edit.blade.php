@@ -14,7 +14,7 @@
                     <h2>EDIT ROLE</h2>
                 </div>
                 <div class="body">
-                    <form action="{{ route('roles.update', $role->id) }}" method="post">
+                    <form action="{{ route('admin.roles.update', $role->id) }}" method="post">
                         {{ method_field('PATCH') }}
                         @include('admin.roles._form', ['submitLabel' => 'Save Changes'])
                     </form>
