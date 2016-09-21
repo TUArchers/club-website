@@ -9,6 +9,9 @@
 
     <div class="row clearfix">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            @include('components.infobox', ['colour' => 'teal', 'icon' => 'grade', 'title' => 'SCORES RECORDED', 'value' => $all_scores])
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         	@include('components.infobox', ['colour' => 'green', 'icon' => 'trending_up', 'title' => 'SCORES THIS YEAR', 'value' => $yearly_scores])
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">

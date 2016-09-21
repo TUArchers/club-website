@@ -37,6 +37,7 @@ class ScoresController extends Controller
         $round_popularity     = $this->roundPopularity();
 
         // Get the period counts
+        $all_scores     = Score::all()->count();
         $yearly_scores  = $this->scoresRecordedSince($year_start);
         $monthly_scores = $this->scoresRecordedSince(Carbon::now()->startOfMonth());
         $weekly_scores  = $this->scoresRecordedSince(Carbon::now()->startOfWeek());
@@ -48,7 +49,7 @@ class ScoresController extends Controller
             return empty($score);
         });
 
-        return view('admin.scores.index', compact('bow_class_popularity', 'round_popularity', 'yearly_scores', 'monthly_scores', 'weekly_scores', 'records'));
+        return view('admin.scores.index', compact('bow_class_popularity', 'round_popularity', 'all_scores', 'yearly_scores', 'monthly_scores', 'weekly_scores', 'records'));
     }
 
     /**
