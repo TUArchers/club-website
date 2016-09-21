@@ -14,7 +14,7 @@
         	@include('components.infobox', ['colour' => 'green', 'icon' => 'trending_up', 'title' => 'SCORES THIS YEAR', 'value' => $yearly_scores])
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-            @include('components.infobox', ['colour' => 'light-green', 'icon' => 'trending_up', 'title' => 'SCORES THIS MONTH', 'value' => $monthly_scores])
+            @include('components.infobox', ['colour' => 'light-green', 'icon' => 'event', 'title' => 'SCORES THIS MONTH', 'value' => $monthly_scores])
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
             @include('components.infobox', ['colour' => 'lime', 'icon' => 'new_releases', 'title' => 'SCORES THIS WEEK', 'value' => $weekly_scores])
@@ -63,6 +63,7 @@
                     			<tr>
                     				<th>Date</th>
                     				<th>Archer</th>
+                    				<th class="hidden-sm hidden-xs">Bow Class</th>
                     				<th>Round</th>
                     				<th>Score</th>
                     				<th class="hidden-sm hidden-xs">%</th>
@@ -73,6 +74,7 @@
                     			<tr>
                     				<td>{{ $score->shot_at->toFormattedDateString() }}</td>
                     				<td>{{ $score->archer->full_name }}</td>
+                    				<td class="hidden-sm hidden-xs">{{ \TuaWebsite\Domain\Records\BowClass::find($score->bow_class)->name }}</td>
                     				<td>{{ $score->round->name }}</td>
                     				<td>{{ $score->total_score }} <span class="col-grey">/ {{ $score->round->max_score }}</span></td>
                     				<td class="hidden-sm hidden-xs">@include('components.progress', ['value' => round(($score->total_score/$score->round->max_score)*100), 'classes' => 'bg-deep-orange'])</td>
