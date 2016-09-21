@@ -20,6 +20,35 @@
     </div>
 
     <div class="block-header">
+        <h2>SCORE STATISTICS</h2>
+    </div>
+
+    <div class="row clearfix">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="card">
+                <div class="header">
+                    <h2>Bow Classes
+                    <small>Number of scores recorded for each bow class</small></h2>
+                </div>
+                <div class="body">
+                    @include('components.chart.donut', ['id' => 'bow_class', 'height' => 150, 'data' => $bow_class_popularity, 'label_property' => 'bow_class.name', 'value_property' => 'count'])
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="card">
+                <div class="header">
+                    <h2>Rounds
+                        <small>Number of scores recorded for each round</small></h2>
+                </div>
+                <div class="body">
+                    @include('components.chart.donut', ['id' => 'round', 'height' => 150, 'data' => $round_popularity, 'label_property' => 'name', 'value_property' => 'count'])
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="block-header">
         <h2>CLUB RECORDS</h2>
     </div>
 

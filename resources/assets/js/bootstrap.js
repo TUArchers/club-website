@@ -8,9 +8,10 @@
 /**
  * Register plugins
  */
-window.Waves = require('node-waves');
-require('sweetalert');
+window.Waves  = require('node-waves');
 window.moment = require('moment');
+window.Chart  = require('chart.js');
+require('sweetalert');
 
 /**
  * Register jQuery plugins

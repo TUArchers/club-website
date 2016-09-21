@@ -3,9 +3,10 @@
 namespace TuaWebsite\Http\Controllers\Admin;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use TuaWebsite\Domain\Identity\User;
+use TuaWebsite\Domain\Records\BowClass;
 use TuaWebsite\Domain\Records\Round;
 use TuaWebsite\Domain\Records\Score;
 use TuaWebsite\Http\Controllers\Controller;
@@ -31,22 +32,23 @@ class ScoresController extends Controller
         $months_passed = 9 - Carbon::now()->month;
         $year_start    = Carbon::now()->subMonths($months_passed)->startOfMonth();
 
+        // Get chart data
+        $bow_class_popularity = $this->bowStylePopularity();
+        $round_popularity     = $this->roundPopularity();
+
         // Get the period counts
         $yearly_scores  = $this->scoresRecordedSince($year_start);
         $monthly_scores = $this->scoresRecordedSince(Carbon::now()->startOfMonth());
         $weekly_scores  = $this->scoresRecordedSince(Carbon::now()->startOfWeek());
 
         // Get club records
-        $records = new Collection();
-        foreach(Round::all() as $round){
-            $score = $this->highScoreForRound($round);
+        $records = Round::all()->map(function($round){
+            return $this->highScoreForRound($round)?: null;
+        })->reject(function($score){
+            return empty($score);
+        });
 
-            if($score){
-                $records->add($score);
-            }
-        }
-
-        return view('admin.scores.index', compact('yearly_scores', 'monthly_scores', 'weekly_scores', 'records'));
+        return view('admin.scores.index', compact('bow_class_popularity', 'round_popularity', 'yearly_scores', 'monthly_scores', 'weekly_scores', 'records'));
     }
 
     /**
@@ -58,7 +60,7 @@ class ScoresController extends Controller
     {
         $users       = User::all();
         $rounds      = Round::all();
-        $bow_classes = $this->getBowClasses();
+        $bow_classes = BowClass::all();
 
         return view('admin.scores.create', compact('users', 'rounds', 'bow_classes'));
     }
@@ -83,24 +85,49 @@ class ScoresController extends Controller
 
     // Internals ----
     /**
+     * @param Carbon $start
+     * @param Carbon $end
+     *
      * @return Collection
      */
-    private function getBowClasses()
+    private function bowStylePopularity(Carbon $start = null, Carbon $end = null)
     {
-        $collection = new Collection();
-        $classes = [
-            ['id' => 'C', 'name' => 'Compound'],
-            ['id' => 'R', 'name' => 'Recurve'],
-            ['id' => 'B', 'name' => 'Barebow'],
-            ['id' => 'L', 'name' => 'Longbow'],
-            ['id' => 'T', 'name' => 'Traditional'],
-        ];
+        $query = \DB::table('scores')->select(['bow_class', \DB::raw('count(*) as count')]);
 
-        foreach ($classes as $class){
-            $collection->add((object) $class);
+        if(!is_null($start)){
+            $query->where('shot_at', '>=', $start);
+        }
+        if(!is_null($end)){
+            $query->where('shot_at', '>=', $end);
         }
 
-        return $collection;
+        $results = $query->groupBy('bow_class')->get();
+
+        return $results->map(function($result){
+            $result->bow_class = BowClass::find($result->bow_class);
+            return $result;
+        });
+    }
+
+    /**
+     * @param Carbon $start
+     * @param Carbon $end
+     *
+     * @return Collection
+     */
+    private function roundPopularity(Carbon $start = null, Carbon $end = null)
+    {
+        $query = \DB::table('scores')->select(['rounds.name', \DB::raw('count(*) as count')])
+            ->leftJoin('rounds', 'scores.round_id', '=', 'rounds.id');
+
+        if(!is_null($start)){
+            $query->where('shot_at', '>=', $start);
+        }
+        if(!is_null($end)){
+            $query->where('shot_at', '>=', $end);
+        }
+
+        return $query->groupBy('rounds.name')->get();
     }
 
     /**
