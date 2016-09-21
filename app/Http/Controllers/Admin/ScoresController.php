@@ -42,14 +42,10 @@ class ScoresController extends Controller
         $monthly_scores = $this->scoresRecordedSince(Carbon::now()->startOfMonth());
         $weekly_scores  = $this->scoresRecordedSince(Carbon::now()->startOfWeek());
 
-        // Get club records
-        $records = Round::all()->map(function($round){
-            return $this->highScoreForRound($round)?: null;
-        })->reject(function($score){
-            return empty($score);
-        });
+        // Get recent scores
+        $recent_scores = $this->recentScores();
 
-        return view('admin.scores.index', compact('bow_class_popularity', 'round_popularity', 'all_scores', 'yearly_scores', 'monthly_scores', 'weekly_scores', 'records'));
+        return view('admin.scores.index', compact('bow_class_popularity', 'round_popularity', 'all_scores', 'yearly_scores', 'monthly_scores', 'weekly_scores', 'recent_scores'));
     }
 
     /**
@@ -142,12 +138,12 @@ class ScoresController extends Controller
     }
 
     /**
-     * @param Round $round
-     *
-     * @return Score|null
+     * @return Collection|Score[]
      */
-    private function highScoreForRound(Round $round)
+    private function recentScores()
     {
-        return Score::where('round_id', '=', $round->id)->orderBy('total_score', 'desc')->first();
+        return Score::orderBy('shot_at', 'desc')
+            ->take(5)
+            ->get();
     }
 }
