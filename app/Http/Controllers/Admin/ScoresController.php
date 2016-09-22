@@ -98,7 +98,7 @@ class ScoresController extends Controller
             $query->where('shot_at', '>=', $end);
         }
 
-        $results = $query->groupBy('bow_class')->get();
+        $results = $query->groupBy('bow_class')->orderBy('bow_class', 'asc')->get();
 
         return $results->map(function($result){
             $result->bow_class = BowClass::find($result->bow_class);
@@ -124,7 +124,7 @@ class ScoresController extends Controller
             $query->where('shot_at', '>=', $end);
         }
 
-        return $query->groupBy('rounds.name')->get();
+        return $query->groupBy('rounds.name')->orderBy('rounds.name', 'asc')->get();
     }
 
     /**
