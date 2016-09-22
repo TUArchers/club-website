@@ -55,21 +55,21 @@
             </ul>
         </li>
 
-        {{--<!--Events-->--}}
-        {{--<li>--}}
-            {{--<a href="javascript:void(0);" class="menu-toggle">--}}
-                {{--<i class="material-icons">event</i>--}}
-                {{--<span>Events</span>--}}
-            {{--</a>--}}
-            {{--<ul class="ml-menu">--}}
-                {{--<li>--}}
-                    {{--<a href="{{ url('/admin/events') }}">View Calendar</a>--}}
-                {{--</li>--}}
-                {{--<li>--}}
-                    {{--<a href="{{ url('/admin/events/add') }}">Plan Event</a>--}}
-                {{--</li>--}}
-            {{--</ul>--}}
-        {{--</li>--}}
+        <!--Events-->
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle">
+                <i class="material-icons">event</i>
+                <span>Events</span>
+            </a>
+            <ul class="ml-menu">
+                <li>
+                    <a href="{{ route('admin.events.index') }}">View Schedule</a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.events.create') }}">Plan Event</a>
+                </li>
+            </ul>
+        </li>
 
         {{--<!--News-->--}}
         {{--<li>--}}

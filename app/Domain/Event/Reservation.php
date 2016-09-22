@@ -67,7 +67,7 @@ class Reservation extends Model
      */
     public function getIsConfirmedAttribute()
     {
-        return !is_null($this->comfirmed_at);
+        return !is_null($this->confirmed_at);
     }
 
     /**

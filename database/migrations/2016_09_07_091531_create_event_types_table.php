@@ -15,8 +15,8 @@ class CreateEventTypesTable extends Migration
 
             $table->string('name');
             $table->string('slug')->unique();
-            $table->string('colour_hex')->default('7f8c8d');
-            $table->string('icon_name')->default('icon-calendar');
+            $table->string('colour')->default('grey');
+            $table->string('icon_name')->default('event');
         });
 
         $this->populate();

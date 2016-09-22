@@ -16,9 +16,9 @@ class EventsTableSeeder extends Seeder
     private $events = [
         [
             'type_id'       => 1,
-            'name'          => 'Session A (20th Sep @ 5pm)',
-            'starts_at'     => '2016-09-20 17:00:00',
-            'ends_at'       => '2016-09-20 17:40:00',
+            'name'          => 'Session A',
+            'starts_at'     => '2016-10-04 17:00:00',
+            'ends_at'       => '2016-10-04 17:40:00',
             'location_name' => 'T6.10 (Middlesbrough Tower)',
             'capacity'      => 24,
             'invite_only'   => false,
@@ -26,9 +26,9 @@ class EventsTableSeeder extends Seeder
         ],
         [
             'type_id'       => 1,
-            'name'          => 'Session B (20th Sep @ 6pm)',
-            'starts_at'     => '2016-09-20 18:00:00',
-            'ends_at'       => '2016-09-20 18:40:00',
+            'name'          => 'Session B',
+            'starts_at'     => '2016-10-04 18:00:00',
+            'ends_at'       => '2016-10-04 18:40:00',
             'location_name' => 'T6.10 (Middlesbrough Tower)',
             'capacity'      => 24,
             'invite_only'   => false,
@@ -36,9 +36,9 @@ class EventsTableSeeder extends Seeder
         ],
         [
             'type_id'       => 1,
-            'name'          => 'Session C (20th Sep @ 7pm)',
-            'starts_at'     => '2016-09-20 19:00:00',
-            'ends_at'       => '2016-09-20 19:40:00',
+            'name'          => 'Session C',
+            'starts_at'     => '2016-10-04 19:00:00',
+            'ends_at'       => '2016-10-04 19:40:00',
             'location_name' => 'T6.10 (Middlesbrough Tower)',
             'capacity'      => 24,
             'invite_only'   => false,

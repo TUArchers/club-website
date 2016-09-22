@@ -1,38 +1,38 @@
 <?php
 return [
     [
-        'name'       => 'Taster Session',
-        'colour_hex' => '2ecc71', # Emerald
-        'icon_name'  => 'icon-calendar'
+        'name'      => 'Taster Session',
+        'colour'    => 'green',
+        'icon_name' => 'event'
     ],
     [
-        'name'       => 'Beginner Course',
-        'colour_hex' => '3498db', # Peter River
-        'icon_name'  => 'icon-calendar'
+        'name'      => 'Beginner Course',
+        'colour'    => 'blue',
+        'icon_name' => 'event'
     ],
     [
-        'name'       => 'Club Shoot',
-        'colour_hex' => 'e67e22', # Carrot
-        'icon_name'  => 'icon-calendar'
+        'name'      => 'Club Shoot',
+        'colour'    => 'orange',
+        'icon_name' => 'event'
     ],
     [
-        'name'       => 'Social Event',
-        'colour_hex' => '34495e', # Wet Asphalt
-        'icon_name'  => 'icon-calendar'
+        'name'      => 'Social Event',
+        'colour'    => 'indigo',
+        'icon_name' => 'event'
     ],
     [
-        'name'       => 'Team Training',
-        'colour_hex' => '1abc9c', # Turquoise
-        'icon_name'  => 'icon-calendar'
+        'name'      => 'Team Training',
+        'colour'    => 'teal',
+        'icon_name' => 'event'
     ],
     [
-        'name'       => 'Competition',
-        'colour_hex' => '9b59b6', # Amethyst
-        'icon_name'  => 'icon-calendar'
+        'name'      => 'Competition',
+        'colour'    => 'purple',
+        'icon_name' => 'event'
     ],
     [
-        'name'       => 'Club Meeting',
-        'colour_hex' => 'e74c3c', # Alizarin
-        'icon_name'  => 'icon-calendar'
+        'name'      => 'Club Meeting',
+        'colour'    => 'red',
+        'icon_name' => 'event'
     ],
 ];

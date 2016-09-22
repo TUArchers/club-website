@@ -150,15 +150,15 @@
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="52" parent="9" name="colour_hex">
+    <column id="52" parent="9" name="colour">
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
-      <default-expression>&apos;7f8c8d&apos;</default-expression>
+      <default-expression>&apos;grey&apos;</default-expression>
     </column>
     <column id="53" parent="9" name="icon_name">
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
-      <default-expression>&apos;icon-calendar&apos;</default-expression>
+      <default-expression>&apos;event&apos;</default-expression>
     </column>
     <index id="54" parent="9" name="event_types_slug_unique">
       <columns>slug</columns>

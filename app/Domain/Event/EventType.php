@@ -19,7 +19,7 @@ class EventType extends Model
     protected $fillable = [
         'name',
         'slug',
-        'colour_hex',
+        'colour',
         'icon_name',
     ];
 

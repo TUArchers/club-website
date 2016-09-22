@@ -107,11 +107,28 @@ Route::resource('admin/rounds', 'Admin\RoundsController', [
 ]);
 
 # Events
-//Route::post('/admin/events');
-//Route::post('/admin/events/{eventId}');
-//Route::get('/admin/events');
-//Route::get('/admin/events/{eventId}');
-//Route::post('/admin/events/{eventId}/cancel');
+Route::resource('admin/events', 'Admin\EventsController', [
+    'names' => [
+        'index'   => 'admin.events.index',
+        'create'  => 'admin.events.create',
+        'store'   => 'admin.events.store',
+        'show'    => 'admin.events.show',
+        'edit'    => 'admin.events.edit',
+        'update'  => 'admin.events.update',
+        'destroy' => 'admin.events.destroy',
+    ]
+]);
+Route::resource('admin/event-types', 'Admin\EventTypesController', [
+    'names' => [
+        'index'   => 'admin.event-types.index',
+        'create'  => 'admin.event-types.create',
+        'store'   => 'admin.event-types.store',
+        'show'    => 'admin.event-types.show',
+        'edit'    => 'admin.event-types.edit',
+        'update'  => 'admin.event-types.update',
+        'destroy' => 'admin.event-types.destroy',
+    ]
+]);
 
 # News
 //Route::post('/admin/articles', 'Admin\NewsController@publishArticle');
