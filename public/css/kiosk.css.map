@@ -1,0 +1,1 @@
+{"version":3,"sources":["kiosk.scss"],"names":[],"mappings":"AAAA;EAGM,8BAA8B;EAC9B,YAAY,EACb","file":"kiosk.css","sourcesContent":[".wizard {\r\n  .content {\r\n    .body {\r\n      position: absolute !important;\r\n      width: 100%;\r\n    }\r\n  }\r\n}"],"sourceRoot":"/source/"}

@@ -22,9 +22,12 @@ elixir(function(mix){
 
     // Compile CSS
     mix.sass('main.scss');
+    mix.sass('kiosk.scss');
 
     // Copy third-party JS
     mix.copy('node_modules/adminbsb-materialdesign/js/admin.js', 'public/js/admin.js');
+    mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-steps/jquery.steps.js', 'public/js/jquery-steps.js');
+    mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-validation/jquery.validate.js', 'public/js/jquery-validate.js');
 
     // Compile JS
     mix.webpack('main.js');

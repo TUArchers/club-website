@@ -18,6 +18,7 @@ require('sweetalert');
  */
 require('jquery-slimscroll');
 require('jquery-countto');
+//require('jquery-validation');
 
 /**
  * Register Bootstrap plugins
