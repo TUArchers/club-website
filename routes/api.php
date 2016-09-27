@@ -14,3 +14,6 @@
 //Route::get('/user', function (Request $request) {
 //    return $request->user();
 //})->middleware('auth:api');
+
+Route::post('/tasters/{eventId}/reservations', 'Kiosk\TastersController@storeReservation');
+Route::put('/tasters/{eventId}/reservations/{reservationId}', 'Kiosk\TastersController@updateReservation');

@@ -1,8 +1,62 @@
 .wizard {
+  .steps {
+    .done {
+      a {
+        background-color: rgba(255, 152, 0, 0.5) !important;
+      }
+      a:hover {
+        background-color: rgba(255, 152, 0, 0.6) !important;
+      }
+    }
+
+    .current{
+      a{
+        background-color: #FF9800 !important;
+      }
+      a:hover{
+        background-color: #FF9800 !important;
+      }
+    }
+
+    .error {
+      a{
+        background-color: #F44336 !important;
+      }
+      a:hover{
+        background-color: #F44336 !important;
+      }
+    }
+  }
+
   .content {
+    min-height: 580px;
+
+    .info-box{
+      overflow-y: hidden;
+    }
+
     .body {
       position: absolute !important;
       width: 100%;
     }
   }
+
+  .actions{
+    a {
+      background-color: rgba(255, 152, 0, 1);
+    }
+    a:hover {
+      background-color: rgba(255, 152, 0, 1);
+    }
+  }
+
+  ul {
+    li.list-group-item {
+      padding: 10px 15px;
+    }
+  }
+}
+
+.info-box-selectable {
+  cursor: pointer;
 }

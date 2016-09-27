@@ -1,5 +1,39 @@
-.wizard .content .body {
-  position: absolute !important;
-  width: 100%; }
+.wizard .steps .done a {
+  background-color: rgba(255, 152, 0, 0.5) !important; }
+
+.wizard .steps .done a:hover {
+  background-color: rgba(255, 152, 0, 0.6) !important; }
+
+.wizard .steps .current a {
+  background-color: #FF9800 !important; }
+
+.wizard .steps .current a:hover {
+  background-color: #FF9800 !important; }
+
+.wizard .steps .error a {
+  background-color: #F44336 !important; }
+
+.wizard .steps .error a:hover {
+  background-color: #F44336 !important; }
+
+.wizard .content {
+  min-height: 580px; }
+  .wizard .content .info-box {
+    overflow-y: hidden; }
+  .wizard .content .body {
+    position: absolute !important;
+    width: 100%; }
+
+.wizard .actions a {
+  background-color: #ff9800; }
+
+.wizard .actions a:hover {
+  background-color: #ff9800; }
+
+.wizard ul li.list-group-item {
+  padding: 10px 15px; }
+
+.info-box-selectable {
+  cursor: pointer; }
 
 /*# sourceMappingURL=kiosk.css.map */
