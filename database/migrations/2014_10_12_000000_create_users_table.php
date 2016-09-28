@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('tusc_id', 8)->nullable()->unique();
             $table->boolean('is_student')->default(true);
             $table->string('agb_id')->nullable()->unique();
-            $table->string('phone_number', 12);
+            $table->string('phone_number', 20);
             $table->string('email_address')->unique();
             $table->boolean('email_address_verified')->default(false);
 
