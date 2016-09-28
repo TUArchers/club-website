@@ -15,6 +15,11 @@
                         <h3>Session Time</h3>
                         <fieldset>
                             <h4>Choose a Session Time</h4>
+                            <div class="row clearfix">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    Pick a date and time to come along for a free taster session.
+                                </div>
+                            </div>
                             <input type="hidden" id="event_id_input" name="event_id">
                             <input type="hidden" id="reservation_id_input" name="reservation_id">
 
@@ -70,6 +75,11 @@
                         <fieldset>
                             <h4>Tell Us About You</h4>
                             <div class="row clearfix">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    We need this to make it easier for us to register you when you come to your session.
+                                </div>
+                            </div>
+                            <div class="row clearfix">
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     @include('components.form.input.text', ['name' => 'attendee[first_name]', 'id' => 'attendee_first_name', 'label' => 'First Name *', 'required' => true])
                                 </div>
@@ -109,7 +119,13 @@
                         <!--Enter Extra Details-->
                         <h3>Research Questions</h3>
                         <fieldset>
+
                             <h4>Research Stuff</h4>
+                            <div class="row clearfix">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                	This bit is for research purposes only. While we'd love it if you could fill this in, you can skip it if you want!
+                                </div>
+                            </div>
                             <div class="row clearfix">
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     @include('components.form.select', ['name' => 'demographics[school]', 'id' => 'demographics_school', 'label' => 'Select School', 'options' => $schools])
@@ -132,6 +148,11 @@
                         <h3>Confirm</h3>
                         <fieldset>
                             <h4>Check Everything's Correct</h4>
+                            <div class="row clearfix">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    Just a quick check to make sure everything looks good.
+                                </div>
+                            </div>
                             <div class="row clearfix">
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     <h5>Your Taster Session</h5>
