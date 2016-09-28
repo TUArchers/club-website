@@ -15,5 +15,7 @@
 //    return $request->user();
 //})->middleware('auth:api');
 
+Route::post('/contact', 'PublicPages\ContactController@postContact')->name('api.contact');
+
 Route::post('/tasters/{eventId}/reservations', 'Kiosk\TastersController@storeReservation');
 Route::put('/tasters/{eventId}/reservations/{reservationId}', 'Kiosk\TastersController@updateReservation');

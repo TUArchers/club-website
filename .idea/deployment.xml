@@ -7,6 +7,21 @@
           <mappings>
             <mapping deploy="/2016" local="$PROJECT_DIR$" web="/" />
           </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/.idea" />
+            <excludedPath local="true" path="$PROJECT_DIR$/node_modules" />
+            <excludedPath local="true" path="$PROJECT_DIR$/.env" />
+            <excludedPath local="true" path="$PROJECT_DIR$/.phpstorm.meta.php" />
+            <excludedPath local="true" path="$PROJECT_DIR$/phpunit.xml" />
+            <excludedPath local="true" path="$PROJECT_DIR$/_ide_helper.php" />
+            <excludedPath local="true" path="$PROJECT_DIR$/gulpfile.js" />
+            <excludedPath local="true" path="$PROJECT_DIR$/docker-compose.yml" />
+            <excludedPath local="true" path="$PROJECT_DIR$/server.php" />
+            <excludedPath local="true" path="$PROJECT_DIR$/tests" />
+            <excludedPath local="true" path="$PROJECT_DIR$/.gitattributes" />
+            <excludedPath local="true" path="$PROJECT_DIR$/.gitignore" />
+            <excludedPath path="/2016/.env" />
+          </excludedPaths>
         </serverdata>
       </paths>
     </serverData>

@@ -1,0 +1,65 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:400,300);
+html, body {
+  height: 100%;
+  background-color: #1c1c1c; }
+
+#cover {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: #ffffff url("../img/background-home.jpg") no-repeat center;
+  background-size: cover; }
+
+.full-height {
+  height: 100%; }
+
+.full-width {
+  width: 100%; }
+
+.vertical-center {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center; }
+
+.sticky-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 35px;
+  color: #ffffff; }
+
+.footer-links {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: 1.2em;
+  margin-bottom: 10px; }
+
+.footer-links a {
+  color: #ffffff; }
+
+.logo-front {
+  height: 225px;
+  -webkit-filter: drop-shadow(5px 5px 5px #222);
+  filter: drop-shadow(5px 5px 5px #222); }
+
+.push-down {
+  margin-top: 75px; }
+
+.title-front {
+  margin-left: -15px;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+  line-height: 0.9em;
+  font-size: 3.2em;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  -webkit-filter: drop-shadow(5px 5px 5px #222);
+  filter: drop-shadow(5px 5px 5px #222); }
+
+.title-front.thin {
+  font-weight: 300; }
+
+/*# sourceMappingURL=home.css.map */
