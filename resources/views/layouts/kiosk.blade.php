@@ -26,6 +26,18 @@
 
 <body class="theme-orange ls-closed">
 
+<!--Branding-->
+<div class="navbar bg-grey">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="#" class="navbar-brand">
+                <img src="http://freshers.tuarchers.org.uk/assets/images/tua-club-logo.svg" alt="Teesside University Archers" class="navbar-logo m-t--15">
+                Teesside University Archers
+            </a>
+        </div>
+    </div>
+</div>
+
 <!--Content-->
 <section class="content">
     <div class="container-fluid">
