@@ -21,6 +21,6 @@
         <h2>MORE EVENTS</h2>
     </div>
     <div class="row clearfix">
-        @each('admin.events._event', $events_all, 'event', 'admin.events._empty')
+        @each('admin.events._event', $events_future, 'event', 'admin.events._empty')
     </div>
 @endsection

@@ -19,3 +19,5 @@ Route::post('/contact', 'PublicPages\ContactController@postContact')->name('api.
 
 Route::post('/tasters/{eventId}/reservations', 'Kiosk\TastersController@storeReservation');
 Route::put('/tasters/{eventId}/reservations/{reservationId}', 'Kiosk\TastersController@updateReservation');
+
+Route::patch('/events/{eventId}/reservations/{reservationId}', 'Admin\EventsController@markReservation')->name('api.reservation.patch');

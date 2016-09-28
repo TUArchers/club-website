@@ -3,8 +3,10 @@
 namespace TuaWebsite\Http\Controllers\Admin;
 
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use TuaWebsite\Domain\Event\Event;
+use TuaWebsite\Domain\Event\Reservation;
 use TuaWebsite\Http\Controllers\Controller;
 
 /**
@@ -17,6 +19,7 @@ use TuaWebsite\Http\Controllers\Controller;
  */
 class EventsController extends Controller
 {
+    // Web Actions ----
     /**
      * Display a listing of the resource.
      *
@@ -24,15 +27,15 @@ class EventsController extends Controller
      */
     public function index()
     {
-        $now       = Carbon::now();
-        $next_week = Carbon::now()->next(Carbon::MONDAY)->startOfWeek();
-        $future    = (clone $next_week)->addWeek();
+        $today    = Carbon::today();
+        $tomorrow = Carbon::today()->addDay();
+        $weekEnd  = Carbon::today()->endOfWeek();
 
-        $events_today = Event::whereDate('starts_at', $now->day)->get();
-        $events_week  = Event::whereBetween('starts_at', [$next_week, $future])->get();
-        $events_all   = Event::where('starts_at', '>=', $future)->get();
+        $events_today = Event::whereDate('starts_at', $today)->get();
+        $events_week  = Event::whereBetween('starts_at', [$tomorrow, $weekEnd])->get();
+        $events_future = Event::where('starts_at', '>', $weekEnd)->get();
 
-        return view('admin.events.index', compact('events_today', 'events_week', 'events_all'));
+        return view('admin.events.index', compact('events_today', 'events_week', 'events_future'));
     }
 
     /**
@@ -102,5 +105,30 @@ class EventsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    // API Actions ----
+    /**
+     * @param Request $request
+     * @param int $eventId
+     * @param int $reservationId
+     *
+     * @return JsonResponse
+     */
+    public function markReservation(Request $request, $eventId, $reservationId)
+    {
+        /** @var Reservation $reservation */
+        $reservation = Reservation::find($reservationId);
+
+        if($request->has('used')){
+            $reservation->markUsed();
+            $reservation->save();
+        }
+        elseif($request->has('cancelled')){
+            $reservation->cancel();
+            $reservation->save();
+        }
+
+        return response()->json([], 204);
     }
 }

@@ -5,7 +5,7 @@
         </div>
         <div class="content">
             <div class="text truncate">{{ strtoupper($event->name) }} ({{ $event->type->name }})</div>
-            <div class="number">{{ $event->starts_at->format('g:i A') }}</div>
+            <div class="number">{{ $event->starts_at->format('D @ g:i A') }}</div>
         </div>
     </div>
 </div>

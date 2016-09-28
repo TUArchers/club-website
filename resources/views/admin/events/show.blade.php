@@ -64,29 +64,23 @@
                 <div class="body">
                     <ul class="list-group">
                         @foreach($reservations as $reservation)
-                            @if($reservation->is_confirmed)
-                                <li class="list-group-item">
-                                    <i class="material-icons media-middle">person</i> {{ $reservation->attendee->full_name }}
+                            <li class="list-group-item">
+                                <i class="material-icons media-middle">person</i> {{ $reservation->attendee->full_name }}
+                                @if($reservation->is_used)
                                     <span class="badge bg-green">ATTENDED</span>
-                                </li>
-                            @elseif($reservation->is_cancelled)
-                                <li class="list-group-item">
-                                    <i class="material-icons media-middle">person</i> {{ $reservation->attendee->full_name }}
+                                @elseif($reservation->is_cancelled)
                                     <span class="badge bg-red">CANCELLED</span>
-                                </li>
-                            @else
-                                <li class="list-group-item">
-                                    <i class="material-icons media-middle">person</i> {{ $reservation->attendee->full_name }}
+                                @else
                                     <span class="pull-right">
-                                        <a href="#" class="col-black m-r-10">
+                                        <a href="javascript:void(0);" class="col-black m-r-10 mark-reservation" data-event-id="{{ $event->id }}" data-reservation-id="{{ $reservation->id }}" data-response="used">
                                             <i class="material-icons">check</i>
                                         </a>
-                                        <a href="#" class="col-black">
+                                        <a href="javascript:void(0);" class="col-black mark-reservation" data-event-id="{{ $event->id }}" data-reservation-id="{{ $reservation->id }}" data-response="cancelled">
                                             <i class="material-icons">close</i>
                                         </a>
                                     </span>
-                                </li>
-                            @endif
+                                @endif
+                            </li>
                         @endforeach
                     </ul>
                 </div>
@@ -128,3 +122,30 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(function(){
+
+        $('body').on('click', '.mark-reservation', function(e){
+            var action        = $(e.target).closest('a');
+            var eventId       = action.data('event-id');
+            var reservationId = action.data('reservation-id');
+            var base          = '{{ url('/') }}';
+
+            var dataObj = {};
+            dataObj[action.data('response')] = true;
+
+            $.ajax({
+                url: base + '/api/events/' + eventId + '/reservations/' + reservationId,
+                method: 'PATCH',
+                data: dataObj,
+                success: function(){
+                    location.reload()
+                }
+            });
+        });
+
+    });
+</script>
+@endpush;
