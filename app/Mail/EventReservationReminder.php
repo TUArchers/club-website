@@ -2,7 +2,6 @@
 
 namespace TuaWebsite\Mail;
 
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -44,11 +43,14 @@ class EventReservationReminder extends Mailable
         /** @var Event $event */
         $event = $this->reservation->event;
 
-        /** @var Carbon $starts_at */
-        $starts_at = $event->starts_at;
-        $arrive_at = $starts_at->subMinutes(15);
-        $venue     = $event->location_name;
+        $first_name  = $this->reservation->attendee->first_name;
+        $reference   = 'TUA-E' . $event->id . '-A' . $this->reservation->attendee->id . '-R' . $this->reservation->id;
 
-        return $this->view('mail.events.reminder', compact('venue', 'arrive_at', 'starts_at'));
+        $start_time  = $event->starts_at->format('g:ia');
+        $start_day   = $event->starts_at->format('j');
+        $start_month = $event->starts_at->format('F');
+        $location    = $event->location_name;
+
+        return $this->view('mail.events.reminder', compact('first_name', 'reference', 'start_time', 'start_day', 'start_month', 'location'));
     }
 }

@@ -32,6 +32,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('calendar:clear-expiries')->everyMinute();
+
+        $schedule->command('queue:restart')->everyTenMinutes()->then(function() use($schedule){
+            $schedule->command('queue:work --timeout=0')->everyTenMinutes();
+        });
     }
 
     /**

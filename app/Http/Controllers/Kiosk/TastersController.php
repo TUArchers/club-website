@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
 use TuaWebsite\Domain\Event\Event;
 use TuaWebsite\Domain\Event\EventType;
 use TuaWebsite\Domain\Event\Reservation;
+use TuaWebsite\Domain\Identity\Demographic;
 use TuaWebsite\Domain\Identity\Gender;
 use TuaWebsite\Domain\Identity\Role;
 use TuaWebsite\Domain\Identity\User;
@@ -126,6 +127,14 @@ class TastersController extends Controller
         $user = $this->makeUserAccount(
             array_filter($request->get('attendee'))
         );
+
+        // If demographics were provided, store them too
+        if($request->has('demographics') && !empty($request->get('demographics'))){
+            $demographic_data            = $request->get('demographics');
+            $demographic_data['user_id'] = $user->id;
+
+            Demographic::create($demographic_data);
+        }
 
         // Confirm the reservation
         $reservation->confirm($user);

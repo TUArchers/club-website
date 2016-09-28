@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="3e0abd84-cb72-4fda-8363-6cf8661df21f" name="Teesside University Archers" url="http://tuarchers.org.uk">
+        <fileTransfer host="ftp.tuarchers.org.uk" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

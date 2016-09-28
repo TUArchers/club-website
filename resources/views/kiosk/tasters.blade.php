@@ -22,7 +22,7 @@
                                 <h4 class="card-inside-title">{{ $title }}</h4>
                                 <div class="row clearfix">
                                     @foreach($events as $event)
-                                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
                                             @if($event->is_full)
                                                 <div class="info-box bg-grey">
                                                     <div class="icon bg-grey">
