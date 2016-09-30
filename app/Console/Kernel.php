@@ -3,6 +3,7 @@ namespace TuaWebsite\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use TuaWebsite\Console\Commands\MoveEventReservation;
 use TuaWebsite\Console\Commands\RemoveExpiredEventReservations;
 
 /**
@@ -21,7 +22,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        RemoveExpiredEventReservations::class
+        RemoveExpiredEventReservations::class,
+        MoveEventReservation::class
     ];
 
     /**
