@@ -20,7 +20,7 @@
                                                     <td valign="top" class="textContent" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #404040;font-family: Helvetica;font-size: 16px;line-height: 125%;text-align: Left;padding-bottom: 20px;">
                                                         <h3 style="margin: 0;padding: 0;color: #202020;font-family: Helvetica;font-size: 20px;line-height: 125%;text-align: Left;">{{ $title }}</h3>
                                                         <br>
-                                                        {{ $body }}
+                                                        {!! $body !!}
                                                     </td>
                                                 </tr>
                                                 <tr>
