@@ -98,11 +98,12 @@
                         method: 'POST',
                         data: formData,
                         success: function(response){
-                            $('#log_in_submit').show();
-                            $('#log_in_spinner').hide();
                             window.location.href = response.redirect;
                         },
                         error: function(xhr){
+                            $('#log_in_submit').show();
+                            $('#log_in_spinner').hide();
+
                             $form.closest('.card').animateCss('shake');
                             $form.find('.msg').first().text(xhr.responseJSON.message).addClass('col-red')
                         }
