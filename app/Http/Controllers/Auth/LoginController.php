@@ -2,30 +2,25 @@
 
 namespace TuaWebsite\Http\Controllers\Auth;
 
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Lang;
 use TuaWebsite\Http\Controllers\Controller;
 
+/**
+ * LoginController
+ *
+ * @package TuaWebsite\Http\Controllers\Auth
+ * @author
+ * @version 0.1.0
+ * @since   0.1.0
+ */
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
-    use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login / registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/';
+    use ThrottlesLogins;
 
     /**
      * Create a new controller instance.
@@ -33,5 +28,171 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+    }
+
+    // Actions ----
+    /**
+     * Show the application's login form.
+     *
+     * @return Response
+     */
+    public function showLoginForm()
+    {
+        return view('auth.login');
+    }
+
+    /**
+     * Handle a login request to the application.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function login(Request $request)
+    {
+        // Validate the data
+        $this->validateLogin($request);
+
+        // Throttle login attempts
+        if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
+
+        // Grab the credentials
+        $credentials = $request->only($this->username(), 'password');
+
+        // Attempt the login
+        if ($this->guard()->attempt($credentials, $request->has('remember'))) {
+            return $this->sendLoginResponse($request);
+        }
+
+        // If it failed, increment the attempts
+        $this->incrementLoginAttempts($request);
+
+        return $this->sendFailedLoginResponse($request);
+    }
+
+    /**
+     * Log the user out of the application.
+     *
+     * @param  Request  $request
+     *
+     * @return Response|JsonResponse
+     */
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->flush();
+        $request->session()->regenerate();
+
+        if($request->ajax()){
+            return response()->json([], 204);
+        }
+
+        return redirect('/');
+    }
+
+    // Internals ----
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     */
+    protected function guard()
+    {
+        return \Auth::guard();
+    }
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return 'email_address';
+    }
+
+    /**
+     * Validate the user login request.
+     *
+     * @param  Request  $request
+     */
+    private function validateLogin(Request $request)
+    {
+        $this->validate($request, [
+            $this->username() => 'required', 'password' => 'required',
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return RedirectResponse|JsonResponse
+     */
+    protected function sendLockoutResponse(Request $request)
+    {
+        $seconds = $this->limiter()->availableIn(
+            $this->throttleKey($request)
+        );
+
+        $message = Lang::get('auth.throttle', ['seconds' => $seconds]);
+
+        if($request->ajax()){
+            return response()->json([
+                'message' => $message
+            ], 429);
+        }
+
+        return redirect()->back()
+            ->withInput($request->only($this->username(), 'remember'))
+            ->withErrors([$this->username() => $message]);
+    }
+
+    /**
+     * Send the response after the user was authenticated.
+     *
+     * @param  Request  $request
+     *
+     * @return Response|JsonResponse
+     */
+    private function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        if($request->ajax()){
+            return response()->json([
+                'redirect' => \Session::pull('url.intended', route('admin.index'))
+            ], 200);
+        }
+
+        return redirect()->intended(route('admin.index'));
+    }
+
+    /**
+     * Get the failed login response instance.
+     *
+     * @param Request  $request
+     *
+     * @return RedirectResponse|JsonResponse
+     */
+    private function sendFailedLoginResponse(Request $request)
+    {
+        if($request->isXmlHttpRequest()){
+            return response()->json([
+                'message' => Lang::get('auth.failed')
+            ], 401);
+        }
+        else{
+            return redirect()->back()
+                ->withInput($request->only($this->username(), 'remember'))
+                ->withErrors([
+                    $this->username() => Lang::get('auth.failed'),
+                ]);
+        }
     }
 }

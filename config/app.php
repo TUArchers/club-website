@@ -178,6 +178,7 @@ return [
         TuaWebsite\Providers\EventServiceProvider::class,
         TuaWebsite\Providers\RouteServiceProvider::class,
         TuaWebsite\Providers\RepositoryProvider::class,
+        TuaWebsite\Providers\ComposerServiceProvider::class,
     ],
 
     /*

@@ -109,4 +109,12 @@ class User extends Authenticatable
     {
         return $this->full_name;
     }
+
+    // Authentication ----
+    /** @inheritDoc */
+    public function getAuthPassword()
+    {
+        return $this->password_hash;
+    }
+
 }

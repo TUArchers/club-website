@@ -23,17 +23,11 @@ Route::get('/contact', 'PublicPages\ContactController@contact');
 
 # Join
 Route::get('/tasters', 'Kiosk\TastersController@index');
-/*Route::get('/join', 'PublicPages\JoinController@showJoin');
-Route::get('/join/taster', 'PublicPages\JoinController@showChooseTaster');
-Route::post('/join/taster/reserve', 'PublicPages\JoinController@postCreateReservation');
-Route::post('/join/taster/reserve/confirm', 'PublicPages\JoinController@postConfirmReservation');
-Route::get('/join/taster/change/{attendeeId}', 'PublicPages\JoinController@showTasterBookingChangeForm');
-Route::post('/join/taster/change/confirm', 'PublicPages\JoinController@postConfirmTasterBookingChange');*/
 
-# Login
-Route::get('/login', 'Auth\LoginController@showLoginForm');
-Route::post('/login', 'Auth\LoginController@login');
-
+# Auth
+Route::get('/login', 'Auth\LoginController@showLoginForm')->name('auth.login.show');
+Route::post('/login', 'Auth\LoginController@login')->name('auth.login.attempt');
+Route::match(['post', 'get'], '/logout', 'Auth\LoginController@logout')->name('auth.logout.attempt');
 
 // Members' content
 # Profile
@@ -47,16 +41,6 @@ Route::post('/members/{userId}/scores', 'Members\ScoreController@submitScore');
 Route::get('/events');
 Route::get('/events/{eventId}');
 Route::post('/events/{eventId}/register');
-
-# News
-//Route::get('/news', 'Members\NewsController@showArticles');
-//Route::get('/news/article/{articleId}', 'Members\NewsController@showArticleDetails');
-//Route::post('/news/article/{articleId}/comments', 'Members\NewsController@submitComment');
-
-# Logout
-Route::post('/logout', 'Auth\LoginController@logout');
-Route::get('/logout', 'Auth\LoginController@logout');
-
 
 // Committee content ----
 # Dashboard
@@ -130,10 +114,3 @@ Route::resource('admin/event-types', 'Admin\EventTypesController', [
         'destroy' => 'admin.event-types.destroy',
     ]
 ]);
-
-# News
-//Route::post('/admin/articles', 'Admin\NewsController@publishArticle');
-//Route::post('/admin/articles/{articleId}', 'Admin\NewsController@editArticle');
-//Route::get('/admin/articles', 'Admin\NewsController@showArticles');
-//Route::get('/admin/articles/{articleId}', 'Admin\NewsController@showArticleDetails');
-//Route::post('/admin/articles/{articleId}/remove', 'Admin\NewsController@removeArticle');

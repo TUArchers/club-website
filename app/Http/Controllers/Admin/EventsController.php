@@ -19,6 +19,11 @@ use TuaWebsite\Http\Controllers\Controller;
  */
 class EventsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     // Web Actions ----
     /**
      * Display a listing of the resource.

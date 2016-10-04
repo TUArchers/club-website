@@ -1134,4 +1134,12 @@ body.stop-scrolling {
 .sidebar .user-info {
   background: url("../img/user-background-default.jpg") !important; }
 
+.login-page {
+  background-color: #222222 !important; }
+  .login-page .login-box .logo a {
+    font-size: 24px !important; }
+
+.input-group .form-line:after {
+  border-bottom: 2px solid #FF9800 !important; }
+
 /*# sourceMappingURL=main.css.map */

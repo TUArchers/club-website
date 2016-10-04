@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-GB">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -257,11 +257,11 @@
                 <!-- User Info -->
                 <div class="user-info">
                     <div class="image">
-                        <img src="{{ asset('img/user-profile-default.png') }}" width="48" height="48" alt="User" />
+                        <img src="{{ $user && $user->picture_url? $user->picture_url: asset('img/user-profile-default.png') }}" width="48" height="48" alt="User" />
                     </div>
                     <div class="info-container">
-                        <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>
-                        <div class="email">{{ 'john.doe@example.com' }}</div>
+                        <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ $user? $user->full_name:null }}</div>
+                        <div class="email">{{ $user? $user->email:null }}</div>
                         <div class="btn-group user-helper-dropdown">
                             <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                             <ul class="dropdown-menu pull-right">
