@@ -1,6 +1,6 @@
 <div class="menu">
     <ul class="list">
-        <li class="header">MAIN NAVIGATION</li>
+        <li class="header">COMMITTEE TOOLS</li>
         {{--TODO: Add active class to the active menu item--}}
 
         <!--Dashboard-->
