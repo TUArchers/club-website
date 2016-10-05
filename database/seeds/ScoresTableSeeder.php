@@ -62,13 +62,13 @@ class ScoresTableSeeder extends Seeder
     }
 
     /**
-     * @param string $full_name
+     * @param string $name
      *
      * @return int
      */
-    private function getUserId($full_name)
+    private function getUserId($name)
     {
-        $name       = explode(' ', $full_name);
+        $name       = explode(' ', $name);
         $first_name = array_shift($name);
         $last_name  = empty($name)? null: implode(' ', $name);
 
@@ -91,7 +91,7 @@ class ScoresTableSeeder extends Seeder
                 'role_id'       => 4,
                 'registered_at' => \Carbon\Carbon::now()
             ];
-            $user_data['email_address'] = sprintf('%s.%s@tuarchers.org.uk', $user_data['first_name'], $user_data['last_name']);
+            $user_data['email'] = sprintf('%s.%s@tuarchers.org.uk', $user_data['first_name'], $user_data['last_name']);
 
             $userId = DB::table('users')->insertGetId($user_data);
         }

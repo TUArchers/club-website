@@ -1,19 +1,28 @@
 <?php
-
 namespace TuaWebsite\Domain\Identity;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * Role
+ * Role Model
  *
  * @package TuaWebsite\Model\Identity
- * @author
+ * @author  James Drew <jdrew9@hotmail.co.uk>
  * @version 0.1.0
  * @since   0.1.0
+ *
+ * @property int                     $id
+ * @property string                  $name
+ * @property string                  $slug
+ * @property bool                    $has_full_access
+ * @property Carbon                  $created_at
+ * @property Carbon                  $updated_at
+ * @property Role                    $parent
+ * @property Collection|Permission[] $permissions
  */
 class Role extends Model
 {
@@ -31,11 +40,12 @@ class Role extends Model
         'updated_at'
     ];
 
+    /** @inheritdoc */
     public static function boot()
     {
         parent::boot();
 
-        static::deleting(function($role){
+        static::deleting(function(Role $role){
             $role->parent()->dissociate();
             $role->permissions()->detach();
         });
@@ -55,7 +65,7 @@ class Role extends Model
     /**
      * Get the permissions that have been directly assigned to this role
      *
-     * @return HasMany|Collection|Permission[]
+     * @return BelongsToMany|Collection|Permission[]
      */
     public function permissions()
     {
@@ -134,6 +144,5 @@ class Role extends Model
 
         return $inheritedPermissions->contains($permission);
     }
-
 
 }

@@ -89,6 +89,6 @@ class MoveEventReservation extends Command
         $reservation->event()->associate($newEvent);
         $reservation->save();
 
-        $this->info($user->full_name . ' has been moved from ' . $event->name . ' to ' . $newEvent->name);
+        $this->info($user->name . ' has been moved from ' . $event->name . ' to ' . $newEvent->name);
     }
 }

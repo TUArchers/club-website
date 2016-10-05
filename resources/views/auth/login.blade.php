@@ -3,7 +3,7 @@
 @section('title', 'Log In')
 
 @section('content')
-    <form id="log_in_form" method="POST">
+    <form id="log_in_form" role="form" method="POST" action="{{ route('auth.login.attempt') }}">
         {{ csrf_field() }}
         <div class="msg">Log in to access this section</div>
         <div class="input-group">
@@ -11,7 +11,7 @@
                 <i class="material-icons">person</i>
             </span>
             <div class="form-line">
-                <input type="email" class="form-control" name="email_address" placeholder="Email" required autofocus>
+                <input type="email" class="form-control" name="email" placeholder="Email" required autofocus>
             </div>
         </div>
         <div class="input-group">
@@ -28,8 +28,8 @@
                 <label for="remember">Remember Me</label>
             </div>
             <div class="col-xs-4">
-                <button id="log_in_submit" class="btn btn-block bg-orange waves-effect" type="submit">SIGN IN</button>
-                <div id="log_in_spinner" class="md-preloader pl-size-xs pull-right" style="display: none">
+                <button id="form_submit" class="btn btn-block bg-orange waves-effect" type="submit">SIGN IN</button>
+                <div id="form_spinner" class="md-preloader pl-size-xs pull-right" style="display: none">
                     <svg viewBox="0 0 75 75">
                         <circle cx="37.5" cy="37.5" r="33.5" class="pl-orange" stroke-width="5"></circle>
                     </svg>
@@ -54,21 +54,20 @@
 
         $form.on('submit', function(e){
             e.preventDefault();
-            var formData = $form.serializeObject();
 
-            $('#log_in_submit').hide();
-            $('#log_in_spinner').show();
+            $('#form_submit').hide();
+            $('#form_spinner').show();
 
             $.ajax({
-                url: '{{ route('auth.login.attempt') }}',
-                method: 'POST',
-                data: formData,
+                url:    $form.attr('action'),
+                method: $form.attr('method'),
+                data:   $form.serializeObject(),
                 success: function(response){
                     window.location.href = response.redirect;
                 },
                 error: function(xhr){
-                    $('#log_in_submit').show();
-                    $('#log_in_spinner').hide();
+                    $('#form_submit').show();
+                    $('#form_spinner').hide();
 
                     $form.closest('.card').animateCss('shake');
                     $form.find('.msg').first().text(xhr.responseJSON.message).addClass('col-red')

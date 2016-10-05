@@ -8,37 +8,51 @@ use Illuminate\Notifications\Notifiable;
 use TuaWebsite\Notifications\ResetPasswordNotification;
 
 /**
- * User
+ * User Model
  *
  * @package TuaWebsite\Model\Identity
- * @author
+ * @author  James Drew <jdrew9@hotmail.co.uk>
  * @version 0.1.0
  * @since   0.1.0
+ *
+ * @property int    $id
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $name
+ * @property string $gender
+ * @property Carbon $birth_date
+ * @property string $picture_url
+ * @property bool   $is_student
+ * @property string $tusc_id
+ * @property string $agb_id
+ * @property string $phone
+ * @property string $email
+ * @property bool   $email_verified
+ * @property string $password_hash
+ * @property string $remember_token
+ * @property Carbon $registered_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Role   $role
  */
 class User extends Authenticatable
 {
     use Notifiable;
 
-    /** Constants */
-    const G_UNSPECIFIED = 'U';
-    const G_MALE        = 'M';
-    const G_FEMALE      = 'F';
-    const G_OTHER       = 'O';
-
-    /** Properties */
+    // Settings ----
     public $timestamps  = true;
     protected $fillable = [
         'role_id',
         'first_name',
         'last_name',
         'gender',
-        'date_of_birth',
+        'birth_date',
         'picture_url',
-        'tusc_id',
         'is_student',
+        'tusc_id',
         'agb_id',
-        'phone_number',
-        'email_address',
+        'phone',
+        'email',
         'password_hash',
         'registered_at'
     ];
@@ -47,7 +61,7 @@ class User extends Authenticatable
         'remember_token',
     ];
     protected $dates    = [
-        'date_of_birth',
+        'birth_date',
         'registered_at',
         'created_at',
         'updated_at'
@@ -62,13 +76,13 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    /** Accessors */
+    // Accessors ----
     /**
      * Get the full name of this user
      *
      * @return string
      */
-    public function getFullNameAttribute()
+    public function getNameAttribute()
     {
         return trim(
             sprintf('%s %s', $this->first_name, $this->last_name)
@@ -82,34 +96,12 @@ class User extends Authenticatable
      */
     public function getAgeAttribute()
     {
-        if(is_null($this->date_of_birth)){
+        if(is_null($this->birth_date)){
             return null;
         }
 
-        /** @var Carbon $dob */
-        $dob = $this->date_of_birth;
-
-        return $dob->diffInYears(Carbon::now());
-    }
-
-    /**
-     * Used for emailing
-     *
-     * @return string
-     */
-    public function getEmailAttribute()
-    {
-        return $this->email_address;
-    }
-
-    /**
-     * Used for emailing
-     *
-     * @return string
-     */
-    public function getNameAttribute()
-    {
-        return $this->full_name;
+        return $this->birth_date
+            ->diffInYears(Carbon::now());
     }
 
     // Authentication ----
@@ -120,15 +112,28 @@ class User extends Authenticatable
     }
 
     /** @inheritdoc */
-    public function getEmailForPasswordReset()
-    {
-        return $this->email_address;
-    }
-
-    /** @inheritdoc */
     public function sendPasswordResetNotification($token)
     {
-        $this->notify(new ResetPasswordNotification($token));
+        $this->notify(
+            new ResetPasswordNotification($token)
+        );
+    }
+
+    // Methods ----
+    /**
+     * Reset this user's password
+     *
+     * @param string $new_password_hash
+     * @param string $remember_token
+     *
+     * @return User
+     */
+    public function resetPassword($new_password_hash, $remember_token)
+    {
+        $this->password_hash  = $new_password_hash;
+        $this->remember_token = $remember_token;
+
+        return $this;
     }
 
 }

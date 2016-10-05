@@ -17,18 +17,19 @@ class CreateUsersTable extends Migration
             $table->string('first_name');
             $table->string('last_name')->nullable();
             $table->enum('gender', ['U', 'M', 'F', 'O'])->default('U');
-            $table->dateTime('date_of_birth')->nullable();
+            $table->dateTime('birth_date')->nullable();
             $table->string('picture_url')->nullable();
 
-            $table->string('tusc_id', 8)->nullable()->unique();
             $table->boolean('is_student')->default(true);
+            $table->string('tusc_id', 8)->nullable()->unique();
             $table->string('agb_id')->nullable()->unique();
-            $table->string('phone_number', 20);
-            $table->string('email_address')->unique();
-            $table->boolean('email_address_verified')->default(false);
+            $table->string('phone', 20);
 
+            $table->string('email')->unique();
+            $table->boolean('email_verified')->default(false);
             $table->string('password_hash');
             $table->rememberToken();
+
             $table->dateTime('registered_at');
             $table->timestamps();
         });

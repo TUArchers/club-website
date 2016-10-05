@@ -1,19 +1,17 @@
 <?php
-
 namespace TuaWebsite\Http\Controllers\Auth;
 
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use TuaWebsite\Http\Controllers\Controller;
 
 /**
  * "Forgot Password" Controller
  *
  * @package TuaWebsite\Http\Controllers\Auth
- * @author
+ * @author  James Drew <jdrew9@hotmail.co.uk>
  * @version 0.1.0
  * @since   0.1.0
  */
@@ -31,7 +29,7 @@ class ForgotPasswordController extends Controller
     /**
      * Display the form to request a password reset link.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function showLinkRequestForm()
     {
@@ -41,19 +39,19 @@ class ForgotPasswordController extends Controller
     /**
      * Send a reset link to the given user.
      *
-     * @param  Request  $request
+     * @param Request $request
      *
-     * @return RedirectResponse
+     * @return RedirectResponse|JsonResponse
      */
     public function sendResetLinkEmail(Request $request)
     {
-        $this->validate($request, ['email_address' => 'required|email']);
+        $this->validate($request, ['email' => 'required|email']);
 
         // We will send the password reset link to this user. Once we have attempted
         // to send the link, we will examine the response then see the message we
         // need to show to the user. Finally, we'll send out a proper response.
         $response = $this->broker()->sendResetLink(
-            $request->only('email_address')
+            $request->only('email')
         );
 
         if ($response === \Password::RESET_LINK_SENT) {
@@ -96,7 +94,7 @@ class ForgotPasswordController extends Controller
         }
 
         return back()->withErrors([
-            'email_address' => trans($response)
+            'email' => trans($response)
         ]);
     }
 

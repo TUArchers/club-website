@@ -33,10 +33,10 @@ class EloquentUserRepository implements UserRepositoryInterface
     }
 
     /** @inheritDoc */
-    public function existsWithEmailAddress($email_address)
+    public function existsWithEmailAddress($email)
     {
         return !is_null(
-            User::where('email_address', $email_address)->first()
+            User::where('email', $email)->first()
         );
     }
 

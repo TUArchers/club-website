@@ -73,7 +73,7 @@
                             @foreach($recent_scores as $score)
                     			<tr>
                     				<td>{{ $score->shot_at->toFormattedDateString() }}</td>
-                    				<td>{{ $score->archer->full_name }}</td>
+                    				<td>{{ $score->archer->name }}</td>
                     				<td class="hidden-sm hidden-xs">{{ \TuaWebsite\Domain\Records\BowClass::find($score->bow_class)->name }}</td>
                     				<td>{{ $score->round->name }}</td>
                     				<td>{{ $score->total_score }} <span class="col-grey">/ {{ $score->round->max_score }}</span></td>

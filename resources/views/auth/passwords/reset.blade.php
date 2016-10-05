@@ -13,14 +13,6 @@
                 <i class="material-icons">lock</i>
             </span>
             <div class="form-line">
-                <input type="email" id="email_address_input" class="form-control" name="email_address" placeholder="Email" required autofocus>
-            </div>
-        </div>
-        <div class="input-group">
-            <span class="input-group-addon">
-                <i class="material-icons">lock</i>
-            </span>
-            <div class="form-line">
                 <input type="password" id="password_input" class="form-control" name="password" placeholder="Password" required>
             </div>
         </div>
@@ -52,15 +44,14 @@
 
         $form.on('submit', function (e) {
             e.preventDefault();
-            var formData = $form.serializeObject();
 
             $('#form_submit').hide();
             $('#form_spinner').show();
 
             $.ajax({
-                url: $form.attr('action'),
+                url:    $form.attr('action'),
                 method: $form.attr('method'),
-                data: formData,
+                data:   $form.serializeObject(),
                 success: function (response) {
                     $('#form_spinner').hide();
                     swal({

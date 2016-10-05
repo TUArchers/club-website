@@ -1,5 +1,4 @@
 <?php
-
 namespace TuaWebsite\Http\Controllers\Auth;
 
 use Illuminate\Contracts\Auth\PasswordBroker;
@@ -8,9 +7,7 @@ use Illuminate\Foundation\Auth\RedirectsUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Str;
-use Illuminate\View\View;
 use TuaWebsite\Domain\Identity\User;
 use TuaWebsite\Http\Controllers\Controller;
 
@@ -18,7 +15,7 @@ use TuaWebsite\Http\Controllers\Controller;
  * "Reset Password" Controller
  *
  * @package TuaWebsite\Http\Controllers\Auth
- * @author
+ * @author  James Drew <jdrew9@hotmail.co.uk>
  * @version 0.1.0
  * @since   0.1.0
  */
@@ -26,6 +23,7 @@ class ResetPasswordController extends Controller
 {
     use RedirectsUsers;
 
+    /** @var string */
     protected $redirectTo = '/login';
 
     /**
@@ -42,10 +40,10 @@ class ResetPasswordController extends Controller
      *
      * If no token is present, display the link request form.
      *
-     * @param  Request      $request
-     * @param  string|null  $token
+     * @param Request     $request
+     * @param string|null $token
      *
-     * @return View
+     * @return RedirectResponse|\Illuminate\View\View
      */
     public function showResetForm(Request $request, $token = null)
     {
@@ -54,25 +52,21 @@ class ResetPasswordController extends Controller
         }
 
         return view('auth.passwords.reset')
-            ->with([
-                'token'         => $token,
-                'email_address' => $request->email_address
-            ]);
+            ->with(['token' => $token]);
     }
 
     /**
      * Reset the given user's password.
      *
-     * @param  Request $request
+     * @param Request $request
      *
-     * @return Response
+     * @return RedirectResponse|JsonResponse
      */
     public function reset(Request $request)
     {
         $this->validate($request, [
-            'token'         => 'required',
-            'email_address' => 'required|email',
-            'password'      => 'required|confirmed|min:6',
+            'token'    => 'required',
+            'password' => 'required|confirmed|min:6',
         ]);
 
         // Here we will attempt to reset the user's password. If it is successful we
@@ -96,29 +90,27 @@ class ResetPasswordController extends Controller
     /**
      * Get the password reset credentials from the request.
      *
-     * @param  Request $request
+     * @param Request $request
      *
      * @return array
      */
     protected function credentials(Request $request)
     {
-        return $request->only(
-            'email_address', 'password', 'password_confirmation', 'token'
-        );
+        return $request->only('password', 'password_confirmation', 'token');
     }
 
     /**
      * Reset the given user's password.
      *
-     * @param  User   $user
-     * @param  string $password
+     * @param User   $user
+     * @param string $password
      */
     protected function resetPassword($user, $password)
     {
-        $user->forceFill([
-            'password_hash'  => \Hash::make($password),
-            'remember_token' => Str::random(60),
-        ])->save();
+        $user->resetPassword(
+            \Hash::make($password),
+            Str::random(60)
+        )->save();
 
         $this->guard()->login($user);
     }
@@ -139,7 +131,8 @@ class ResetPasswordController extends Controller
             ], 200);
         }
 
-        return redirect($this->redirectPath())->with('status', trans($response));
+        return redirect($this->redirectPath())
+            ->with('status', trans($response));
     }
 
     /**
@@ -159,10 +152,8 @@ class ResetPasswordController extends Controller
         }
 
         return redirect()->back()
-            ->withInput($request->only('email_address'))
-            ->withErrors([
-                'email_address' => trans($response)
-            ]);
+            ->withInput($request->only('email'))
+            ->withErrors(['password' => trans($response)]);
     }
 
     /**

@@ -87,7 +87,7 @@ class JoinController extends Controller
         $role        = $this->roles->withSlug('guest');
 
         // Make a basic user account
-        $user_data = $request->only(['email_address', 'phone_number', 'first_name', 'last_name']);
+        $user_data = $request->only(['email', 'phone', 'first_name', 'last_name']);
         $user_data['password_hash'] = \Hash::make(str_random(12));
         $user_data['registered_at'] = Carbon::now();
 

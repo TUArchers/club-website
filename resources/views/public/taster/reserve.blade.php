@@ -14,8 +14,8 @@
 
         <input type="text" id="first_name_input" name="first_name" placeholder="First Name">
         <input type="text" id="last_name_input" name="last_name" placeholder="Last Name">
-        <input type="email" id="email_input" name="email_address" placeholder="Email Address">
-        <input type="text" id="phone_input" name="phone_number" placeholder="Phone Number">
+        <input type="email" id="email_input" name="email" placeholder="Email Address">
+        <input type="text" id="phone_input" name="phone" placeholder="Phone Number">
 
         <button type="submit">Confirm</button>
     </form>

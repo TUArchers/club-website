@@ -12,7 +12,7 @@ use TuaWebsite\Domain\Identity\User;
  * "Reset Password" Notification
  *
  * @package TuaWebsite\Notifications
- * @author
+ * @author  James Drew <jdrew9@hotmail.co.uk>
  * @version 0.1.0
  * @since   0.1.0
  */
@@ -20,9 +20,7 @@ class ResetPasswordNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $token;
 
     /**
@@ -35,14 +33,15 @@ class ResetPasswordNotification extends Notification implements ShouldQueue
         $this->token = $token;
     }
 
+    // Methods ----
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param User $notifiable
      *
      * @return array
      */
-    public function via($notifiable)
+    public function via(User $notifiable)
     {
         return ['mail'];
     }
@@ -50,11 +49,11 @@ class ResetPasswordNotification extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      *
-     * @param  User $notifiable
+     * @param User $notifiable
      *
      * @return MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail(User $notifiable)
     {
         return (new MailMessage)
             ->greeting('Hi ' . $notifiable->first_name)

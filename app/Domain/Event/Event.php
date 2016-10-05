@@ -219,11 +219,11 @@ class Event extends Model
 
         // Make the attendee
         $attendee = new Attendee([
-            'user_id'       => $user->id,
-            'first_name'    => $user->first_name,
-            'last_name'     => $user->last_name,
-            'email_address' => $user->email_address,
-            'phone_number'  => $user->phone_number
+            'user_id'    => $user->id,
+            'first_name' => $user->first_name,
+            'last_name'  => $user->last_name,
+            'email'      => $user->email,
+            'phone'      => $user->phone
         ]);
 
         // Confirm

@@ -1,20 +1,17 @@
 <?php
-
 namespace TuaWebsite\Http\Controllers\Auth;
 
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Lang;
 use TuaWebsite\Http\Controllers\Controller;
 
 /**
- * LoginController
+ * Login Controller
  *
  * @package TuaWebsite\Http\Controllers\Auth
- * @author
+ * @author  James Drew <jdrew9@hotmail.co.uk>
  * @version 0.1.0
  * @since   0.1.0
  */
@@ -34,7 +31,7 @@ class LoginController extends Controller
     /**
      * Show the application's login form.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function showLoginForm()
     {
@@ -44,8 +41,9 @@ class LoginController extends Controller
     /**
      * Handle a login request to the application.
      *
-     * @param  Request  $request
-     * @return Response
+     * @param Request $request
+     *
+     * @return RedirectResponse|JsonResponse
      */
     public function login(Request $request)
     {
@@ -76,9 +74,9 @@ class LoginController extends Controller
     /**
      * Log the user out of the application.
      *
-     * @param  Request  $request
+     * @param Request $request
      *
-     * @return Response|JsonResponse
+     * @return RedirectResponse|JsonResponse
      */
     public function logout(Request $request)
     {
@@ -96,8 +94,6 @@ class LoginController extends Controller
 
     // Internals ----
     /**
-     * Get the guard to be used during authentication.
-     *
      * @return \Illuminate\Contracts\Auth\StatefulGuard
      */
     protected function guard()
@@ -110,20 +106,21 @@ class LoginController extends Controller
      *
      * @return string
      */
-    public function username()
+    protected function username()
     {
-        return 'email_address';
+        return 'email';
     }
 
     /**
      * Validate the user login request.
      *
-     * @param  Request  $request
+     * @param Request $request
      */
     private function validateLogin(Request $request)
     {
         $this->validate($request, [
-            $this->username() => 'required', 'password' => 'required',
+            $this->username() => 'required',
+            'password'        => 'required',
         ]);
     }
 
@@ -138,7 +135,7 @@ class LoginController extends Controller
             $this->throttleKey($request)
         );
 
-        $message = Lang::get('auth.throttle', ['seconds' => $seconds]);
+        $message = \Lang::get('auth.throttle', ['seconds' => $seconds]);
 
         if($request->ajax()){
             return response()->json([
@@ -154,9 +151,9 @@ class LoginController extends Controller
     /**
      * Send the response after the user was authenticated.
      *
-     * @param  Request  $request
+     * @param Request $request
      *
-     * @return Response|JsonResponse
+     * @return RedirectResponse|JsonResponse
      */
     private function sendLoginResponse(Request $request)
     {
@@ -176,7 +173,7 @@ class LoginController extends Controller
     /**
      * Get the failed login response instance.
      *
-     * @param Request  $request
+     * @param Request $request
      *
      * @return RedirectResponse|JsonResponse
      */
@@ -184,14 +181,14 @@ class LoginController extends Controller
     {
         if($request->isXmlHttpRequest()){
             return response()->json([
-                'message' => Lang::get('auth.failed')
+                'message' => \Lang::get('auth.failed')
             ], 401);
         }
         else{
             return redirect()->back()
                 ->withInput($request->only($this->username(), 'remember'))
                 ->withErrors([
-                    $this->username() => Lang::get('auth.failed'),
+                    $this->username() => \Lang::get('auth.failed'),
                 ]);
         }
     }

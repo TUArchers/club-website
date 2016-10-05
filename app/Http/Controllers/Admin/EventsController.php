@@ -73,7 +73,7 @@ class EventsController extends Controller
     public function show($id)
     {
         $event        = Event::find($id);
-        $reservations = $event->reservations->sortBy('attendee.full_name');
+        $reservations = $event->reservations->sortBy('attendee.name');
 
         return view('admin.events.show', compact('event', 'reservations'));
     }

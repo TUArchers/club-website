@@ -90,10 +90,10 @@
 
                             <div class="row clearfix">
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                    @include('components.form.input.email', ['name' => 'attendee[email_address]', 'id' => 'attendee_email_address', 'label' => 'Email *', 'required' => true])
+                                    @include('components.form.input.email', ['name' => 'attendee[email]', 'id' => 'attendee_email', 'label' => 'Email *', 'required' => true])
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                    @include('components.form.input.text', ['name' => 'attendee[phone_number]', 'id' => 'attendee_phone_number', 'label' => 'Phone Number *', 'required' => true])
+                                    @include('components.form.input.text', ['name' => 'attendee[phone]', 'id' => 'attendee_phone', 'label' => 'Phone Number *', 'required' => true])
                                 </div>
                             </div>
 
@@ -240,8 +240,8 @@
     // Generate the data summary for the confirmation view
     function summariseAttendee(data){
         $('#attendee_name_summary').text(data['attendee[first_name]'] + " " + data['attendee[last_name]']);
-        $('#attendee_email_summary').text(data['attendee[email_address]']);
-        $('#attendee_phone_summary').text(data['attendee[phone_number]']);
+        $('#attendee_email_summary').text(data['attendee[email]']);
+        $('#attendee_phone_summary').text(data['attendee[phone]']);
         $('#attendee_date_of_birth_summary').text(data['attendee[date_of_birth]']);
         $('#attendee_tusc_id_summary').text(data['attendee[tusc_id]']);
     }

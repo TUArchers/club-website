@@ -30,9 +30,9 @@ interface UserRepositoryInterface
     public function get($user_id);
 
     /**
-     * @param string $email_address
+     * @param string $email
      *
      * @return bool
      */
-    public function existsWithEmailAddress($email_address);
+    public function existsWithEmailAddress($email);
 }
