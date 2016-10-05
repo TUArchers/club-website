@@ -339,7 +339,7 @@ reserved_at</columns>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
-    <column id="100" parent="14" name="email_address">
+    <column id="100" parent="14" name="email">
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
     </column>
@@ -351,7 +351,7 @@ reserved_at</columns>
       <data-type>timestamp|0</data-type>
     </column>
     <index id="103" parent="14" name="password_resets_email_address_index">
-      <columns>email_address</columns>
+      <columns>email</columns>
       <desc-columns></desc-columns>
     </index>
     <index id="104" parent="14" name="password_resets_token_index">

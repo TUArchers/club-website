@@ -4,6 +4,8 @@ namespace TuaWebsite\Domain\Identity;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use TuaWebsite\Notifications\ResetPasswordNotification;
 
 /**
  * User
@@ -15,7 +17,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
-    #use Notifiable;
+    use Notifiable;
 
     /** Constants */
     const G_UNSPECIFIED = 'U';
@@ -115,6 +117,18 @@ class User extends Authenticatable
     public function getAuthPassword()
     {
         return $this->password_hash;
+    }
+
+    /** @inheritdoc */
+    public function getEmailForPasswordReset()
+    {
+        return $this->email_address;
+    }
+
+    /** @inheritdoc */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 
 }

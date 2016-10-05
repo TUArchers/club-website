@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,7 +10,6 @@
 |
 */
 
-// Public content
 # Information
 Route::get('/', 'PublicPages\NewsController@home');
 Route::get('/about', 'PublicPages\ClubController@about');
@@ -27,9 +25,21 @@ Route::get('/tasters', 'Kiosk\TastersController@index');
 # Auth
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('auth.login.show');
 Route::post('/login', 'Auth\LoginController@login')->name('auth.login.attempt');
-Route::match(['post', 'get'], '/logout', 'Auth\LoginController@logout')->name('auth.logout.attempt');
+Route::match(['POST', 'GET'], '/logout', 'Auth\LoginController@logout')->name('auth.logout.attempt');
+Route::get('/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('auth.password-reset-request.show');
+Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('auth.password-reset-request.attempt');
+Route::get('/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('auth.password-reset.show');
+Route::post('/password/reset', 'Auth\ResetPasswordController@reset')->name('auth.password-reset.attempt');
 
-// Members' content
+/*
+|--------------------------------------------------------------------------
+| Member Routes
+|--------------------------------------------------------------------------
+|
+| These are used by club members with active accounts
+|
+*/
+
 # Profile
 Route::get('/members/{userId}', 'Members\ProfileController@showProfile');
 
@@ -42,7 +52,15 @@ Route::get('/events');
 Route::get('/events/{eventId}');
 Route::post('/events/{eventId}/register');
 
-// Committee content ----
+/*
+|--------------------------------------------------------------------------
+| Committee Routes
+|--------------------------------------------------------------------------
+|
+| These are used by those with access to the admin tools only
+|
+*/
+
 # Dashboard
 Route::get('/admin', 'Admin\DashboardController@showDashboard')->name('admin.index');
 
