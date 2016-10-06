@@ -31,6 +31,7 @@ class EventReservationConfirmed extends Mailable
     public function __construct(Reservation $reservation)
     {
         $this->reservation = $reservation;
+        $this->queue       = 'emails';
     }
 
     /**
