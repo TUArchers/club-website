@@ -1,6 +1,7 @@
 
 ### Laravel template
 vendor/
+!resources/views/vendor/
 node_modules/
 
 # Laravel 4 specific
