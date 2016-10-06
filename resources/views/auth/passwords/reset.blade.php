@@ -8,7 +8,14 @@
 
         {{ csrf_field() }}
         <input type="hidden" name="token" value="{{ $token }}">
-        <input type="hidden" name="email" value="{{ $email }}">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="material-icons">person</i>
+            </span>
+            <div class="form-line">
+                <input type="email" id="email_input" class="form-control" name="email" placeholder="Email Address" value="{{ $email or old('email') }}" required autofocus>
+            </div>
+        </div>
         <div class="input-group">
             <span class="input-group-addon">
                 <i class="material-icons">lock</i>
