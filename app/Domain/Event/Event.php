@@ -92,6 +92,21 @@ class Event extends Model
         ]);
     }
 
+    /**
+     * Find events that are due to occur in the next seven days
+     *
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeNextSevenDays(Builder $query)
+    {
+        $now      = Carbon::now();
+        $nextWeek = Carbon::now()->addDays(7);
+
+        return $query->whereBetween('starts_at', [$now, $nextWeek]);
+    }
+
     /** Accessors */
     /**
      * Get the duration of this event

@@ -57,4 +57,13 @@ class Score extends Model
     {
         return $this->belongsTo(Round::class);
     }
+
+    // Accessors ----
+    /**
+     * @return BowClass
+     */
+    public function getBowClassAttribute()
+    {
+        return BowClass::find($this->attributes['bow_class']);
+    }
 }
