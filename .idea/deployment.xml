@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="Teesside University Archers">
+  <component name="PublishConfigData" serverName="Teesside University Archers (Website)">
     <serverData>
-      <paths name="Teesside University Archers">
+      <paths name="Teesside University Archers (Website)">
         <serverdata>
           <mappings>
-            <mapping deploy="/2016" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
           </mappings>
           <excludedPaths>
             <excludedPath local="true" path="$PROJECT_DIR$/.idea" />
@@ -22,7 +22,6 @@
             <excludedPath local="true" path="$PROJECT_DIR$/phpunit.xml" />
             <excludedPath local="true" path="$PROJECT_DIR$/readme.md" />
             <excludedPath local="true" path="$PROJECT_DIR$/server.php" />
-            <excludedPath path="/2016/.env" />
           </excludedPaths>
         </serverdata>
       </paths>

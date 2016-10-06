@@ -74,7 +74,7 @@
                     			<tr>
                     				<td>{{ $score->shot_at->toFormattedDateString() }}</td>
                     				<td>{{ $score->archer->name }}</td>
-                    				<td class="hidden-sm hidden-xs">{{ \TuaWebsite\Domain\Records\BowClass::find($score->bow_class)->name }}</td>
+                    				<td class="hidden-sm hidden-xs">{{ $score->bow_class->name }}</td>
                     				<td>{{ $score->round->name }}</td>
                     				<td>{{ $score->total_score }} <span class="col-grey">/ {{ $score->round->max_score }}</span></td>
                     				<td class="hidden-sm hidden-xs">@include('components.progress', ['value' => round(($score->total_score/$score->round->max_score)*100), 'classes' => 'bg-deep-orange'])</td>

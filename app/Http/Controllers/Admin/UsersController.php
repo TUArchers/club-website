@@ -116,7 +116,7 @@ class UsersController extends Controller
             array_filter($request->all())
         );
 
-        return redirect('/admin/users/' . $id);
+        return redirect('/admin/users');
     }
 
     /**
