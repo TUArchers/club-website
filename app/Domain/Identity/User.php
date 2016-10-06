@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use TuaWebsite\Notifications\PasswordChangedNotification;
 use TuaWebsite\Notifications\ResetPasswordNotification;
 
 /**
@@ -116,6 +117,16 @@ class User extends Authenticatable
     {
         $this->notify(
             new ResetPasswordNotification($token)
+        );
+    }
+
+    /**
+     * Inform this user that their password has been changed
+     */
+    public function sendPasswordChangedNotification()
+    {
+        $this->notify(
+            new PasswordChangedNotification()
         );
     }
 

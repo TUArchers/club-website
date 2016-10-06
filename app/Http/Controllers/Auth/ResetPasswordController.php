@@ -116,6 +116,8 @@ class ResetPasswordController extends Controller
             Str::random(60)
         )->save();
 
+        $user->sendPasswordChangedNotification();
+
         $this->guard()->login($user);
     }
 
