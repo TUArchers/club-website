@@ -37,7 +37,7 @@ class Kernel extends ConsoleKernel
         #$schedule->command('send:membership-info')->everyMinute();
 
         $schedule->command('queue:restart')->everyThirtyMinutes();
-        $schedule->exec('php artisan queue:work --timeout=0 --tries=10')->everyThirtyMinutes();
+        $schedule->exec('php artisan queue:work --queue=urgent,notifications,emails,default --timeout=0 --tries=10')->everyThirtyMinutes();
     }
 
     /**

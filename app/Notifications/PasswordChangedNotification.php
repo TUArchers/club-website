@@ -25,7 +25,7 @@ class PasswordChangedNotification extends Notification implements ShouldQueue
      */
     public function __construct()
     {
-        //
+        $this->queue = 'notifications';
     }
 
     /**
