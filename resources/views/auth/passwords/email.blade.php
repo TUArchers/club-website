@@ -45,7 +45,14 @@
                 data:   $form.serializeObject(),
                 success: function(response){
                     $('#form_spinner').hide();
-                    swal('Done!', 'A password reset link has been sent to your email address.', 'success');
+                    swal({
+                        title:              'Done!',
+                        text:               'A password reset link has been sent to your email address.',
+                        type:               'success',
+                        confirmButtonColor: "#FF9800"
+                    }, function(){
+                        window.history.back();
+                    });
                 },
                 error: function(xhr){
                     $('#form_submit').show();

@@ -680,7 +680,7 @@ reserved_at</columns>
       <data-type>enum(&apos;U&apos;, &apos;M&apos;, &apos;F&apos;, &apos;O&apos;)|0</data-type>
       <default-expression>&apos;U&apos;</default-expression>
     </column>
-    <column id="183" parent="21" name="date_of_birth">
+    <column id="183" parent="21" name="birth_date">
       <data-type>datetime|0</data-type>
     </column>
     <column id="184" parent="21" name="picture_url">
@@ -701,11 +701,11 @@ reserved_at</columns>
       <mandatory>1</mandatory>
       <data-type>varchar(12)|0</data-type>
     </column>
-    <column id="189" parent="21" name="email_address">
+    <column id="189" parent="21" name="email">
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="190" parent="21" name="email_address_verified">
+    <column id="190" parent="21" name="email_verified">
       <mandatory>1</mandatory>
       <data-type>tinyint(1)|0</data-type>
       <default-expression>&apos;0&apos;</default-expression>
@@ -733,7 +733,7 @@ reserved_at</columns>
       <unique>1</unique>
     </index>
     <index id="197" parent="21" name="users_email_address_unique">
-      <columns>email_address</columns>
+      <columns>email</columns>
       <desc-columns></desc-columns>
       <unique>1</unique>
     </index>
@@ -759,7 +759,7 @@ reserved_at</columns>
       <underlying-index>users_agb_id_unique</underlying-index>
     </key>
     <key id="203" parent="21" name="users_email_address_unique">
-      <columns>email_address</columns>
+      <columns>email</columns>
       <underlying-index>users_email_address_unique</underlying-index>
     </key>
     <foreign-key id="204" parent="21" name="users_role_id_foreign">

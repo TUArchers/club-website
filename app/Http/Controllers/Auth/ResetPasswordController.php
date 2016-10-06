@@ -52,7 +52,10 @@ class ResetPasswordController extends Controller
         }
 
         return view('auth.passwords.reset')
-            ->with(['token' => $token]);
+            ->with([
+                'token' => $token,
+                'email' => $user->email
+            ]);
     }
 
     /**
@@ -66,6 +69,7 @@ class ResetPasswordController extends Controller
     {
         $this->validate($request, [
             'token'    => 'required',
+            'email'    => 'required|email',
             'password' => 'required|confirmed|min:6',
         ]);
 
@@ -96,7 +100,7 @@ class ResetPasswordController extends Controller
      */
     protected function credentials(Request $request)
     {
-        return $request->only('password', 'password_confirmation', 'token');
+        return $request->only('email', 'password', 'password_confirmation', 'token');
     }
 
     /**
@@ -153,7 +157,7 @@ class ResetPasswordController extends Controller
 
         return redirect()->back()
             ->withInput($request->only('email'))
-            ->withErrors(['password' => trans($response)]);
+            ->withErrors(['email' => trans($response)]);
     }
 
     /**

@@ -8,12 +8,13 @@
 
         {{ csrf_field() }}
         <input type="hidden" name="token" value="{{ $token }}">
+        <input type="hidden" name="email" value="{{ $email }}">
         <div class="input-group">
             <span class="input-group-addon">
                 <i class="material-icons">lock</i>
             </span>
             <div class="form-line">
-                <input type="password" id="password_input" class="form-control" name="password" placeholder="Password" required>
+                <input type="password" id="password_input" class="form-control" name="password" placeholder="New Password" required>
             </div>
         </div>
         <div class="input-group">
@@ -21,7 +22,7 @@
                 <i class="material-icons">lock</i>
             </span>
             <div class="form-line">
-                <input type="password" id="password_confirmation_input" class="form-control" name="password_confirmation" placeholder="Confirm Password" required>
+                <input type="password" id="password_confirmation_input" class="form-control" name="password_confirmation" placeholder="Confirm New Password" required>
             </div>
         </div>
         <div class="row">
@@ -64,11 +65,13 @@
                     });
                 },
                 error: function (xhr) {
+                    var message = xhr.responseJSON.message || xhr.responseJSON.email[0];
+
                     $('#form_submit').show();
                     $('#form_spinner').hide();
 
                     $form.closest('.card').animateCss('shake');
-                    $form.find('.msg').first().text(xhr.responseJSON.message).addClass('col-red')
+                    $form.find('.msg').first().text(message).addClass('col-red')
                 }
             });
         });
