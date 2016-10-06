@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use TuaWebsite\Domain\Event\Reservation;
 use TuaWebsite\Notifications\PasswordChangedNotification;
 use TuaWebsite\Notifications\ResetPasswordNotification;
 
@@ -67,6 +68,22 @@ class User extends Authenticatable
         'created_at',
         'updated_at'
     ];
+
+    /** @inheritdoc */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function(User $user){
+            /** @var Reservation $reservations */
+            $reservations = Reservation::where('attendee_id', $user->id)->get();
+
+            foreach($reservations as $reservation){
+                $reservation->attendee()->dissociate();
+                $reservation->save();
+            }
+        });
+    }
 
     // Relationships ----
     /**

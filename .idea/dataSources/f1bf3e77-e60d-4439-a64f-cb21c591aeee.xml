@@ -697,7 +697,7 @@ reserved_at</columns>
     <column id="187" parent="21" name="agb_id">
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="188" parent="21" name="phone_number">
+    <column id="188" parent="21" name="phone">
       <mandatory>1</mandatory>
       <data-type>varchar(12)|0</data-type>
     </column>
