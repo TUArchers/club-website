@@ -112,7 +112,9 @@ class UsersController extends Controller
         /** @var User $user */
         $user = User::find($id);
 
-        $user->update($request->all());
+        $user->update(
+            array_filter($request->all())
+        );
 
         return redirect('/admin/users/' . $id);
     }
