@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use TuaWebsite\Domain\Identity\Role;
 use TuaWebsite\Domain\Identity\User;
 use TuaWebsite\Http\Controllers\Controller;
+use TuaWebsite\Notifications\WelcomeNotification;
 
 /**
  * Users Controller (Admin)
@@ -58,14 +59,25 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
+        // Collect user data
         $user_data = $request->only([
             'email', 'phone', 'first_name', 'last_name', 'role_id', 'tusc_id'
         ]);
 
-        $user_data['password_hash'] = \Hash::make($request->get('password'));
+        // Generate or use a specified password
+        $password = $request->get('password', str_random(12));
+
+        // Hash up the password and set the registration date
+        $user_data['password_hash'] = \Hash::make($password);
         $user_data['registered_at'] = Carbon::now();
 
-        User::create($user_data);
+        // Register the user
+        $user = User::create($user_data);
+
+        // Send a welcome notification
+        $user->notify(
+            new WelcomeNotification($password)
+        );
 
         return redirect('/admin/users');
     }
