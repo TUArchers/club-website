@@ -62,9 +62,8 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         // Collect user data
-        $user_data = $request->only([
-            'email', 'phone', 'first_name', 'last_name', 'gender', 'birth_date', 'role_id', 'tusc_id', 'agb_id', 'is_student'
-        ]);
+        $user_data               = $request->only(['email', 'phone', 'first_name', 'last_name', 'gender', 'birth_date', 'role_id', 'tusc_id', 'agb_id']);
+        $user_data['is_student'] = $request->has('is_student');
 
         // Generate or use a specified password
         $password = $request->get('password', str_random(12));
@@ -72,6 +71,11 @@ class UsersController extends Controller
         // Hash up the password and set the registration date
         $user_data['password_hash'] = \Hash::make($password);
         $user_data['registered_at'] = Carbon::now();
+
+        // Add profile image, if specified
+        if($request->has('picture')){
+            $user_data['picture_url'] = $this->storeUserPhoto($request->get('picture'));
+        }
 
         // Register the user
         $user = User::create($user_data);
@@ -127,13 +131,16 @@ class UsersController extends Controller
         /** @var User $user */
         $user = User::find($id);
 
+        // Get the user data
         $user_data               = array_filter($request->only(['email', 'phone', 'first_name', 'last_name', 'gender', 'birth_date', 'role_id', 'tusc_id', 'agb_id']));
         $user_data['is_student'] = $request->has('is_student');
 
+        // Handle a new profile picture
         if($request->has('picture')){
-            $user_data['picture_url'] = $this->changeUserPhoto($user, $request->get('picture'));
+            $user_data['picture_url'] = $this->storeUserPhoto($request->get('picture'), $user->picture_url);
         }
 
+        // Store the updates
         $user->update($user_data);
 
         return redirect('/admin/users');
@@ -155,17 +162,28 @@ class UsersController extends Controller
 
     // Internals ----
     /**
-     * @param User   $user
      * @param string $imageData
+     * @param string $existing
      *
      * @return string
      */
-    private function changeUserPhoto(User $user, $imageData)
+    private function storeUserPhoto($imageData, $existing = null)
     {
-        $fileName = sprintf('uploads/users/%s/profile.jpg', $user->id);
+        $storage = \Storage::disk('public');
+
+        // Make and store the file
+        $fileName = sprintf('uploads/users/%s.jpg', md5(str_random()));
         $image     = \Image::make($imageData);
 
-        \Storage::disk('public')->put($fileName, $image->encode('jpg'));
+        $storage->put($fileName, $image->encode('jpg'));
+
+        // Remove the old one, if specified
+        if(is_string($existing)){
+            $url  = parse_url($existing);
+            $path = preg_replace('/storage\//', '', $url['path']);
+
+            $storage->delete($path);
+        }
 
         return asset('storage/' . $fileName);
     }

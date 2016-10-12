@@ -12,14 +12,14 @@
 
             <div class="image-controls">
                 <div class="image">
-                    <i class="material-icons btn-icon change-image">image</i>
+                    <i class="material-icons btn-icon change-image" data-toggle="tooltip" data-placement="bottom" title="Change Image">image</i>
                 </div>
                 <div class="rotation">
-                    <i class="material-icons btn-icon rotate-ccw">rotate_left</i>
-                    <i class="material-icons btn-icon rotate-cw">rotate_right</i>
+                    <i class="material-icons btn-icon rotate-ccw" data-toggle="tooltip" data-placement="bottom" title="Rotate Counter-Clockwise">rotate_left</i>
+                    <i class="material-icons btn-icon rotate-cw" data-toggle="tooltip" data-placement="bottom" title="Rotate Clockwise">rotate_right</i>
                 </div>
                 <div class="zoom">
-                    <input type="range" class="cropit-image-zoom-input" title="Zoom">
+                    <input type="range" class="cropit-image-zoom-input"  data-toggle="tooltip" data-placement="bottom" title="Zoom In/Out">
                 </div>
             </div>
         </div>
@@ -172,7 +172,15 @@
             }
 
             return true;
-        })
+        });
+
+        //Tooltip
+        $('[data-toggle="tooltip"]').tooltip({
+            container: 'body'
+        });
+
+        //Popover
+        $('[data-toggle="popover"]').popover();
     });
 </script>
 @endpush
