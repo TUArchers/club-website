@@ -3,6 +3,9 @@
 // Error pages ----
 @import "partials/error";
 
+// Cropit ----
+@import "partials/image-editor";
+
 // Bootstrap Select ----
 @import "node_modules/bootstrap-select/sass/bootstrap-select";
 
@@ -28,4 +31,9 @@
   .form-line:after{
     border-bottom: 2px solid #FF9800 !important;
   }
+}
+
+.btn-icon {
+  cursor: pointer;
+  user-select: none;
 }

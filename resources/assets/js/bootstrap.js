@@ -18,6 +18,7 @@ require('sweetalert');
  */
 require('jquery-slimscroll');
 require('jquery-countto');
+//require('cropit');
 //require('jquery-validation');
 
 /**

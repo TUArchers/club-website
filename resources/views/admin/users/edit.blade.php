@@ -14,7 +14,7 @@
                     <h2>EDIT USER</h2>
                 </div>
                 <div class="body">
-                    <form action="{{ route('admin.users.update', $user->id) }}" method="post">
+                    <form id="user_form" action="{{ route('admin.users.update', $user->id) }}" method="post" enctype="multipart/form-data">
                         {{ method_field('PATCH') }}
                         @include('admin.users._form', ['submitLabel' => 'Save Changes'])
                     </form>

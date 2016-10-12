@@ -4,6 +4,7 @@ namespace TuaWebsite\Http\Controllers\Admin;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use TuaWebsite\Domain\Identity\Gender;
 use TuaWebsite\Domain\Identity\Role;
 use TuaWebsite\Domain\Identity\User;
 use TuaWebsite\Http\Controllers\Controller;
@@ -45,9 +46,10 @@ class UsersController extends Controller
      */
     public function create()
     {
-        $roles = Role::all();
+        $roles   = Role::all();
+        $genders = Gender::all();
 
-        return view('admin.users.create', compact('roles'));
+        return view('admin.users.create', compact('roles', 'genders'));
     }
 
     /**
@@ -61,7 +63,7 @@ class UsersController extends Controller
     {
         // Collect user data
         $user_data = $request->only([
-            'email', 'phone', 'first_name', 'last_name', 'role_id', 'tusc_id'
+            'email', 'phone', 'first_name', 'last_name', 'gender', 'birth_date', 'role_id', 'tusc_id', 'agb_id', 'is_student'
         ]);
 
         // Generate or use a specified password
@@ -105,10 +107,11 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $user  = User::findOrFail($id);
-        $roles = Role::all();
+        $user    = User::findOrFail($id);
+        $roles   = Role::all();
+        $genders = Gender::all();
 
-        return view('admin.users.edit', compact('user', 'roles'));
+        return view('admin.users.edit', compact('user', 'roles', 'genders'));
     }
 
     /**
@@ -124,9 +127,14 @@ class UsersController extends Controller
         /** @var User $user */
         $user = User::find($id);
 
-        $user->update(
-            array_filter($request->all())
-        );
+        $user_data               = array_filter($request->only(['email', 'phone', 'first_name', 'last_name', 'gender', 'birth_date', 'role_id', 'tusc_id', 'agb_id']));
+        $user_data['is_student'] = $request->has('is_student');
+
+        if($request->has('picture')){
+            $user_data['picture_url'] = $this->changeUserPhoto($user, $request->get('picture'));
+        }
+
+        $user->update($user_data);
 
         return redirect('/admin/users');
     }
@@ -143,5 +151,22 @@ class UsersController extends Controller
         User::destroy($id);
 
         return redirect('/admin/users');
+    }
+
+    // Internals ----
+    /**
+     * @param User   $user
+     * @param string $imageData
+     *
+     * @return string
+     */
+    private function changeUserPhoto(User $user, $imageData)
+    {
+        $fileName = sprintf('uploads/users/%s/profile.jpg', $user->id);
+        $image     = \Image::make($imageData);
+
+        \Storage::disk('public')->put($fileName, $image->encode('jpg'));
+
+        return asset('storage/' . $fileName);
     }
 }

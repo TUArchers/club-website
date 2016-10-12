@@ -122,6 +122,16 @@ class User extends Authenticatable
             ->diffInYears(Carbon::now());
     }
 
+    /**
+     * Get this user's gender
+     *
+     * @return Gender
+     */
+    public function getGenderAttribute()
+    {
+        return Gender::find($this->attributes['gender']);
+    }
+
     // Authentication ----
     /** @inheritDoc */
     public function getAuthPassword()

@@ -29,6 +29,7 @@ elixir(function(mix){
     mix.copy('node_modules/adminbsb-materialdesign/js/admin.js', 'public/js/admin.js');
     mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-steps/jquery.steps.js', 'public/js/jquery-steps.js');
     mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-validation/jquery.validate.js', 'public/js/jquery-validate.js');
+    mix.copy('node_modules/cropit/dist/jquery.cropit.js', 'public/js/jquery-cropit.js');
 
     // Compile JS
     mix.webpack('main.js');
