@@ -16,7 +16,7 @@ use TuaWebsite\Domain\Identity\User;
  * @version 0.1.0
  * @since   0.1.0
  */
-class WelcomeNotification extends Notification
+class WelcomeNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
