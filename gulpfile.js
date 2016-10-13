@@ -27,13 +27,22 @@ elixir(function(mix){
     mix.sass('home.scss');
 
     // Copy third-party JS
-    mix.copy('node_modules/adminbsb-materialdesign/js/admin.js', 'public/js/admin.js');
-    mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-steps/jquery.steps.js', 'public/js/jquery-steps.js');
-    mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-validation/jquery.validate.js', 'public/js/jquery-validate.js');
-    mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-datatable/jquery.dataTables.js', 'public/js/jquery-datatables.js');
-    mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js', 'public/js/bootstrap-datatables.js');
-    mix.copy('node_modules/cropit/dist/jquery.cropit.js', 'public/js/jquery-cropit.js');
+    mix.copy('node_modules/adminbsb-materialdesign/js/admin.js', 'resources/assets/js/vendor/admin.js');
+    mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-steps/jquery.steps.js', 'resources/assets/js/vendor/jquery-steps.js');
+    mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-validation/jquery.validate.js', 'resources/assets/js/vendor/jquery-validate.js');
+    mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-datatable/jquery.dataTables.js', 'resources/assets/js/vendor/jquery-datatables.js');
+    mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js', 'resources/assets/js/vendor/bootstrap-datatables.js');
+    mix.copy('node_modules/cropit/dist/jquery.cropit.js', 'resources/assets/js/vendor/jquery-cropit.js');
 
     // Compile JS
-    mix.webpack('main.js');
+    mix.scripts([
+        'jquery.min.js',
+        'bootstrap.min.js',
+        'jquery-steps.js',
+        'jquery-validate.js',
+        'jquery-datatables.js',
+        'bootstrap-datatables.js',
+        'jquery-cropit.js',
+        'admin.js'
+    ], 'public/js/vendor.js', 'resources/assets/js/vendor').webpack('main.js');
 });
