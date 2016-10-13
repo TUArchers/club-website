@@ -83,10 +83,13 @@
 <h3 class="card-inside-title">Additional Information</h3>
 <!--AGB ID and Student Status-->
 <div class="row clearfix">
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+    	@include('components.form.select', ['name' => 'experience_level', 'label' => 'Select Experience Level', 'options' => $experience_levels, 'selected' => isset($user)? $user->experience_level->id:null ])
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
         @include('components.form.input.text', ['name' => 'agb_id', 'label' => 'AGB ID', 'value' => isset($user)? $user->agb_id:null ])
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
         @include('components.form.input.checkbox', ['name' => 'is_student', 'label' => 'Current Student?', 'checked' => isset($user)? $user->is_student:true, 'colour' => 'orange' ])
     </div>
 </div>

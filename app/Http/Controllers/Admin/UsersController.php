@@ -4,6 +4,7 @@ namespace TuaWebsite\Http\Controllers\Admin;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use TuaWebsite\Domain\Identity\ExperienceLevel;
 use TuaWebsite\Domain\Identity\Gender;
 use TuaWebsite\Domain\Identity\Role;
 use TuaWebsite\Domain\Identity\User;
@@ -46,10 +47,11 @@ class UsersController extends Controller
      */
     public function create()
     {
-        $roles   = Role::all();
-        $genders = Gender::all();
+        $roles             = Role::all();
+        $genders           = Gender::all();
+        $experience_levels = ExperienceLevel::all();
 
-        return view('admin.users.create', compact('roles', 'genders'));
+        return view('admin.users.create', compact('roles', 'genders', 'experience_levels'));
     }
 
     /**
@@ -62,7 +64,7 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         // Collect user data
-        $user_data               = $request->only(['email', 'phone', 'first_name', 'last_name', 'gender', 'birth_date', 'role_id', 'tusc_id', 'agb_id']);
+        $user_data               = $request->only(['email', 'phone', 'first_name', 'last_name', 'gender', 'birth_date', 'role_id', 'tusc_id', 'agb_id', 'experience_level']);
         $user_data['is_student'] = $request->has('is_student');
 
         // Generate or use a specified password
@@ -111,11 +113,12 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $user    = User::findOrFail($id);
-        $roles   = Role::all();
-        $genders = Gender::all();
+        $user              = User::findOrFail($id);
+        $roles             = Role::all();
+        $genders           = Gender::all();
+        $experience_levels = ExperienceLevel::all();
 
-        return view('admin.users.edit', compact('user', 'roles', 'genders'));
+        return view('admin.users.edit', compact('user', 'roles', 'genders', 'experience_levels'));
     }
 
     /**
@@ -132,7 +135,7 @@ class UsersController extends Controller
         $user = User::find($id);
 
         // Get the user data
-        $user_data               = array_filter($request->only(['email', 'phone', 'first_name', 'last_name', 'gender', 'birth_date', 'role_id', 'tusc_id', 'agb_id']));
+        $user_data               = array_filter($request->only(['email', 'phone', 'first_name', 'last_name', 'gender', 'birth_date', 'role_id', 'tusc_id', 'agb_id', 'experience_level']));
         $user_data['is_student'] = $request->has('is_student');
 
         // Handle a new profile picture

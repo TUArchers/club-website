@@ -17,25 +17,26 @@ use TuaWebsite\Notifications\ResetPasswordNotification;
  * @version 0.1.0
  * @since   0.1.0
  *
- * @property int    $id
- * @property string $first_name
- * @property string $last_name
- * @property string $name
- * @property string $gender
- * @property Carbon $birth_date
- * @property string $picture_url
- * @property bool   $is_student
- * @property string $tusc_id
- * @property string $agb_id
- * @property string $phone
- * @property string $email
- * @property bool   $email_verified
- * @property string $password_hash
- * @property string $remember_token
- * @property Carbon $registered_at
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * @property Role   $role
+ * @property int             $id
+ * @property string          $first_name
+ * @property string          $last_name
+ * @property string          $name
+ * @property string          $gender
+ * @property Carbon          $birth_date
+ * @property string          $picture_url
+ * @property bool            $is_student
+ * @property string          $tusc_id
+ * @property string          $agb_id
+ * @property ExperienceLevel $experienceLevel
+ * @property string          $phone
+ * @property string          $email
+ * @property bool            $email_verified
+ * @property string          $password_hash
+ * @property string          $remember_token
+ * @property Carbon          $registered_at
+ * @property Carbon          $created_at
+ * @property Carbon          $updated_at
+ * @property Role            $role
  */
 class User extends Authenticatable
 {
@@ -53,6 +54,7 @@ class User extends Authenticatable
         'is_student',
         'tusc_id',
         'agb_id',
+        'experience_level',
         'phone',
         'email',
         'password_hash',
@@ -130,6 +132,16 @@ class User extends Authenticatable
     public function getGenderAttribute()
     {
         return Gender::find($this->attributes['gender']);
+    }
+
+    /**
+     * Get this user's experience level
+     *
+     * @return ExperienceLevel
+     */
+    public function getExperienceLevelAttribute()
+    {
+        return ExperienceLevel::find($this->attributes['experience_level']);
     }
 
     // Authentication ----
