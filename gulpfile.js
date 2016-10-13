@@ -17,6 +17,7 @@ elixir(function(mix){
     mix.copy('node_modules/adminbsb-materialdesign/plugins/material-design-preloader/md-preloader.css', 'public/css/preloader.css');
     mix.copy('node_modules/adminbsb-materialdesign/css/materialize.css', 'public/css/materialize.css');
     mix.copy('node_modules/adminbsb-materialdesign/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css', 'public/css/datetimepicker.css');
+    mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css', 'public/css/data-tables.css');
     mix.copy('node_modules/adminbsb-materialdesign/css/style.css', 'public/css/admin.css');
     mix.copy('node_modules/adminbsb-materialdesign/css/themes/theme-orange.css', 'public/css/admin-theme.css');
 
@@ -29,6 +30,8 @@ elixir(function(mix){
     mix.copy('node_modules/adminbsb-materialdesign/js/admin.js', 'public/js/admin.js');
     mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-steps/jquery.steps.js', 'public/js/jquery-steps.js');
     mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-validation/jquery.validate.js', 'public/js/jquery-validate.js');
+    mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-datatable/jquery.dataTables.js', 'public/js/jquery-datatables.js');
+    mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js', 'public/js/bootstrap-datatables.js');
     mix.copy('node_modules/cropit/dist/jquery.cropit.js', 'public/js/jquery-cropit.js');
 
     // Compile JS

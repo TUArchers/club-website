@@ -26,7 +26,7 @@
                     </ul>
                 </div>
                 <div class="body table-responsive">
-                    <table class="table table-striped table-hover">
+                    <table class="table table-striped table-hover dataTable">
                         <thead>
                         <tr>
                             <th>Name</th>
@@ -72,6 +72,8 @@
 @push('scripts')
 <script>
     $(function(){
+        $('.dataTable').DataTable();
+
         $('button[data-alert-type="confirm"]').on('click', function(e){
             e.preventDefault();
 
