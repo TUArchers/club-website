@@ -40,7 +40,7 @@
                         <tbody>
                         @foreach($users as $user)
                             <tr>
-                                <td>{{ $user->name }}</td>
+                                <td><a href="{{ route('admin.users.show', $user->id) }}">{{ $user->name }}</a></td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->tusc_id?:'N/A' }}</td>
                                 <td>{{ $user->role->name}}</td>

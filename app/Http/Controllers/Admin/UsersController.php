@@ -4,10 +4,12 @@ namespace TuaWebsite\Http\Controllers\Admin;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 use TuaWebsite\Domain\Identity\ExperienceLevel;
 use TuaWebsite\Domain\Identity\Gender;
 use TuaWebsite\Domain\Identity\Role;
 use TuaWebsite\Domain\Identity\User;
+use TuaWebsite\Domain\Records\Score;
 use TuaWebsite\Http\Controllers\Controller;
 use TuaWebsite\Notifications\WelcomeNotification;
 
@@ -99,9 +101,11 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user           = User::findOrFail($id);
+        $recent_scores  = $this->getRecentScoresForUser($id);
+        $personal_bests = $this->getPersonalBestsForUser($id);
 
-        return view('admin.users.show', compact('user'));
+        return view('admin.users.show', compact('user', 'recent_scores', 'personal_bests'));
     }
 
     /**
@@ -189,5 +193,34 @@ class UsersController extends Controller
         }
 
         return asset('storage/' . $fileName);
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Collection|Score[]
+     */
+    private function getRecentScoresForUser($id)
+    {
+        return Score::where('archer_id', $id)
+            ->orderBy('shot_at', 'desc')
+            ->take(5)
+            ->get();
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Collection
+     */
+    private function getPersonalBestsForUser($id)
+    {
+        return \DB::table('scores')
+            ->join('rounds', 'scores.round_id', '=', 'rounds.id')
+            ->selectRaw('MAX(total_score) as total_score, rounds.name as round_name, rounds.max_score as round_max_score, bow_class')
+            ->where('archer_id', $id)
+            ->groupBy('rounds.id', 'bow_class')
+            ->orderBy('bow_class', 'desc')
+            ->get();
     }
 }

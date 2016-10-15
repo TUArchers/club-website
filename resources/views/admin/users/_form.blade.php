@@ -103,7 +103,6 @@
 
 {{--Required Scripts--}}
 @push('scripts')
-<script src="{{ asset('js/jquery-cropit.js') }}"></script>
 <script>
     // Image editor
     var imageEditor = {
