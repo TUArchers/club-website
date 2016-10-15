@@ -23,10 +23,11 @@ class DashboardController extends Controller
 
     public function showDashboard()
     {
-        $message = 'This system is still being developed. There are some features that do not do anything yet. Please let James know about anything that actually breaks. A summary of updates will be shown here periodically.';
-        $events  = Event::nextSevenDays()->take(6)->get();
-        $scores  = Score::orderBy('shot_at', 'desc')->take(6)->get();
-        $users   = User::orderBy('updated_at', 'desc')->take(6)->get();
+        $change_log = url('/CHANGELOG.md');
+        $message    = "This system is still being developed. There are some features that do not do anything yet. Please let James know about anything that actually breaks. <br/><br/> 15-10-2016: Version 0.1.0 has been released. Changes can be seen <a class='alert-link' target='_blank' href='${change_log}'>here</a>";
+        $events     = Event::nextSevenDays()->take(6)->get();
+        $scores     = Score::orderBy('shot_at', 'desc')->take(6)->get();
+        $users      = User::orderBy('updated_at', 'desc')->take(6)->get();
 
         return \View::make('admin.dashboard', compact('message', 'events', 'scores', 'users'));
     }
