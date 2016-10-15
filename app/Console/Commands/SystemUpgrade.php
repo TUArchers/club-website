@@ -45,7 +45,7 @@ class SystemUpgrade extends Command
         $this->call('down');
 
         // Perform migrations
-        $this->call('migrate');
+        $this->call('migrate', ['--force' => true]);
 
         // Bring the system back up
         $this->call('up');

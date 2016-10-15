@@ -3,8 +3,6 @@ namespace TuaWebsite\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use TuaWebsite\Console\Commands\MoveEventReservation;
-use TuaWebsite\Console\Commands\RemoveExpiredEventReservations;
 use TuaWebsite\Console\Commands\SystemUpgrade;
 
 /**
@@ -24,8 +22,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         SystemUpgrade::class,
-        RemoveExpiredEventReservations::class,
-        MoveEventReservation::class
+        #RemoveExpiredEventReservations::class,
+        #MoveEventReservation::class
     ];
 
     /**
@@ -42,14 +40,15 @@ class Kernel extends ConsoleKernel
             ->everyThirtyMinutes();
 
         // Schedule next system upgrade when the upgrade file is provided
-        if(file_exists('do-upgrade.txt')){
-            $schedule->call('upgrade')
-                ->everyFiveMinutes()
-                ->evenInMaintenanceMode()
-                ->then(function(){
-                    unlink('do-upgrade.txt');
-                });
-        }
+        $schedule->command('upgrade')
+            ->everyMinute()
+            ->evenInMaintenanceMode()
+            ->when(function(){
+                return file_exists('do-upgrade');
+            })
+            ->then(function() use($schedule){
+                unlink('do-upgrade');
+            });
     }
 
     /**

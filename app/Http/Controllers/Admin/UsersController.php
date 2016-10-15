@@ -219,7 +219,7 @@ class UsersController extends Controller
             ->join('rounds', 'scores.round_id', '=', 'rounds.id')
             ->selectRaw('MAX(total_score) as total_score, rounds.name as round_name, rounds.max_score as round_max_score, bow_class')
             ->where('archer_id', $id)
-            ->groupBy('rounds.id', 'bow_class')
+            ->groupBy('round_name', 'bow_class', 'round_max_score')
             ->orderBy('bow_class', 'desc')
             ->get();
     }

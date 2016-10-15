@@ -371,7 +371,7 @@ reserved_at</columns>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
-    <column id="106" parent="12" name="email_address">
+    <column id="106" parent="12" name="email">
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
     </column>
@@ -383,7 +383,7 @@ reserved_at</columns>
       <data-type>timestamp|0</data-type>
     </column>
     <index id="109" parent="12" name="password_resets_email_address_index">
-      <columns>email_address</columns>
+      <columns>email</columns>
       <desc-columns></desc-columns>
     </index>
     <index id="110" parent="12" name="password_resets_token_index">
@@ -712,7 +712,7 @@ reserved_at</columns>
       <data-type>enum(&apos;U&apos;, &apos;M&apos;, &apos;F&apos;, &apos;O&apos;)|0</data-type>
       <default-expression>&apos;U&apos;</default-expression>
     </column>
-    <column id="189" parent="19" name="date_of_birth">
+    <column id="189" parent="19" name="birth_date">
       <data-type>datetime|0</data-type>
     </column>
     <column id="190" parent="19" name="picture_url">
@@ -729,15 +729,15 @@ reserved_at</columns>
     <column id="193" parent="19" name="agb_id">
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="194" parent="19" name="phone_number">
+    <column id="194" parent="19" name="phone">
       <mandatory>1</mandatory>
       <data-type>varchar(20)|0</data-type>
     </column>
-    <column id="195" parent="19" name="email_address">
+    <column id="195" parent="19" name="email">
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="196" parent="19" name="email_address_verified">
+    <column id="196" parent="19" name="email_verified">
       <mandatory>1</mandatory>
       <data-type>tinyint(1)|0</data-type>
       <default-expression>&apos;0&apos;</default-expression>
@@ -765,7 +765,7 @@ reserved_at</columns>
       <unique>1</unique>
     </index>
     <index id="203" parent="19" name="users_email_address_unique">
-      <columns>email_address</columns>
+      <columns>email</columns>
       <desc-columns></desc-columns>
       <unique>1</unique>
     </index>
@@ -791,7 +791,7 @@ reserved_at</columns>
       <underlying-index>users_agb_id_unique</underlying-index>
     </key>
     <key id="209" parent="19" name="users_email_address_unique">
-      <columns>email_address</columns>
+      <columns>email</columns>
       <underlying-index>users_email_address_unique</underlying-index>
     </key>
     <foreign-key id="210" parent="19" name="users_role_id_foreign">
