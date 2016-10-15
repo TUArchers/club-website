@@ -11,7 +11,7 @@ use TuaWebsite\Domain\Identity\UserRepositoryInterface;
  * "Move Event Reservation" Command
  *
  * @package TuaWebsite\Console\Commands
- * @author
+ * @author  James Drew <jdrew@hotmail.co.uk>
  * @version 0.1.0
  * @since   0.1.0
  */

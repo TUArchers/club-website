@@ -5,12 +5,13 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use TuaWebsite\Console\Commands\MoveEventReservation;
 use TuaWebsite\Console\Commands\RemoveExpiredEventReservations;
+use TuaWebsite\Console\Commands\SystemUpgrade;
 
 /**
  * Kernel
  *
  * @package TuaWebsite\Console
- * @author
+ * @author  James Drew <jdrew@hotmail.co.uk>
  * @version 0.1.0
  * @since   0.1.0
  */
@@ -22,6 +23,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        SystemUpgrade::class,
         RemoveExpiredEventReservations::class,
         MoveEventReservation::class
     ];
@@ -29,21 +31,29 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param  Schedule $schedule
      */
     protected function schedule(Schedule $schedule)
     {
-        //$schedule->command('calendar:clear-expiries')->everyMinute();
-        #$schedule->command('send:membership-info')->everyMinute();
+        // Handle queued jobs
+        $schedule->command('queue:restart')
+            ->everyThirtyMinutes();
+        $schedule->exec('php artisan queue:work --queue=urgent,notifications,emails,default --timeout=0 --tries=10')
+            ->everyThirtyMinutes();
 
-        $schedule->command('queue:restart')->everyThirtyMinutes();
-        $schedule->exec('php artisan queue:work --queue=urgent,notifications,emails,default --timeout=0 --tries=10')->everyThirtyMinutes();
+        // Schedule next system upgrade when the upgrade file is provided
+        if(file_exists('do-upgrade.txt')){
+            $schedule->call('upgrade')
+                ->everyFiveMinutes()
+                ->evenInMaintenanceMode()
+                ->then(function(){
+                    unlink('do-upgrade.txt');
+                });
+        }
     }
 
     /**
      * Register the Closure based commands for the application.
-     *
-     * @return void
      */
     protected function commands()
     {
