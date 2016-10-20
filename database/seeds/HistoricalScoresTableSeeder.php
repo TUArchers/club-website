@@ -130,6 +130,25 @@ class HistoricalScoresTableSeeder extends Seeder
     }
     
     /**
+     * Load score data from a JSON file
+     *
+     * This is expected to be a collection of JSON objects, with the following required parts:
+     *    {
+     *       id: int
+     *       date: string (date/time)
+     *       round_name: string
+     *       total_score: int
+     *       hit_count: int
+     *       gold_count: int
+     *       bow_class: string
+     *       archer_first_name: string
+     *       archer_last_name: string
+     *       archer_last_name: string
+     *       archer_email: string
+     *       archer_tusc_id: string
+     *       archer_gender: string
+     *    }
+     *
      * @param string $file_name
      *
      * @return Collection
