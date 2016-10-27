@@ -266,7 +266,8 @@
                         <div class="btn-group user-helper-dropdown">
                             <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                             <ul class="dropdown-menu pull-right">
-                                <li><a href="{{ url('/members/' . 'unknown') }}"><i class="material-icons">face</i>Profile</a></li>
+                                <li><a href="{{ route('admin.users.show', $user->id) }}"><i class="material-icons">face</i> View Profile</a></li>
+                                <li><a href="{{ route('admin.users.edit', $user->id) }}"><i class="material-icons">mode_edit</i> Edit Profile</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="{{ url('/logout') }}"><i class="material-icons">input</i>Sign Out</a></li>
                             </ul>
