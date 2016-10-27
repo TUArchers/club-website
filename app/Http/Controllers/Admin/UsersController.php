@@ -2,11 +2,14 @@
 namespace TuaWebsite\Http\Controllers\Admin;
 
 use Carbon\Carbon;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use TuaWebsite\Domain\Identity\ExperienceLevel;
 use TuaWebsite\Domain\Identity\Gender;
+use TuaWebsite\Domain\Identity\Membership;
+use TuaWebsite\Domain\Identity\Organisation;
 use TuaWebsite\Domain\Identity\Role;
 use TuaWebsite\Domain\Identity\User;
 use TuaWebsite\Domain\Records\Score;
@@ -18,8 +21,9 @@ use TuaWebsite\Notifications\WelcomeNotification;
  *
  * @package TuaWebsite\Http\Controllers\Admin
  * @author  James Drew <jdrew9@hotmail.co.uk>
- * @version 0.1.0
- * @since   0.1.0
+ * @version 0.2.0
+ * @since   0.1.0 Introduced this class
+ * @since   0.2.0 Improved the way scores and memberships are queried
  */
 class UsersController extends Controller
 {
@@ -66,7 +70,7 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         // Collect user data
-        $user_data               = $request->only(['email', 'phone', 'first_name', 'last_name', 'gender', 'birth_date', 'role_id', 'tusc_id', 'agb_id', 'experience_level']);
+        $user_data               = array_filter($request->only(['email', 'phone', 'first_name', 'last_name', 'gender', 'birth_date', 'role_id', 'tusc_id', 'agb_id', 'experience_level']));
         $user_data['is_student'] = $request->has('is_student');
 
         // Generate or use a specified password
@@ -102,10 +106,11 @@ class UsersController extends Controller
     public function show($id)
     {
         $user           = User::findOrFail($id);
+        $memberships    = $this->getMembershipsForUser($id);
         $recent_scores  = $this->getRecentScoresForUser($id);
         $personal_bests = $this->getPersonalBestsForUser($id);
 
-        return view('admin.users.show', compact('user', 'recent_scores', 'personal_bests'));
+        return view('admin.users.show', compact('user', 'memberships', 'recent_scores', 'personal_bests'));
     }
 
     /**
@@ -118,11 +123,13 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user              = User::findOrFail($id);
+        $memberships       = $user->memberships()->orderBy('valid_from', 'asc')->get();
         $roles             = Role::all();
         $genders           = Gender::all();
         $experience_levels = ExperienceLevel::all();
+        $organisations     = Organisation::all();
 
-        return view('admin.users.edit', compact('user', 'roles', 'genders', 'experience_levels'));
+        return view('admin.users.edit', compact('user', 'memberships', 'roles', 'genders', 'experience_levels', 'organisations'));
     }
 
     /**
@@ -135,6 +142,8 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
+        dd($request->all());
+
         /** @var User $user */
         $user = User::find($id);
 
@@ -198,6 +207,29 @@ class UsersController extends Controller
     /**
      * @param int $id
      *
+     * @return Collection|Membership[]
+     */
+    private function getMembershipsForUser($id)
+    {
+        $subQuery = \DB::table('memberships')
+            ->selectRaw('MAX(expires_at) AS exp, organisation')
+            ->where('user_id', $id)
+            ->groupBy('organisation');
+
+        return Membership::from('memberships as m')
+            ->where('m.user_id', $id)
+            ->join(\DB::raw('(' . $subQuery->toSql() . ') as max'), function(JoinClause $join){
+                $join->on('max.organisation', '=', 'm.organisation');
+                $join->on('max.exp', '=', 'm.expires_at');
+            })
+            ->mergeBindings($subQuery)
+            ->get();
+
+    }
+
+    /**
+     * @param int $id
+     *
      * @return Collection|Score[]
      */
     private function getRecentScoresForUser($id)
@@ -215,12 +247,20 @@ class UsersController extends Controller
      */
     private function getPersonalBestsForUser($id)
     {
-        return \DB::table('scores')
-            ->join('rounds', 'scores.round_id', '=', 'rounds.id')
-            ->selectRaw('MAX(total_score) as total_score, rounds.name as round_name, rounds.max_score as round_max_score, bow_class')
+        $subQuery = \DB::table('scores')
+            ->select(\DB::raw('MAX(total_score) as pb, round_id, bow_class'))
             ->where('archer_id', $id)
-            ->groupBy('round_name', 'bow_class', 'round_max_score')
-            ->orderBy('bow_class', 'desc')
+            ->groupBy('round_id', 'bow_class');
+
+        return Score::from('scores as s')
+            ->where('archer_id', $id)
+            ->join(\DB::raw('(' . $subQuery->toSql() . ') as pbs'), function(JoinClause $join){
+                $join->on('pbs.round_id', '=', 's.round_id');
+                $join->on('pbs.bow_class', '=', 's.bow_class');
+                $join->on('pbs.pb', '=', 's.total_score');
+            })
+            ->join('rounds as r', 's.round_id', '=', 'r.id')
+            ->mergeBindings($subQuery)
             ->get();
     }
 }
