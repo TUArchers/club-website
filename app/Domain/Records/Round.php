@@ -14,6 +14,13 @@ use TuaWebsite\Domain\Identity\Organisation;
  */
 class Round extends Model
 {
+    // Constants ----
+    const S_IMPERIAL       = '9, 7, 5, 3, 1';
+    const S_METRIC_FULL    = '10, 9, 8, 7, 6, 5, 4, 3, 2, 1';
+    const S_METRIC_HALF    = '10, 9, 8, 7, 6';
+    const S_WORCESTER_FULL = '5, 4, 3, 2, 1';
+    const S_WORCESTER_HALF = '5, 4';
+
     // Settings ----
     public $timestamps  = true;
     protected $fillable = [
@@ -61,6 +68,27 @@ class Round extends Model
     public function getIsMultiDistanceAttribute()
     {
         return $this->attributes['total_targets'] > 1;
+    }
+
+    /**
+     * @return string
+     */
+    public function getScoringSystemAttribute()
+    {
+        // TODO: This need not be derived; It can be stored as an enumerable on the round record. (Although that does not take multi-system rounds into account)
+        $max_shotScore = $this->attributes['max_shot_score'];
+        $min_shotScore = $this->attributes['min_shot_score'];
+
+        switch($max_shotScore){
+            case 10:
+                return 6 == $min_shotScore? self::S_METRIC_HALF: self::S_METRIC_FULL;
+            case 9:
+                return self::S_IMPERIAL;
+            case 5:
+                return 4 == $min_shotScore? self::S_WORCESTER_HALF: self::S_WORCESTER_FULL;
+            default:
+                return self::S_METRIC_FULL;
+        }
     }
 
     // Mutators ----

@@ -152,7 +152,7 @@
         	<div class="card">
                 <div class="header">
                     <h2>
-                        <i class="material-icons media-middle">trending_up</i> Recent Scores
+                        <i class="material-icons media-middle">history</i> Recent Scores
                     </h2>
                 </div>
                 <div class="body">
@@ -165,10 +165,10 @@
                                     <div class="date">{{ $score->shot_at->toFormattedDateString() }}</div>
                                     <div class="details">
                                         <strong>{{ $score->total_score }}</strong> <span class="col-grey">/ {{ $score->round->max_score }}</span><br>
-                                        {{ $score->round->name }}
+                                        <a href="{{ route('admin.rounds.show', $score->round_id) }}" class="no-hover">{{ $score->round->name }}</a>
                                     </div>
                                     <div class="bow-style">
-                                        <span class="badge bg-teal">{{ $score->bow_class->name }}</span>
+                                        <span class="badge bg-{{ $score->bow_class->colour }}">{{ $score->bow_class->name }}</span>
                                     </div>
                                 </li>
                             @endforeach
@@ -194,10 +194,10 @@
                                     <div class="date">{{ $score->shot_at->toFormattedDateString() }}</div>
                                     <div class="details">
                                         <strong>{{ $score->total_score }}</strong> <span class="col-grey">/ {{ $score->round->max_score }}</span><br>
-                                        {{ $score->round->name }}
+                                        <a href="{{ route('admin.rounds.show', $score->round_id) }}" class="no-hover">{{ $score->round->name }}</a>
                                     </div>
                                     <div class="bow-style">
-                                        <span class="badge bg-teal">{{ $score->bow_class->name }}</span>
+                                        <span class="badge bg-{{ $score->bow_class->colour }}">{{ $score->bow_class->name }}</span>
                                     </div>
                                 </li>
                             @endforeach

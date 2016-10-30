@@ -1,10 +1,12 @@
 <?php
 namespace TuaWebsite\Http\Controllers\Admin;
 
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use TuaWebsite\Domain\Records\Round;
+use TuaWebsite\Domain\Records\Score;
 use TuaWebsite\Http\Controllers\Controller;
-use TuaWebsite\Http\Requests;
 
 /**
  * Rounds Controller
@@ -62,7 +64,11 @@ class RoundsController extends Controller
      */
     public function show($id)
     {
-        //
+        $round         = Round::find($id);
+        $record_scores = $this->getRecordScoresForRound($id);
+        $recent_scores = $this->getRecentScoresForRound($id);
+
+        return view('admin.rounds.show', compact('round', 'record_scores', 'recent_scores'));
     }
 
     /**
@@ -97,5 +103,43 @@ class RoundsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    // Internals ----
+    /**
+     * @param int $id
+     *
+     * @return Collection|Score[]
+     */
+    private function getRecordScoresForRound($id)
+    {
+        $subQuery = \DB::table('scores')
+            ->select(\DB::raw('MAX(total_score) as rec, round_id, bow_class'))
+            ->where('scores.round_id', $id)
+            ->groupBy('bow_class', 'round_id');
+
+        return Score::from('scores as s')
+            ->where('s.round_id', $id)
+            ->join(\DB::raw('(' . $subQuery->toSql() . ') as recs'), function(JoinClause $join){
+                $join->on('recs.round_id', '=', 's.round_id');
+                $join->on('recs.bow_class', '=', 's.bow_class');
+                $join->on('recs.rec', '=', 's.total_score');
+            })
+            ->join('rounds as r', 's.round_id', '=', 'r.id')
+            ->mergeBindings($subQuery)
+            ->get();
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Collection|Score[]
+     */
+    private function getRecentScoresForRound($id)
+    {
+        return Score::where('round_id', $id)
+            ->orderBy('shot_at', 'desc')
+            ->take(5)
+            ->get();
     }
 }

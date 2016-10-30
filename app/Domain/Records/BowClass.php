@@ -23,12 +23,14 @@ class BowClass
     // Properties ----
     public $id;
     public $name;
+    public $colour;
 
     // Setup ----
-    private function __construct($id, $name)
+    private function __construct($id, $name, $colour)
     {
-        $this->id   = $id;
-        $this->name = $name;
+        $this->id     = $id;
+        $this->name   = $name;
+        $this->colour = $colour;
     }
 
     /**
@@ -36,7 +38,7 @@ class BowClass
      */
     public static function compound()
     {
-        return new self(self::COMPOUND, 'Compound');
+        return new self(self::COMPOUND, 'Compound', 'deep-orange');
     }
 
     /**
@@ -44,7 +46,7 @@ class BowClass
      */
     public static function recurve()
     {
-        return new self(self::RECURVE, 'Recurve');
+        return new self(self::RECURVE, 'Recurve', 'blue');
     }
 
     /**
@@ -52,7 +54,7 @@ class BowClass
      */
     public static function barebow()
     {
-        return new self(self::BAREBOW, 'Barebow');
+        return new self(self::BAREBOW, 'Barebow', 'deep-purple');
     }
 
     /**
@@ -60,7 +62,7 @@ class BowClass
      */
     public static function longbow()
     {
-        return new self(self::LONGBOW, 'Longbow');
+        return new self(self::LONGBOW, 'Longbow', 'green');
     }
 
     /**
@@ -68,7 +70,7 @@ class BowClass
      */
     public static function traditional()
     {
-        return new self(self::TRADITIONAL, 'Traditional');
+        return new self(self::TRADITIONAL, 'Traditional', 'brown');
     }
 
     // Queries ----
