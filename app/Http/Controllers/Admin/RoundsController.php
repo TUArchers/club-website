@@ -126,6 +126,7 @@ class RoundsController extends Controller
                 $join->on('recs.rec', '=', 's.total_score');
             })
             ->join('rounds as r', 's.round_id', '=', 'r.id')
+            ->orderBy('s.total_score', 'desc')
             ->mergeBindings($subQuery)
             ->get();
     }
