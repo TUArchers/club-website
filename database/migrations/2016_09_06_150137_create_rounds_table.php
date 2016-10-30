@@ -3,6 +3,8 @@
 use Carbon\Carbon;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use TuaWebsite\Domain\Identity\Organisation;
+use TuaWebsite\Domain\Records\Season;
 
 class CreateRoundsTable extends Migration
 {
@@ -15,8 +17,8 @@ class CreateRoundsTable extends Migration
             $table->increments('id');
 
             $table->string('name')->unique();
-            $table->enum('organisation', ['WA', 'AGB', 'TUA', 'O']);
-            $table->enum('season', ['I', 'O']);
+            $table->enum('organisation', Organisation::keys());
+            $table->enum('season', Season::keys());
 
             $table->unsignedSmallInteger('total_targets')->default(1);
             $table->unsignedSmallInteger('total_shots');

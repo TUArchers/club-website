@@ -1,11 +1,19 @@
 <?php
-
 namespace TuaWebsite\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use TuaWebsite\Domain\Records\Round;
 use TuaWebsite\Http\Controllers\Controller;
 use TuaWebsite\Http\Requests;
 
+/**
+ * Rounds Controller
+ *
+ * @package TuaWebsite\Http\Controllers\Admin
+ * @author  James Drew <jdrew9@hotmail.co.uk>
+ * @version 0.1.0
+ * @since   0.1.0 Introduced this class
+ */
 class RoundsController extends Controller
 {
     public function __construct()
@@ -20,7 +28,9 @@ class RoundsController extends Controller
      */
     public function index()
     {
-        //
+        $rounds = Round::all();
+
+        return view('admin.rounds.index', compact('rounds'));
     }
 
     /**
