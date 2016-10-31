@@ -29,31 +29,33 @@
                     <table class="table table-striped table-hover dataTable">
                         <thead>
                         <tr>
+                            <th></th>
                             <th>Name</th>
-                            <th>Email</th>
-                            <th>TUSC ID</th>
                             <th>Role</th>
+                            <th>Email</th>
+                            <th>Experience Level</th>
                             <th>Joined</th>
-                            <th><i class="material-icons">build</i></th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($users as $user)
                             <tr>
+                                <td><img src="{{ $user->picture_url?: asset('img/user-profile-default.png') }}" alt="{{ $user->name }}'s profile picture" class="img-circle" style="max-width: 50px;"></td>
                                 <td><a href="{{ route('admin.users.show', $user->id) }}">{{ $user->name }}</a></td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->tusc_id?:'N/A' }}</td>
                                 <td>{{ $user->role->name}}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->experience_level->name }}</td>
                                 <td>{{ $user->registered_at->toFormattedDateString() }}</td>
-                                <td>
-                                    <a href="{{ route('admin.users.edit', [$user->id]) }}" class="btn btn-default btn-circle waves-effect waves-circle waves-float">
+                                <td class="text-right">
+                                    <a href="{{ route('admin.users.edit', [$user->id]) }}" class="btn btn-link btn-circle waves-effect waves-circle">
                                         <i class="material-icons">mode_edit</i>
                                     </a>
                                     @if(1 != $user->id)
                                         <form style="display: inline-block;" action="{{ route('admin.users.destroy', $user->id) }}" method="post">
                                             {{ method_field('DELETE') }}
                                             {{ csrf_field() }}
-                                            <button type="submit" class="btn btn-default btn-circle waves-effect waves-circle waves-float" data-alert-type="confirm" data-user-name="{{ $user->first_name }}">
+                                            <button type="submit" class="btn btn-link btn-circle waves-effect waves-circle" data-alert-type="confirm" data-user-name="{{ $user->first_name }}">
                                                 <i class="material-icons">delete</i>
                                             </button>
                                         </form>
@@ -72,7 +74,11 @@
 @push('scripts')
 <script>
     $(function(){
-        $('.dataTable').DataTable();
+        $('.dataTable').DataTable({
+            "columnDefs": [
+                { "targets": [5], "orderable": false, "searchable": false }
+            ]
+        });
 
         $('button[data-alert-type="confirm"]').on('click', function(e){
             e.preventDefault();

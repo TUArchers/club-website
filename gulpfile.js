@@ -36,9 +36,10 @@ elixir(function(mix){
 
     // Compile JS
     mix.scripts([
+        'lodash.min.js',
         'jquery.min.js',
         'bootstrap.min.js',
-        'jquery-steps.js',
+        //'jquery-steps.js',
         'jquery-validate.js',
         'jquery-datatables.js',
         'bootstrap-datatables.js',

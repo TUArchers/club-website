@@ -1,24 +1,23 @@
 @extends('layouts.admin')
 
-@section('title', 'Add Member')
+@section('title', 'Register | Users')
 
 @section('content')
     <div class="block-header">
-        <h2>USER MANAGEMENT</h2>
+        <h2>REGISTER USER</h2>
     </div>
 
     <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="card">
-                <div class="header">
-                    <h2>ADD USER</h2>
-                </div>
-                <div class="body">
-                    <form id="user_form" action="{{ route('admin.users.store') }}" method="post" enctype="multipart/form-data">
-                        @include('admin.users._form', ['submitLabel' => 'Add User'])
-                    </form>
-                </div>
-            </div>
+        	@include('admin.users.form._register')
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(function(){
+        registerForm.ready();
+    });
+</script>
+@endpush

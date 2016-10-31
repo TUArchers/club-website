@@ -30,3 +30,6 @@ $.fn.extend({
         });
     }
 });
+
+// Set template delimiters for LoDash
+_.templateSettings.interpolate = /{{([\s\S]+?)}}/g;

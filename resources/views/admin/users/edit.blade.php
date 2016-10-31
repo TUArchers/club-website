@@ -1,25 +1,59 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit User')
+@section('title', $user->name . ' | Edit User')
 
 @section('content')
     <div class="block-header">
-        <h2>USER MANAGEMENT</h2>
+        <h2>
+            {{ strtoupper($user->name) }}<br/>
+            <small>Edit user details</small>
+        </h2>
+        <ul class="header-dropdown m-r-10">
+            <li class="dropdown">
+                <a href="javascript:void(0);" class="dropdown-toggle no-hover" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <i class="material-icons">more_vert</i>
+                </a>
+                <ul class="dropdown-menu pull-right">
+                    <li><a href="{{ route('admin.users.show', $user->id) }}" class=" waves-effect waves-block">View User Profile</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row clearfix">
+        <!--Profile Column-->
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <!--Profile Card-->
+            @include('admin.users.form._profile')
+        </div>
+
+        <!--Account Column-->
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <!--Account Card-->
+            @include('admin.users.form._account')
+        </div>
     </div>
 
     <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="card">
-                <div class="header">
-                    <h2>EDIT USER</h2>
-                </div>
-                <div class="body">
-                    <form id="user_form" action="{{ route('admin.users.update', $user->id) }}" method="post" enctype="multipart/form-data">
-                        {{ method_field('PATCH') }}
-                        @include('admin.users._form', ['submitLabel' => 'Save Changes'])
-                    </form>
-                </div>
-            </div>
+            <!--Memberships Card-->
+            @include('admin.users.form._memberships')
         </div>
     </div>
 @endsection
+
+@push('styles')
+<link rel="stylesheet" type="text/css" href="{{ asset('css/datetimepicker.css') }}">
+@endpush
+
+@push('scripts')
+<script>
+    // Go!
+    $(function(){
+        // Declare the forms ready
+        profileForm.ready();
+        accountForm.ready();
+        membershipsForm.ready();
+    });
+</script>
+@endpush

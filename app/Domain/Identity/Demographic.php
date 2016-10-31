@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * Demographic
  *
  * @package TuaWebsite\Domain\Identity
- * @author
+ * @author  James Drew <jdrew9@hotmail.co.uk>
  * @version 0.1.0
- * @since   0.1.0
+ * @since   0.1.0 Introduced this class
  */
 class Demographic extends Model
 {

@@ -23,7 +23,7 @@ use TuaWebsite\Notifications\WelcomeNotification;
  * @author  James Drew <jdrew9@hotmail.co.uk>
  * @version 0.2.0
  * @since   0.1.0 Introduced this class
- * @since   0.2.0 Improved the way scores and memberships are queried
+ * @since   0.2.0 Improved the way scores and memberships are queried/added
  */
 class UsersController extends Controller
 {
@@ -53,11 +53,13 @@ class UsersController extends Controller
      */
     public function create()
     {
+        $action            = route('admin.users.store');
+
         $roles             = Role::all();
         $genders           = Gender::all();
         $experience_levels = ExperienceLevel::all();
 
-        return view('admin.users.create', compact('roles', 'genders', 'experience_levels'));
+        return view('admin.users.create', compact('action', 'roles', 'genders', 'experience_levels'));
     }
 
     /**
@@ -70,7 +72,7 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         // Collect user data
-        $user_data               = array_filter($request->only(['email', 'phone', 'first_name', 'last_name', 'gender', 'birth_date', 'role_id', 'tusc_id', 'agb_id', 'experience_level']));
+        $user_data               = array_filter($request->only(['email', 'phone', 'first_name', 'last_name', 'gender', 'birth_date', 'role_id', 'experience_level']));
         $user_data['is_student'] = $request->has('is_student');
 
         // Generate or use a specified password
@@ -93,7 +95,9 @@ class UsersController extends Controller
             new WelcomeNotification($password)
         );
 
-        return redirect('/admin/users');
+        return redirect(
+            route('admin.users.show', $user->id)
+        );
     }
 
     /**
@@ -106,7 +110,7 @@ class UsersController extends Controller
     public function show($id)
     {
         $user           = User::findOrFail($id);
-        $memberships    = $this->getMembershipsForUser($id);
+        $memberships    = $this->getCurrentMembershipsForUser($id);
         $recent_scores  = $this->getRecentScoresForUser($id);
         $personal_bests = $this->getPersonalBestsForUser($id);
 
@@ -122,14 +126,22 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
+        $is_self           = \Auth::id() == $id;
+        $action            = route('admin.users.update', $id);
+
+        /** @var User $user */
         $user              = User::findOrFail($id);
-        $memberships       = $user->memberships()->orderBy('valid_from', 'asc')->get();
+        $memberships       = $user->memberships;
+
         $roles             = Role::all();
         $genders           = Gender::all();
         $experience_levels = ExperienceLevel::all();
         $organisations     = Organisation::all();
 
-        return view('admin.users.edit', compact('user', 'memberships', 'roles', 'genders', 'experience_levels', 'organisations'));
+        return view(
+            'admin.users.edit',
+            compact('action', 'is_self', 'user', 'memberships', 'roles', 'genders', 'experience_levels', 'organisations')
+        );
     }
 
     /**
@@ -142,13 +154,13 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->all());
+        $passwordChanged = false;
 
         /** @var User $user */
         $user = User::find($id);
 
         // Get the user data
-        $user_data               = array_filter($request->only(['email', 'phone', 'first_name', 'last_name', 'gender', 'birth_date', 'role_id', 'tusc_id', 'agb_id', 'experience_level']));
+        $user_data               = array_filter($request->only(['email', 'phone', 'first_name', 'last_name', 'gender', 'birth_date', 'role_id', 'experience_level']));
         $user_data['is_student'] = $request->has('is_student');
 
         // Handle a new profile picture
@@ -156,10 +168,27 @@ class UsersController extends Controller
             $user_data['picture_url'] = $this->storeUserPhoto($request->get('picture'), $user->picture_url);
         }
 
-        // Store the updates
+        // Handle password changing
+        if($request->has('password') && $request->has('password_confirm')){
+            $user_data['password_hash'] = \Hash::make($request->get('password'));
+            $passwordChanged = true;
+        }
+
+        // Handle memberships
+        if($request->has('memberships')){
+            $this->synchroniseMemberships($user, $request->get('memberships'));
+        }
+
+        // Store the updates and notify if necessary
         $user->update($user_data);
 
-        return redirect('/admin/users');
+        if($passwordChanged){
+            $user->sendPasswordChangedNotification();
+        }
+
+        return redirect(
+            route('admin.users.edit', $id)
+        );
     }
 
     /**
@@ -205,11 +234,28 @@ class UsersController extends Controller
     }
 
     /**
+     * @param User $user
+     * @param array $memberships
+     */
+    private function synchroniseMemberships(User $user, array $memberships)
+    {
+        // Clear membership list
+        $user->memberships()->delete();
+
+        // Add new membership list
+        $memberships = array_map(function(array $m){
+            return new Membership($m);
+        }, $memberships);
+
+        $user->memberships()->saveMany($memberships);
+    }
+
+    /**
      * @param int $id
      *
      * @return Collection|Membership[]
      */
-    private function getMembershipsForUser($id)
+    private function getCurrentMembershipsForUser($id)
     {
         $subQuery = \DB::table('memberships')
             ->selectRaw('MAX(expires_at) AS exp, organisation')

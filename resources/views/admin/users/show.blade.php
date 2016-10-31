@@ -82,37 +82,37 @@
             </div>
 
             <!--Emergency Contact-->
-            <div class="card">
-                <div class="header">
-                    <h2>
-                        <i class="material-icons media-middle">contacts</i> Emergency Contact
-                    </h2>
-                </div>
-                <div class="body">
-                    @if(!$user->emergency_contact)
-                        @include('components.empty', ['iconName' => 'warning', 'iconColour' => 'orange', 'message' => "Hmm... there doesn't seem to be an emergency contact on record for {$user->first_name }."])
-                    @else
-                    <div class="p-l-30">
-                        <dl class="dl-horizontal">
-                            <dt>Name</dt>
-                            <dd>???</dd>
+            {{--<div class="card">--}}
+                {{--<div class="header">--}}
+                    {{--<h2>--}}
+                        {{--<i class="material-icons media-middle">contacts</i> Emergency Contact--}}
+                    {{--</h2>--}}
+                {{--</div>--}}
+                {{--<div class="body">--}}
+                    {{--@if(!$user->emergency_contact)--}}
+                        {{--@include('components.empty', ['iconName' => 'warning', 'iconColour' => 'orange', 'message' => "Hmm... there doesn't seem to be an emergency contact on record for {$user->first_name }."])--}}
+                    {{--@else--}}
+                    {{--<div class="p-l-30">--}}
+                        {{--<dl class="dl-horizontal">--}}
+                            {{--<dt>Name</dt>--}}
+                            {{--<dd>???</dd>--}}
 
-                            <dt>Relationship</dt>
-                            <dd>???</dd>
+                            {{--<dt>Relationship</dt>--}}
+                            {{--<dd>???</dd>--}}
 
-                            <dt>Phone Number</dt>
-                            <dd>???</dd>
+                            {{--<dt>Phone Number</dt>--}}
+                            {{--<dd>???</dd>--}}
 
-                            <dt>Email Address</dt>
-                            <dd>???</dd>
+                            {{--<dt>Email Address</dt>--}}
+                            {{--<dd>???</dd>--}}
 
-                            <dt>Address</dt>
-                            <dd>???</dd>
-                        </dl>
-                    </div>
-                    @endif
-                </div>
-            </div>
+                            {{--<dt>Address</dt>--}}
+                            {{--<dd>???</dd>--}}
+                        {{--</dl>--}}
+                    {{--</div>--}}
+                    {{--@endif--}}
+                {{--</div>--}}
+            {{--</div>--}}
 
             <!--Memberships-->
             <div class="card">
@@ -148,19 +148,19 @@
 
         <!--Scores Column-->
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-4 col-sm-offset-4 col-md-offset-3 col-lg-offset-0">
-            <!--Recently Scored-->
-        	<div class="card">
+            <!--Personal Bests-->
+            <div class="card">
                 <div class="header">
                     <h2>
-                        <i class="material-icons media-middle">history</i> Recent Scores
+                        <i class="material-icons media-middle">bookmark</i> Personal Best Scores
                     </h2>
                 </div>
                 <div class="body">
-                    @if($recent_scores->isEmpty())
-                        @include('components.empty', ['iconName' => 'assignment', 'message' => "There are no scores on record for {$user->first_name}. Lazy."])
+                    @if($personal_bests->isEmpty())
+                        @include('components.empty', ['iconName' => 'assignment', 'message' => "There are no personal bests on record for {$user->first_name}. How tragic."])
                     @else
                         <ul class="list-unstyled list-scores">
-                            @foreach($recent_scores as $score)
+                            @foreach($personal_bests as $score)
                                 <li>
                                     <div class="date">{{ $score->shot_at->toFormattedDateString() }}</div>
                                     <div class="details">
@@ -177,19 +177,19 @@
                 </div>
             </div>
 
-            <!--Personal Bests-->
-            <div class="card">
+            <!--Recently Scored-->
+        	<div class="card">
                 <div class="header">
                     <h2>
-                        <i class="material-icons media-middle">bookmark</i> Personal Best Scores
+                        <i class="material-icons media-middle">history</i> Recent Scores
                     </h2>
                 </div>
                 <div class="body">
-                    @if($personal_bests->isEmpty())
-                        @include('components.empty', ['iconName' => 'assignment', 'message' => "There are no personal bests on record for {$user->first_name}. How tragic."])
+                    @if($recent_scores->isEmpty())
+                        @include('components.empty', ['iconName' => 'assignment', 'message' => "There are no scores on record for {$user->first_name}. Lazy."])
                     @else
                         <ul class="list-unstyled list-scores">
-                            @foreach($personal_bests as $score)
+                            @foreach($recent_scores as $score)
                                 <li>
                                     <div class="date">{{ $score->shot_at->toFormattedDateString() }}</div>
                                     <div class="details">

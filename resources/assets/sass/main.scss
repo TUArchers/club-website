@@ -17,6 +17,11 @@
   background: url('../img/user-background-default.jpg') !important;
 }
 
+a.no-hover {
+  color: inherit;
+  text-decoration: none;
+}
+
 .login-page {
   background-color: #222222 !important;
 
@@ -24,6 +29,47 @@
     .logo a {
       font-size: 24px !important;
     }
+  }
+}
+
+.block-header .header-dropdown {
+  position: absolute;
+  top: 110px;
+  right: 15px;
+  list-style: none;
+
+  .dropdown-menu li {
+    display: block !important;
+  }
+
+  .dropdown-menu i {
+    font-size: 20px;
+    color: #999;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+  }
+
+  .dropdown-menu i:hover {
+    color: #000;
+  }
+}
+
+.card .footer {
+  color: #555;
+  padding: 8px;
+  position: relative;
+  text-align: right;
+}
+
+.dl-horizontal {
+  dt {
+    text-align: left;
+  }
+
+  dd {
+    margin-bottom: 10px;
   }
 }
 
@@ -36,4 +82,63 @@
 .btn-icon {
   cursor: pointer;
   user-select: none;
+}
+
+.bootstrap-select.btn-group {
+  &:not(.input-group-btn),
+  &[class*="col-"] {
+    margin-bottom: 26px;
+  }
+}
+
+.list-scores {
+  li {
+    height: 40px;
+    margin-bottom: 10px;
+    clear: both;
+
+    .date {
+      width: 35%;
+      float: left;
+    }
+
+    .details {
+      width: 45%;
+      float: left;
+    }
+
+    .bow-style{
+      width: 20%;
+      float: left;
+      text-align: right;
+    }
+  }
+}
+
+.list-memberships {
+  li {
+    height: 60px;
+    margin-bottom: 10px;
+    clear: both;
+
+    .number {
+      width: 25%;
+      float: left;
+    }
+
+    .details {
+      width: 60%;
+      float: left;
+    }
+
+    .validity{
+      width: 15%;
+      float: left;
+      text-align: right;
+    }
+  }
+}
+
+.table-hover>tbody>tr.no-hover:hover {
+  background-color: #fff;
 }

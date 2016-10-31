@@ -2,7 +2,9 @@
 namespace TuaWebsite\Domain\Identity;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use TuaWebsite\Domain\Event\Reservation;
@@ -17,26 +19,27 @@ use TuaWebsite\Notifications\ResetPasswordNotification;
  * @version 0.1.0
  * @since   0.1.0
  *
- * @property int             $id
- * @property string          $first_name
- * @property string          $last_name
- * @property string          $name
- * @property string          $gender
- * @property Carbon          $birth_date
- * @property string          $picture_url
- * @property bool            $is_student
- * @property string          $tusc_id
- * @property string          $agb_id
- * @property ExperienceLevel $experienceLevel
- * @property string          $phone
- * @property string          $email
- * @property bool            $email_verified
- * @property string          $password_hash
- * @property string          $remember_token
- * @property Carbon          $registered_at
- * @property Carbon          $created_at
- * @property Carbon          $updated_at
- * @property Role            $role
+ * @property int                     $id
+ * @property string                  $first_name
+ * @property string                  $last_name
+ * @property string                  $name
+ * @property string                  $gender
+ * @property Carbon                  $birth_date
+ * @property string                  $picture_url
+ * @property bool                    $is_student
+ * @property string                  $tusc_id
+ * @property string                  $agb_id
+ * @property ExperienceLevel         $experienceLevel
+ * @property string                  $phone
+ * @property string                  $email
+ * @property bool                    $email_verified
+ * @property string                  $password_hash
+ * @property string                  $remember_token
+ * @property Carbon                  $registered_at
+ * @property Carbon                  $created_at
+ * @property Carbon                  $updated_at
+ * @property Role                    $role
+ * @property Membership[]|Collection $memberships
  */
 class User extends Authenticatable
 {
@@ -94,6 +97,22 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * @return HasMany|Collection|Membership[]
+     */
+    public function memberships()
+    {
+        return $this->hasMany(Membership::class);
+    }
+
+    /**
+     * @return null
+     */
+    public function emergencyContact()
+    {
+        return null;
     }
 
     // Accessors ----

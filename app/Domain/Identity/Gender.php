@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
  * @package TuaWebsite\Domain\Identity
  * @author  James Drew <jdrew9@hotmail.co.uk>
  * @version 0.1.0
- * @since   0.1.0
+ * @since   0.1.0 Introduced this class
  */
 class Gender
 {
