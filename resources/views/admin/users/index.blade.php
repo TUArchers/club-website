@@ -76,8 +76,9 @@
     $(function(){
         $('.dataTable').DataTable({
             "columnDefs": [
-                { "targets": [5], "orderable": false, "searchable": false }
-            ]
+                { "targets": [0, 6], "orderable": false, "searchable": false }
+            ],
+            "order": [[ 1, 'asc']]
         });
 
         $('button[data-alert-type="confirm"]').on('click', function(e){
