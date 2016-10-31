@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Allow memberships to be handled more realistically (4)
 - Show a list of all defined rounds (11)
+- Add an individual view for round details
 - Add user profile links to user menu in committee tools (32)
 
 ### Changed
