@@ -44,10 +44,10 @@ class Kernel extends ConsoleKernel
             ->everyMinute()
             ->evenInMaintenanceMode()
             ->when(function(){
-                return file_exists('do-upgrade');
+                return file_exists('upgrade.zip');
             })
             ->then(function() use($schedule){
-                unlink('do-upgrade');
+                unlink('upgrade.zip');
             });
     }
 
