@@ -2,6 +2,7 @@
 namespace TuaWebsite\Http\Controllers\Admin;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -27,11 +28,13 @@ use TuaWebsite\Notifications\WelcomeNotification;
  */
 class UsersController extends Controller
 {
+    // Setup ----
     public function __construct()
     {
         $this->middleware('auth');
     }
 
+    // Actions ----
     /**
      * Display a listing of the resource.
      *
@@ -294,19 +297,44 @@ class UsersController extends Controller
     private function getPersonalBestsForUser($id)
     {
         $subQuery = \DB::table('scores')
-            ->select(\DB::raw('MAX(total_score) as pb, round_id, bow_class'))
+            ->select(\DB::raw('MAX(total_score) as total_score, round_id, bow_class'))
             ->where('archer_id', $id)
             ->groupBy('round_id', 'bow_class');
 
-        return Score::from('scores as s')
+        /** @var EloquentCollection $allBests */
+        $allBests = Score::from('scores as s')
             ->where('archer_id', $id)
             ->join(\DB::raw('(' . $subQuery->toSql() . ') as pbs'), function(JoinClause $join){
                 $join->on('pbs.round_id', '=', 's.round_id');
                 $join->on('pbs.bow_class', '=', 's.bow_class');
-                $join->on('pbs.pb', '=', 's.total_score');
+                $join->on('pbs.total_score', '=', 's.total_score');
             })
             ->join('rounds as r', 's.round_id', '=', 'r.id')
+            ->orderBy('r.name', 'asc')
+            ->orderBy('s.shot_at', 'asc') # Used for filtering hack below
             ->mergeBindings($subQuery)
             ->get();
+
+        return $this->filterPersonalBests($allBests);
+    }
+
+    /**
+     * @param Collection $scores
+     *
+     * @return Collection
+     */
+    private function filterPersonalBests(Collection $scores)
+    {
+        // TODO: While this achieves the same thing, it should be possible to do this at database level. This isn't disastrous though, as there are unlikely to be a large number of equalled PBs
+
+        $rounds = [];
+
+        return $scores->filter(function(Score $score) use(&$rounds){
+            if(!in_array($score->round_id, $rounds)){
+                $rounds[] = $score->round_id;
+                return true;
+            }
+            return false;
+        });
     }
 }

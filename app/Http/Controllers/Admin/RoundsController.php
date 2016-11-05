@@ -118,7 +118,7 @@ class RoundsController extends Controller
             ->where('scores.round_id', $id)
             ->groupBy('bow_class', 'round_id');
 
-        return Score::from('scores as s')
+        $allRecords = Score::from('scores as s')
             ->where('s.round_id', $id)
             ->join(\DB::raw('(' . $subQuery->toSql() . ') as recs'), function(JoinClause $join){
                 $join->on('recs.round_id', '=', 's.round_id');
@@ -127,8 +127,31 @@ class RoundsController extends Controller
             })
             ->join('rounds as r', 's.round_id', '=', 'r.id')
             ->orderBy('s.total_score', 'desc')
+            ->orderBy('s.shot_at', 'asc')
             ->mergeBindings($subQuery)
             ->get();
+
+        return $this->filterRecords($allRecords);
+    }
+
+    /**
+     * @param Collection $scores
+     *
+     * @return Collection
+     */
+    private function filterRecords(Collection $scores)
+    {
+        // TODO: While this achieves the same thing, it should be possible to do this at database level. This isn't disastrous though, as there are unlikely to be a large number of equalled records
+
+        $bow_class = [];
+
+        return $scores->filter(function(Score $score) use(&$bow_class){
+            if(!in_array($score->bow_class, $bow_class)){
+                $bow_class[] = $score->bow_class;
+                return true;
+            }
+            return false;
+        });
     }
 
     /**
