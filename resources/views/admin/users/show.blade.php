@@ -82,37 +82,37 @@
             </div>
 
             <!--Emergency Contact-->
-            {{--<div class="card">--}}
-                {{--<div class="header">--}}
-                    {{--<h2>--}}
-                        {{--<i class="material-icons media-middle">contacts</i> Emergency Contact--}}
-                    {{--</h2>--}}
-                {{--</div>--}}
-                {{--<div class="body">--}}
-                    {{--@if(!$user->emergency_contact)--}}
-                        {{--@include('components.empty', ['iconName' => 'warning', 'iconColour' => 'orange', 'message' => "Hmm... there doesn't seem to be an emergency contact on record for {$user->first_name }."])--}}
-                    {{--@else--}}
-                    {{--<div class="p-l-30">--}}
-                        {{--<dl class="dl-horizontal">--}}
-                            {{--<dt>Name</dt>--}}
-                            {{--<dd>???</dd>--}}
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        <i class="material-icons media-middle">contacts</i> Emergency Contact
+                    </h2>
+                </div>
+                <div class="body">
+                    @if(!$emergency_contact)
+                        @include('components.empty', ['iconName' => 'warning', 'iconColour' => 'orange', 'message' => "Hmm... there doesn't seem to be an emergency contact on record for {$user->first_name }."])
+                    @else
+                    <div class="p-l-30">
+                        <dl class="dl-horizontal">
+                            <dt>Name</dt>
+                            <dd>{{ $emergency_contact->name }}</dd>
 
-                            {{--<dt>Relationship</dt>--}}
-                            {{--<dd>???</dd>--}}
+                            <dt>Relationship</dt>
+                            <dd>{{ $emergency_contact->relationship }}</dd>
 
-                            {{--<dt>Phone Number</dt>--}}
-                            {{--<dd>???</dd>--}}
+                            <dt>Phone Number</dt>
+                            <dd>{{ $emergency_contact->phone }}</dd>
 
-                            {{--<dt>Email Address</dt>--}}
-                            {{--<dd>???</dd>--}}
+                            <dt>Email Address</dt>
+                            <dd>{{ $emergency_contact->email }}</dd>
 
-                            {{--<dt>Address</dt>--}}
-                            {{--<dd>???</dd>--}}
-                        {{--</dl>--}}
-                    {{--</div>--}}
-                    {{--@endif--}}
-                {{--</div>--}}
-            {{--</div>--}}
+                            <dt>Address</dt>
+                            <dd>{{ $emergency_contact->address }}</dd>
+                        </dl>
+                    </div>
+                    @endif
+                </div>
+            </div>
 
             <!--Memberships-->
             <div class="card">

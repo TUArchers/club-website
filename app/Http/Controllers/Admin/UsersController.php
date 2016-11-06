@@ -6,6 +6,7 @@ use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
+use TuaWebsite\Domain\Identity\EmergencyContact;
 use TuaWebsite\Domain\Identity\ExperienceLevel;
 use TuaWebsite\Domain\Identity\Gender;
 use TuaWebsite\Domain\Identity\Membership;
@@ -27,11 +28,13 @@ use TuaWebsite\Notifications\WelcomeNotification;
  */
 class UsersController extends Controller
 {
+    // Setup ----
     public function __construct()
     {
         $this->middleware('auth');
     }
 
+    // Actions ----
     /**
      * Display a listing of the resource.
      *
@@ -109,12 +112,16 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user           = User::findOrFail($id);
-        $memberships    = $this->getCurrentMembershipsForUser($id);
-        $recent_scores  = $this->getRecentScoresForUser($id);
-        $personal_bests = $this->getPersonalBestsForUser($id);
+        $user              = User::findOrFail($id);
+        $emergency_contact = $user->emergency_contact;
+        $memberships       = $this->getCurrentMembershipsForUser($id);
+        $recent_scores     = $this->getRecentScoresForUser($id);
+        $personal_bests    = $this->getPersonalBestsForUser($id);
 
-        return view('admin.users.show', compact('user', 'memberships', 'recent_scores', 'personal_bests'));
+        return view(
+            'admin.users.show',
+            compact('user', 'emergency_contact', 'memberships', 'recent_scores', 'personal_bests')
+        );
     }
 
     /**
@@ -131,6 +138,7 @@ class UsersController extends Controller
 
         /** @var User $user */
         $user              = User::findOrFail($id);
+        $emergency_contact = $user->emergency_contact;
         $memberships       = $user->memberships;
 
         $roles             = Role::all();
@@ -140,7 +148,7 @@ class UsersController extends Controller
 
         return view(
             'admin.users.edit',
-            compact('action', 'is_self', 'user', 'memberships', 'roles', 'genders', 'experience_levels', 'organisations')
+            compact('action', 'is_self', 'user', 'emergency_contact', 'memberships', 'roles', 'genders', 'experience_levels', 'organisations')
         );
     }
 
@@ -172,6 +180,11 @@ class UsersController extends Controller
         if($request->has('password') && $request->has('password_confirm')){
             $user_data['password_hash'] = \Hash::make($request->get('password'));
             $passwordChanged = true;
+        }
+
+        // Handle emergency contact
+        if($request->has('emergencyContact')){
+            $this->updateEmergencyContact($user, $request->get('emergencyContact'));
         }
 
         // Handle memberships
@@ -231,6 +244,21 @@ class UsersController extends Controller
         }
 
         return asset('storage/' . $fileName);
+    }
+
+    /**
+     * @param User $user
+     * @param array $contactDetails
+     */
+    private function updateEmergencyContact(User $user, array $contactDetails)
+    {
+        $contact = $user->emergency_contact;
+
+        if(!$contact){
+            $contact = new EmergencyContact([]);
+        }
+
+        $contact->update($contactDetails);
     }
 
     /**

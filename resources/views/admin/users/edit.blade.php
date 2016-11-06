@@ -36,6 +36,13 @@
 
     <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!--Emergency Contact Card-->
+            @include('admin.users.form._emergencyContact')
+        </div>
+    </div>
+
+    <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <!--Memberships Card-->
             @include('admin.users.form._memberships')
         </div>
@@ -53,6 +60,7 @@
         // Declare the forms ready
         profileForm.ready();
         accountForm.ready();
+        emergencyContactForm.ready();
         membershipsForm.ready();
     });
 </script>
