@@ -110,7 +110,7 @@
                             <dd><a href="mailto: {{ $emergency_contact->email }}" class="no-hover">{{ $emergency_contact->email }}</a></dd>
 
                             <dt>Address</dt>
-                            <dd>{{ $emergency_contact->address }}</dd>
+                            <dd><a href="http://map.google.com?q={{ $emergency_contact->address }}" class="no-hover" target="_blank">{{ $emergency_contact->address }}</a></dd>
                         </dl>
                     </div>
                     @endif
