@@ -23,6 +23,7 @@
     <div class="row clearfix">
         <!--Identity Column-->
         <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+
             <!--Image and Contact Details-->
             <div class="card">
                 <div class="body">
@@ -44,7 +45,9 @@
                             </a>
                         </li>
                         <li class="m-b-10">
-                            <i class="material-icons font-18 media-middle m-r-10">phone</i> {{ $user->phone }}
+                            <a href="tel: {{ $user->phone }}" class="no-hover">
+                                <i class="material-icons font-18 media-middle m-r-10">phone</i> {{ $user->phone }}
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -101,10 +104,10 @@
                             <dd>{{ $emergency_contact->relationship }}</dd>
 
                             <dt>Phone Number</dt>
-                            <dd>{{ $emergency_contact->phone }}</dd>
+                            <dd><a href="tel: {{ $emergency_contact->phone }}" class="no-hover">{{ $emergency_contact->phone }}</a></dd>
 
                             <dt>Email Address</dt>
-                            <dd>{{ $emergency_contact->email }}</dd>
+                            <dd><a href="mailto: {{ $emergency_contact->email }}" class="no-hover">{{ $emergency_contact->email }}</a></dd>
 
                             <dt>Address</dt>
                             <dd>{{ $emergency_contact->address }}</dd>
