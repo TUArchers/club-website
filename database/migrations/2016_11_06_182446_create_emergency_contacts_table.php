@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * Create Emergency Contacts Table
@@ -21,6 +21,7 @@ class CreateEmergencyContactsTable extends Migration
         Schema::create('emergency_contacts', function (Blueprint $table) {
             $table->increments('id');
 
+            $table->unsignedInteger('user_id')->required();
             $table->string('relationship')->required();
             $table->string('first_name')->required();
             $table->string('last_name')->required();
