@@ -12,12 +12,12 @@
             <div class="row clearfix">
                 <!--Email-->
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                    @include('components.form.input.email', ['name' => 'email', 'label' => 'Email Address', 'value' => isset($user)? $user->email:null ])
+                    @include('components.form.input.email', ['name' => 'account[email]', 'label' => 'Email Address', 'value' => isset($user)? $user->email:null ])
                 </div>
 
                 <!--Role-->
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                    @include('components.form.select', ['name' => 'role_id', 'label' => 'Select Role', 'options' => $roles, 'selected' => isset($user)? $user->role_id:null ])
+                    @include('components.form.select', ['name' => 'account[role_id]', 'label' => 'Select Role', 'options' => $roles, 'selected' => isset($user)? $user->role_id:null ])
                 </div>
             @if($is_self)
                 <!--Toggle Password Fields-->
@@ -28,10 +28,10 @@
                     <!--New Password-->
                     <div id="password-fields" class="hidden">
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                            @include('components.form.input.password', ['name' => 'password', 'label' => 'New Password'])
+                            @include('components.form.input.password', ['name' => 'account[password]', 'label' => 'New Password'])
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                            @include('components.form.input.password', ['name' => 'password_confirm', 'label' => 'Confirm New Password'])
+                            @include('components.form.input.password', ['name' => 'account[password_confirm]', 'label' => 'Confirm New Password'])
                         </div>
                     </div>
                 @endif

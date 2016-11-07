@@ -162,13 +162,46 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $passwordChanged = false;
+        // Set the redirect destination
+        $redirect = redirect(
+            route('admin.users.edit', $id)
+        );
 
         /** @var User $user */
         $user = User::find($id);
 
-        // Get the user data
-        $user_data               = array_filter($request->only(['email', 'phone', 'first_name', 'last_name', 'gender', 'birth_date', 'role_id', 'experience_level']));
+        // Handle the emergency contact card only
+        if($request->has('emergencyContact')){
+            $this->updateEmergencyContact($user, $request->get('emergencyContact'));
+            return $redirect;
+        }
+
+        // Handle the account card only
+        if($request->has('account')){
+            $passwordChanged = false;
+            if($request->has('password') && $request->has('password_confirm')){
+                $user_data['password_hash'] = \Hash::make($request->get('password'));
+                $passwordChanged = true;
+            }
+
+            $user_data = $request->get('account');
+            $user->update($user_data);
+
+            if($passwordChanged){
+                $user->sendPasswordChangedNotification();
+            }
+
+            return $redirect;
+        }
+
+        // Handle the memberships card only
+        if($request->has('memberships')){
+            $this->synchroniseMemberships($user, $request->get('memberships'));
+            return $redirect;
+        }
+
+        // Get the user profile data
+        $user_data               = array_filter($request->only(['phone', 'first_name', 'last_name', 'gender', 'birth_date', 'experience_level']));
         $user_data['is_student'] = $request->has('is_student');
 
         // Handle a new profile picture
@@ -176,32 +209,10 @@ class UsersController extends Controller
             $user_data['picture_url'] = $this->storeUserPhoto($request->get('picture'), $user->picture_url);
         }
 
-        // Handle password changing
-        if($request->has('password') && $request->has('password_confirm')){
-            $user_data['password_hash'] = \Hash::make($request->get('password'));
-            $passwordChanged = true;
-        }
-
-        // Handle emergency contact
-        if($request->has('emergencyContact')){
-            $this->updateEmergencyContact($user, $request->get('emergencyContact'));
-        }
-
-        // Handle memberships
-        if($request->has('memberships')){
-            $this->synchroniseMemberships($user, $request->get('memberships'));
-        }
-
-        // Store the updates and notify if necessary
+        // Store the updates
         $user->update($user_data);
 
-        if($passwordChanged){
-            $user->sendPasswordChangedNotification();
-        }
-
-        return redirect(
-            route('admin.users.edit', $id)
-        );
+        return $redirect;
     }
 
     /**
