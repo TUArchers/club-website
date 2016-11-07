@@ -27,17 +27,17 @@
             @include('admin.users.form._profile')
         </div>
 
-        <!--Account Column-->
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <!--Account Card-->
-            @include('admin.users.form._account')
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <!--Emergency Contact Card-->
+            @include('admin.users.form._emergencyContact')
         </div>
     </div>
 
     <div class="row clearfix">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <!--Emergency Contact Card-->
-            @include('admin.users.form._emergencyContact')
+        <!--Account Column-->
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <!--Account Card-->
+            @include('admin.users.form._account')
         </div>
     </div>
 
