@@ -41,7 +41,7 @@ use TuaWebsite\Notifications\ResetPasswordNotification;
  * @property Carbon                  $created_at
  * @property Carbon                  $updated_at
  * @property Role                    $role
- * @property EmergencyContact        $emergency_contact
+ * @property EmergencyContact        $emergencyContact
  * @property Membership[]|Collection $memberships
  */
 class User extends Authenticatable

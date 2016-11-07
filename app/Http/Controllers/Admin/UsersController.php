@@ -7,7 +7,6 @@ use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
-use TuaWebsite\Domain\Identity\EmergencyContact;
 use TuaWebsite\Domain\Identity\ExperienceLevel;
 use TuaWebsite\Domain\Identity\Gender;
 use TuaWebsite\Domain\Identity\Membership;
@@ -114,7 +113,7 @@ class UsersController extends Controller
     public function show($id)
     {
         $user              = User::findOrFail($id);
-        $emergency_contact = $user->emergency_contact;
+        $emergency_contact = $user->emergencyContact;
         $memberships       = $this->getCurrentMembershipsForUser($id);
         $recent_scores     = $this->getRecentScoresForUser($id);
         $personal_bests    = $this->getPersonalBestsForUser($id);
@@ -139,7 +138,7 @@ class UsersController extends Controller
 
         /** @var User $user */
         $user              = User::findOrFail($id);
-        $emergency_contact = $user->emergency_contact;
+        $emergency_contact = $user->emergencyContact;
         $memberships       = $user->memberships;
 
         $roles             = Role::all();
@@ -256,10 +255,11 @@ class UsersController extends Controller
         $contact = $user->emergency_contact;
 
         if(!$contact){
-            $contact = new EmergencyContact([]);
+            $user->emergencyContact()->create($contactDetails);
         }
-
-        $contact->update($contactDetails);
+        else{
+            $contact->update($contactDetails);
+        }
     }
 
     /**
