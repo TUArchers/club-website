@@ -9,7 +9,7 @@ use TuaWebsite\Domain\Identity\Organisation;
  *
  * @author  James Drew <jdrew9@hotmail.co.uk>
  * @version 0.1.0
- * @since   0.1.0 Introduced this class
+ * @since   0.2.0 Introduced this migration
  */
 class CreateMembershipsTable extends Migration
 {

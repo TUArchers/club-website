@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use TuaWebsite\Domain\Event\Reservation;
@@ -17,7 +18,8 @@ use TuaWebsite\Notifications\ResetPasswordNotification;
  * @package TuaWebsite\Model\Identity
  * @author  James Drew <jdrew9@hotmail.co.uk>
  * @version 0.1.0
- * @since   0.1.0
+ * @since   0.1.0 Introduced this class
+ * @since   0.3.0 Added a relationship to EmergencyContact
  *
  * @property int                     $id
  * @property string                  $first_name
@@ -39,6 +41,7 @@ use TuaWebsite\Notifications\ResetPasswordNotification;
  * @property Carbon                  $created_at
  * @property Carbon                  $updated_at
  * @property Role                    $role
+ * @property EmergencyContact        $emergency_contact
  * @property Membership[]|Collection $memberships
  */
 class User extends Authenticatable
@@ -100,19 +103,19 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasOne|EmergencyContact
+     */
+    public function emergencyContact()
+    {
+        return $this->hasOne(EmergencyContact::class);
+    }
+
+    /**
      * @return HasMany|Collection|Membership[]
      */
     public function memberships()
     {
         return $this->hasMany(Membership::class);
-    }
-
-    /**
-     * @return null
-     */
-    public function emergencyContact()
-    {
-        return null;
     }
 
     // Accessors ----
