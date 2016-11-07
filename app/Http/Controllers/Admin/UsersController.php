@@ -252,7 +252,7 @@ class UsersController extends Controller
      */
     private function updateEmergencyContact(User $user, array $contactDetails)
     {
-        $contact = $user->emergency_contact;
+        $contact = $user->emergencyContact;
 
         if(!$contact){
             $user->emergencyContact()->create($contactDetails);
