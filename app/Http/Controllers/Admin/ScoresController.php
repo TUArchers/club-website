@@ -15,17 +15,20 @@ use TuaWebsite\Http\Controllers\Controller;
  * Scores Controller (Admin)
  *
  * @package TuaWebsite\Http\Controllers\Admin
- * @author
- * @version 0.1.0
- * @since   0.1.0
+ * @author  James Drew <jdrew9@hotmail.co.uk>
+ * @version 0.1.1
+ * @since   0.1.0 Introduced this controller
+ * @since   0.3.0 Fixed a bug when calculating scores submitted for the academic year
  */
 class ScoresController extends Controller
 {
+    // Setup ----
     public function __construct()
     {
         $this->middleware('auth');
     }
 
+    // Actions ----
     /**
      * Display a listing of the resource.
      *
@@ -33,19 +36,18 @@ class ScoresController extends Controller
      */
     public function index()
     {
-        // Calculate the date this academic year started
-        $months_passed = 9 - Carbon::now()->month;
-        $year_start    = Carbon::now()->subMonths($months_passed)->startOfMonth();
+        // Get the current date and time
+        $now = Carbon::now();
 
         // Get chart data
         $bow_class_popularity = $this->bowStylePopularity();
         $round_popularity     = $this->roundPopularity();
 
-        // Get the period counts
+        // Get the periodic counts
+        $weekly_scores  = $this->scoresRecordedSince($now->startOfWeek());
+        $monthly_scores = $this->scoresRecordedSince($now->startOfMonth());
+        $yearly_scores  = $this->scoresRecordedSince($this->academicYearStartDate($now));
         $all_scores     = Score::all()->count();
-        $yearly_scores  = $this->scoresRecordedSince($year_start);
-        $monthly_scores = $this->scoresRecordedSince(Carbon::now()->startOfMonth());
-        $weekly_scores  = $this->scoresRecordedSince(Carbon::now()->startOfWeek());
 
         // Get recent scores
         $recent_scores = $this->recentScores();
@@ -150,5 +152,22 @@ class ScoresController extends Controller
         return Score::orderBy('shot_at', 'desc')
             ->take(5)
             ->get();
+    }
+
+    /**
+     * Calculate the start of the academic year for the given date
+     *
+     * @param Carbon $now
+     *
+     * @return Carbon
+     */
+    private function academicYearStartDate(Carbon $now)
+    {
+        $yearStart = $now->copy()->month(9)->startOfMonth();
+        if($now->month < 9){
+            $yearStart->subYear();
+        }
+
+        return $yearStart;
     }
 }
