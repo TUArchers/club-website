@@ -34,7 +34,7 @@
                         <i class="material-icons media-middle">av_timer</i> {{ $event->duration }} long
                     </p>
                     <p>
-                        <i class="material-icons media-middle">location_on</i> {{ $event->location_name }}
+                        <i class="material-icons media-middle">location_on</i> <a href="http://map.google.com?q={{ $event->location_name }}" class="no-hover"  target="_blank">{{ $event->location_name }}</a>
                     </p>
                     @if($event->description)
                         <h4>Description</h4>
