@@ -31,7 +31,7 @@
                         <i class="material-icons media-middle">access_time</i> {{ $event->starts_at->format('j F \a\t g:i A') }} - {{ $event->ends_at->format('g:i A') }}
                     </p>
                     <p>
-                        <i class="material-icons media-middle">av_timer</i> {{ $event->duration }} minutes long
+                        <i class="material-icons media-middle">av_timer</i> {{ $event->duration }} long
                     </p>
                     <p>
                         <i class="material-icons media-middle">location_on</i> {{ $event->location_name }}

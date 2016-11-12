@@ -1,34 +1,37 @@
 <?php
-
 namespace TuaWebsite\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use TuaWebsite\Domain\Event\Event;
+use TuaWebsite\Domain\Event\EventType;
 use TuaWebsite\Domain\Event\Reservation;
 use TuaWebsite\Http\Controllers\Controller;
 
 /**
- * Events Controller
+ * EventsController
  *
  * @package TuaWebsite\Http\Controllers\Admin
- * @author
+ * @author  James Drew <jdrew9@hotmail.co.uk>
  * @version 0.1.0
- * @since   0.1.0
+ * @since   0.1.0 Introduced this class
+ * @since   0.3.0 Enabled event planning
  */
 class EventsController extends Controller
 {
+    // Setup ----
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    // Web Actions ----
+    // Actions ----
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -46,29 +49,48 @@ class EventsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
-        //
+        $action      = route('admin.events.store');
+        $event_types = EventType::all();
+
+        return view('admin.events.create', compact('action', 'event_types'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
-        //
+        $event_data = $request->only(['type_id', 'name', 'location_name', 'starts_at', 'ends_at', 'capacity', 'description']);
+
+        $event_data['has_waiting_list'] = $request->has('has_waiting_list');
+        $event_data['members_only']     = $request->has('members_only');
+        $event_data['invite_only']      = $request->has('invite_only');
+
+        // Handle date/time without seconds
+        $event_data['starts_at'] = Carbon::parse($event_data['starts_at'] . ':00');
+        if($event_data['ends_at']){
+            $event_data['ends_at'] = Carbon::parse($event_data['ends_at'] . ':00');
+        }
+
+        $event = Event::create($event_data);
+
+        return redirect(
+            route('admin.events.show', $event->id)
+        );
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -82,7 +104,7 @@ class EventsController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -92,9 +114,9 @@ class EventsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -105,14 +127,13 @@ class EventsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
         //
     }
 
-    // API Actions ----
     /**
      * @param Request $request
      * @param int $eventId

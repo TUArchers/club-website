@@ -1,18 +1,26 @@
 <?php
-
 namespace TuaWebsite\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use TuaWebsite\Http\Controllers\Controller;
-use TuaWebsite\Http\Requests;
 
+/**
+ * Event Types Controller
+ *
+ * @package TuaWebsite\Http\Controllers\Admin
+ * @author  James Drew <jdrew9@hotmail.co.uk>
+ * @version 0.1.0
+ * @since   0.1.0 Introduced this class
+ */
 class EventTypesController extends Controller
 {
+    // Setup ----
     public function __construct()
     {
         $this->middleware('auth');
     }
 
+    // Actions ----
     /**
      * Display a listing of the resource.
      *

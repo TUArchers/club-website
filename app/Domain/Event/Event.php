@@ -124,7 +124,7 @@ class Event extends Model
         /** @var Carbon $endTime */
         $endTime   = $this->ends_at;
 
-        return $endTime->diffInMinutes($startTime);
+        return $endTime->diffForHumans($startTime, true);
     }
 
     /**
