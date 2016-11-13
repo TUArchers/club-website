@@ -30,7 +30,7 @@ use TuaWebsite\Repositories\EloquentUserRepository;
  * Repository Provider
  *
  * @package TuaWebsite\Providers
- * @author
+ * @author  James Drew <jdrew9@hotmail.co.uk>
  * @version 0.1.0
  * @since   0.1.0
  */

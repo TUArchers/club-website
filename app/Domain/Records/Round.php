@@ -115,4 +115,19 @@ class Round extends Model
 
         $this->attributes['season'] = $value;
     }
+
+    // Queries ----
+    /**
+     * Get the score value achieved for the given ring number on this round's target face
+     *
+     * @param int $ring_number
+     *
+     * @return int
+     */
+    public function getScoreForRing($ring_number)
+    {
+        $scoring_system = explode(', ', $this->scoring_system);
+
+        return $scoring_system[$ring_number-1];
+    }
 }
