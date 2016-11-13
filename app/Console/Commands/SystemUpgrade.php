@@ -62,7 +62,7 @@ class SystemUpgrade extends Command
         }
 
         // Clear up by removing the upgrade archive
-        unset($this->archive_name);
+        unlink($this->archive_name);
 
         // Bring the system back up
         $this->call('up');
