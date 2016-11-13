@@ -11,7 +11,8 @@ use TuaWebsite\Console\Commands\SystemUpgrade;
  * @package TuaWebsite\Console
  * @author  James Drew <jdrew@hotmail.co.uk>
  * @version 0.1.0
- * @since   0.1.0
+ * @since   0.1.0 Introduced this kernel
+ * @since   0.3.0 Moved more upgrade functionality to a dedicated command
  */
 class Kernel extends ConsoleKernel
 {
