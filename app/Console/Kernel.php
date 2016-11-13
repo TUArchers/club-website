@@ -45,9 +45,6 @@ class Kernel extends ConsoleKernel
             ->evenInMaintenanceMode()
             ->when(function(){
                 return file_exists('upgrade.zip');
-            })
-            ->then(function() use($schedule){
-                unlink('upgrade.zip');
             });
     }
 

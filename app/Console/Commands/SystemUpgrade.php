@@ -29,6 +29,13 @@ class SystemUpgrade extends Command
     protected $description = 'Upgrade system to the latest released version';
 
     /**
+     * The name of the archive that is used for system upgrades
+     *
+     * @var string
+     */
+    protected $archive_name = 'upgrade.zip';
+
+    /**
      * Create a new command instance
      */
     public function __construct()
@@ -44,10 +51,34 @@ class SystemUpgrade extends Command
         // Put the system into maintenance mode
         $this->call('down');
 
-        // Perform migrations
-        $this->call('migrate', ['--force' => true]);
+        // Extract the contents of the upgrade archive and perform database migrations
+        try{
+            $this->extractUpgradeFiles($this->archive_name);
+            $this->call('migrate', ['--force' => true]);
+        }
+        catch(\Exception $ex){
+            \Log::error($ex->getMessage(), $ex->getTrace());
+        }
+
+        // Clear up by removing the upgrade archive
+        unset($this->archive_name);
 
         // Bring the system back up
         $this->call('up');
+    }
+
+    /**
+     * @param string $archive_name
+     */
+    private function extractUpgradeFiles($archive_name)
+    {
+        $archive = new \ZipArchive();
+
+        if(!$archive->open($archive_name)){
+            throw new \RuntimeException('Could not extract files from ' . $archive_name);
+        }
+
+        $archive->extractTo(base_path());
+        $archive->close();
     }
 }
