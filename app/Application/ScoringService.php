@@ -3,6 +3,7 @@ namespace TuaWebsite\Application;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use TuaWebsite\Domain\Identity\ExperienceLevel;
 use TuaWebsite\Domain\Records\BowClass;
 use TuaWebsite\Domain\Records\Round;
 use TuaWebsite\Domain\Records\Score;
@@ -170,6 +171,35 @@ class ScoringService
             ->get();
     }
 
+    /**
+     * Get all the scores that are eligible for E-League in the current academic year
+     *
+     * @return Collection
+     */
+    public function scoresEligibleForELeague()
+    {
+        // Calculate the start and end dates for this year's competition
+        $academicYear = $this->calculateAcademicYearDates(Carbon::now());
+        $start        = $academicYear['year_start'];
+        $end          = $start->copy()->addYear()->month(3)->endOfMonth();
+
+        // Prepare the query
+        $query = \DB::table('scores')
+            ->selectRaw('scores.*, rounds.name, rounds.max_score, users.first_name, users.last_name, users.experience_level')
+            ->join('rounds', 'scores.round_id', '=', 'rounds.id')
+            ->join('users', 'scores.archer_id', '=', 'users.id')
+            ->where('rounds.name', 'Portsmouth')
+            ->whereBetween('scores.shot_at', [$start, $end])
+            ->where('users.is_student', true)
+            ->whereIn('scores.bow_class', ['B', 'C', 'R', 'L']);
+
+        // Run the query and order the results by the score they achieved
+        $results = $query->orderBy('total_score', 'desc')->get();
+
+        // Group the results into the competition stages and return
+        return $this->groupELeagueResultsIntoStages($results, $academicYear);
+    }
+
     // Internals ----
     /**
      * @param int $round_id
@@ -236,5 +266,99 @@ class ScoringService
             ->endOfDay();
 
         return compact('year_start', 'year_end');
+    }
+
+    /**
+     * @param Collection $results
+     * @param array      $academicYear
+     *
+     * @return Collection
+     */
+    private function groupELeagueResultsIntoStages(Collection $results, array $academicYear)
+    {
+        // This defines the start and end months for each E-League stage
+        $year   = $academicYear['year_start']->year;
+        $stages = [
+            1 => [
+                'start' => 9,
+                'end'   => 10,
+            ],
+            2 => [
+                'start' => 11,
+                'end'   => 11,
+            ],
+            3 => [
+                'start' => 12,
+                'end'   => 1,
+            ],
+            4 => [
+                'start' => 2,
+                'end'   => 2,
+            ],
+            5 => [
+                'start' => 3,
+                'end'   => 3,
+            ]
+        ];
+
+        // Loop over the defined stage months and fill in this year's start and end dates,
+        // along with the scores for that round
+        foreach ($stages as $stage_number => &$stage){
+
+            // Calculate the start and end dates of the stage
+            $stage_start = Carbon::createFromDate($year, $stage['start'], 1);
+
+            if($stage['end'] < $stage['start']){
+                $year ++;
+            }
+
+            $stage_end   = Carbon::createFromDate($year, $stage['end'])->endOfMonth();
+
+            // Filter out the scores for this stage
+            $stage_scores = $results->filter(function($score) use($stage_start, $stage_end){
+                $shot_at = Carbon::parse($score->shot_at);
+
+                return $shot_at->gte($stage_start) && $shot_at->lte($stage_end);
+            });
+
+            // Assign the dates and scores to the stage
+            $stage['name']   = $stage['start'] != $stage['end']?
+                $stage_start->format('M') . ' - ' . $stage_end->format('M'):
+                $stage_start->format('M');
+            $stage['start']  = $stage_start;
+            $stage['end']    = $stage_end;
+            $stage['scores'] = $this->parseScoreData($stage_scores);
+        }
+
+        return new Collection($stages);
+    }
+
+    /**
+     * @param Collection $scores
+     *
+     * @return Collection
+     */
+    private function parseScoreData(Collection $scores)
+    {
+        $parsedScores = [];
+
+        foreach($scores as $score){
+            $parsed = new \stdClass();
+
+            $parsed->shot_at          = Carbon::parse($score->shot_at);
+            $parsed->created_at       = Carbon::parse($score->created_at);
+            $parsed->archer_name      = trim(
+                sprintf('%s %s', $score->first_name, $score->last_name)
+            );
+            $parsed->experience_level = ExperienceLevel::find($score->experience_level)->name;
+            $parsed->bow_class        = BowClass::find($score->bow_class)->name;
+            $parsed->round_name       = $score->name;
+            $parsed->total_score      = $score->total_score;
+            $parsed->round_max_score  = $score->max_score;
+
+            $parsedScores[] = $parsed;
+        }
+
+        return new Collection($parsedScores);
     }
 }

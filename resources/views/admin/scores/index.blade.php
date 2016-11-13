@@ -50,12 +50,17 @@
     </div>
 
     <div class="block-header">
-        <h2>RECENT SCORES</h2>
+        <h2>SCORE LOG</h2>
     </div>
 
     <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="card">
+                <div class="header">
+                    <h2>
+                        <i class="material-icons media-middle">history</i> Recent Scores
+                    </h2>
+                </div>
                 <div class="body">
                     <div class="table-responsive">
                     	<table class="table table-hover">
@@ -77,11 +82,78 @@
                     				<td class="hidden-sm hidden-xs">{{ $score->bow_class->name }}</td>
                     				<td>{{ $score->round->name }}</td>
                     				<td>{{ $score->total_score }} <span class="col-grey">/ {{ $score->round->max_score }}</span></td>
-                    				<td class="hidden-sm hidden-xs">@include('components.progress', ['value' => round(($score->total_score/$score->round->max_score)*100), 'classes' => 'bg-deep-orange'])</td>
+                    				<td class="hidden-sm hidden-xs">@include('components.progress', ['value' => round(($score->total_score/$score->round->max_score)*100), 'classes' => 'bg-green'])</td>
                     			</tr>
                             @endforeach
                     		</tbody>
                     	</table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        	<div class="card">
+                <div class="header">
+                    <h2>
+                        <i class="material-icons media-middle">assignment_turned_in</i> E-League Scores
+                    </h2>
+                </div>
+                <div class="body">
+                    <!--Nav Tabs-->
+                    <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                    @foreach($eleague_scores as $stage_number => $stage)
+                        <li role="presentation" {{ 0 == $loop->index? 'class=active':null }}>
+                            <a href="#stage_{{ $stage_number }}_panel" data-toggle="tab">
+                                STAGE {{ $stage_number }} ({{ $stage['name'] }})
+                            </a>
+                        </li>
+                    @endforeach
+                    </ul>
+
+                    <!--Panes-->
+                    <div class="tab-content">
+                    @foreach($eleague_scores as $stage_number => $stage)
+                        <div id="stage_{{ $stage_number }}_panel" role="tabpanel" class="tab-pane animated fadeIn{{ 0 == $loop->index? ' active':null }}">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Archer</th>
+                                        <th>Level</th>
+                                        <th class="hidden-sm hidden-xs">Bow Class</th>
+                                        <th class="hidden-sm hidden-xs">Round</th>
+                                        <th>Score</th>
+                                        <th class="hidden-sm hidden-xs">%</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @forelse($stage['scores'] as $score)
+                                        <tr {{ $score->created_at->gt($stage['end'])? 'class=col-red':null }}>
+                                            <td>{{ $score->shot_at->toFormattedDateString() }}</td>
+                                            <td>{{ $score->archer_name }}</td>
+                                            <td>{{ $score->experience_level }}</td>
+                                            <td class="hidden-sm hidden-xs">{{ $score->bow_class }}</td>
+                                            <td class="hidden-sm hidden-xs">{{ $score->round_name }}</td>
+                                            <td>{{ $score->total_score }} <span class="col-grey">/ {{ $score->round_max_score }}</span></td>
+                                            <td class="hidden-sm hidden-xs">@include('components.progress', ['value' => round(($score->total_score/$score->round_max_score)*100), 'classes' => 'bg-green'])</td>
+                                        </tr>
+
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="text-center">
+                                                No results to show for this stage
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    @endforeach
                     </div>
                 </div>
             </div>

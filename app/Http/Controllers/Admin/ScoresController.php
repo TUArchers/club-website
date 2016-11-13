@@ -53,9 +53,12 @@ class ScoresController extends Controller
         // Get recent scores
         $recent_scores = $this->scoringService->recentlyShotScores(5);
 
+        // Get E-League eligible scores
+        $eleague_scores = $this->scoringService->scoresEligibleForELeague();
+
         return view(
             'admin.scores.index',
-            compact('bow_class_popularity', 'round_popularity', 'all_scores', 'yearly_scores', 'monthly_scores', 'weekly_scores', 'recent_scores')
+            compact('bow_class_popularity', 'round_popularity', 'all_scores', 'yearly_scores', 'monthly_scores', 'weekly_scores', 'recent_scores', 'eleague_scores')
         );
     }
 
