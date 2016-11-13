@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.0] - 2016-11-13
+### Added
+- Add emergency contact details to user profiles (29)
+- Show projected E-League scores for the current time window (12)
+- Enable simple event planning via the committee tools (5)
+
+### Fixed
+- Fix incorrect score count for current year on score summary (42)
+- Fix multiple occurrences of a personal best or club record being shown (37)
+- Fix default user image size (36)
+- Fix student status being reset when saving changes to user profiles (43)
+
 ## [0.2.0] - 2016-10-30
 ### Added
 - Allow memberships to be handled more realistically (4)
