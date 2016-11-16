@@ -22,6 +22,8 @@ class TeamScore
     /** @var Collection */
     public $team_scores;
     /** @var int */
+    public $max_score;
+    /** @var int */
     public $total_score;
     /** @var int */
     public $hit_count;
@@ -33,16 +35,19 @@ class TeamScore
      * TeamScore constructor.
      *
      * @param array      $teamMembers
+     * @param int        $size
      * @param Collection $teamScores
+     * @param int        $max_score
      * @param int        $totalScore
      * @param int        $hitCount
      * @param int        $goldCount
      */
-    private function __construct(array $teamMembers, Collection $teamScores, $totalScore, $hitCount, $goldCount)
+    private function __construct(array $teamMembers, $size, Collection $teamScores, $max_score, $totalScore, $hitCount, $goldCount)
     {
         $this->members      = $teamMembers;
-        $this->size         = count($teamMembers);
+        $this->size         = $size;
         $this->team_scores  = $teamScores;
+        $this->max_score    = $max_score;
         $this->total_score  = $totalScore;
         $this->hit_count    = $hitCount;
         $this->gold_count   = $goldCount;
@@ -55,23 +60,28 @@ class TeamScore
      * @version 1.0.0
      *
      * @param Collection $scores
+     * @param int        $maxTeamSize
      *
      * @return TeamScore
      */
-    public static function fromIndividualScores(Collection $scores)
+    public static function fromIndividualScores(Collection $scores, $maxTeamSize)
     {
         $teamMembers = [];
+        $teamSize    = 0;
         $totalScore  = 0;
         $hitCount    = 0;
         $goldCount   = 0;
 
         foreach($scores as $score){
             $teamMembers[] = $score->archer_name;
+            $teamSize      ++;
             $totalScore    += $score->total_score;
             $hitCount      += $score->hit_count;
             $goldCount     += $score->gold_count;
         }
 
-        return new self($teamMembers, $scores, $totalScore, $hitCount, $goldCount);
+        $teamMaxScore = $teamSize > 0? $maxTeamSize * $scores->first()->round_max_score : 0;
+
+        return new self($teamMembers, $teamSize, $scores, $teamMaxScore, $totalScore, $hitCount, $goldCount);
     }
 }

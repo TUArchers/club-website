@@ -433,7 +433,8 @@ class ScoringService
         }
 
         return TeamScore::fromIndividualScores(
-            Collection::make($teamScores)
+            Collection::make($teamScores),
+            $teamSize
         );
     }
 }
