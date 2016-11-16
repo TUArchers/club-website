@@ -117,6 +117,40 @@
                     <div class="tab-content">
                     @foreach($eleague_scores as $stage_number => $stage)
                         <div id="stage_{{ $stage_number }}_panel" role="tabpanel" class="tab-pane animated fadeIn{{ 0 == $loop->index? ' active':null }}">
+                            <h3 class="card-inside-title">Team Scores</h3>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Team</th>
+                                        <th>Score</th>
+                                        <th>Mean Score</th>
+                                        <th class="hidden-xs">Members</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($stage['teams'] as $name => $team)
+                                        @if($team->total_score > 0)
+                                            <tr>
+                                                <td>{{ $name }}</td>
+                                                <td>{{ $team->total_score }}</td>
+                                                <td>{{ round($team->total_score/$team->size) }}</td>
+                                                <td class="hidden-xs">{{ implode(', ', $team->members) }}</td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                    @if(count($stage['scores']) < 1)
+                                        <tr>
+                                            <td colspan="4" class="text-center">
+                                                No team results to show for this stage
+                                            </td>
+                                        </tr>
+                                    @endif
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h3 class="card-inside-title">Individual Scores</h3>
                             <div class="table-responsive">
                                 <table class="table table-hover">
                                     <thead>
@@ -138,13 +172,13 @@
                                             <td>{{ $score->experience_level }}</td>
                                             <td class="hidden-sm hidden-xs">{{ $score->bow_class }}</td>
                                             <td class="hidden-sm hidden-xs">{{ $score->round_name }}</td>
-                                            <td>{{ $score->total_score }} <span class="col-grey">/ {{ $score->round_max_score }}</span></td>
+                                            <td>{{ $score->total_score }} <span class="col-grey hidden-xs">/ {{ $score->round_max_score }}</span></td>
                                             <td class="hidden-sm hidden-xs">@include('components.progress', ['value' => round(($score->total_score/$score->round_max_score)*100), 'classes' => 'bg-green'])</td>
                                         </tr>
 
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="text-center">
+                                            <td colspan="7" class="text-center">
                                                 No results to show for this stage
                                             </td>
                                         </tr>

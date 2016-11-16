@@ -166,6 +166,20 @@ class User extends Authenticatable
         return ExperienceLevel::find($this->attributes['experience_level']);
     }
 
+    // Queries ----
+    /**
+     * Check if this is a novice archer
+     *
+     * @author  James Drew <jdrew9@hotmail.co.uk>
+     * @version 1.0.0
+     *
+     * @return bool
+     */
+    public function isNovice()
+    {
+        return $this->experienceLevel->is(ExperienceLevel::novice());
+    }
+
     // Authentication ----
     /** @inheritDoc */
     public function getAuthPassword()

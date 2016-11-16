@@ -1,6 +1,7 @@
 <?php
 namespace TuaWebsite\Domain\Records;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use TuaWebsite\Domain\Identity\User;
@@ -12,6 +13,21 @@ use TuaWebsite\Domain\Identity\User;
  * @author
  * @version 0.1.0
  * @since   0.1.0
+ *
+ * @property int    $id
+ * @property int    $round_id
+ * @property Round  $round
+ * @property int    $archer_id
+ * @property User   $archer
+ * @property int    $scorer_id
+ * @property User   $scorer
+ * @property string $bow_class
+ * @property int    $hit_count
+ * @property int    $gold_count
+ * @property int    $total_score
+ * @property Carbon $shot_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
 class Score extends Model
 {

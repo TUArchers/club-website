@@ -78,4 +78,17 @@ class ExperienceLevel
             ->keyBy('id')
             ->get($id);
     }
+
+    /**
+     * @author  James Drew <jdrew9@hotmail.co.uk>
+     * @version 1.0.0
+     *
+     * @param ExperienceLevel $experienceLevel
+     *
+     * @return bool
+     */
+    public function is(ExperienceLevel $experienceLevel)
+    {
+        return $this->id == $experienceLevel->id;
+    }
 }
