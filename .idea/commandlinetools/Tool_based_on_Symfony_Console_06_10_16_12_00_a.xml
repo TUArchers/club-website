@@ -329,6 +329,36 @@
     </optionsBefore>
   </command>
   <command>
+    <name>upgrade</name>
+    <help><![CDATA[Upgrade system to the latest released version<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> <tr><td>--env</td><td></td><td>The environment the command should run under.</td></tr> </table> <br/>]]></help>
+    <optionsBefore>
+      <option name="--help" shortcut="-h">
+        <help><![CDATA[Display this help message]]></help>
+      </option>
+      <option name="--quiet" shortcut="-q">
+        <help><![CDATA[Do not output any message]]></help>
+      </option>
+      <option name="--verbose" shortcut="-v">
+        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
+      </option>
+      <option name="--version" shortcut="-V">
+        <help><![CDATA[Display this application version]]></help>
+      </option>
+      <option name="--ansi" shortcut="">
+        <help><![CDATA[Force ANSI output]]></help>
+      </option>
+      <option name="--no-ansi" shortcut="">
+        <help><![CDATA[Disable ANSI output]]></help>
+      </option>
+      <option name="--no-interaction" shortcut="-n">
+        <help><![CDATA[Do not ask any interactive question]]></help>
+      </option>
+      <option name="--env" shortcut="" pattern="equals">
+        <help><![CDATA[The environment the command should run under.]]></help>
+      </option>
+    </optionsBefore>
+  </command>
+  <command>
     <name>app:name</name>
     <help><![CDATA[Set the application namespace<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> <tr><td>--env</td><td></td><td>The environment the command should run under.</td></tr> </table> <br/>]]></help>
     <params>name</params>
@@ -427,67 +457,6 @@
   <command>
     <name>cache:table</name>
     <help><![CDATA[Create a migration for the cache database table<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> <tr><td>--env</td><td></td><td>The environment the command should run under.</td></tr> </table> <br/>]]></help>
-    <optionsBefore>
-      <option name="--help" shortcut="-h">
-        <help><![CDATA[Display this help message]]></help>
-      </option>
-      <option name="--quiet" shortcut="-q">
-        <help><![CDATA[Do not output any message]]></help>
-      </option>
-      <option name="--verbose" shortcut="-v">
-        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
-      </option>
-      <option name="--version" shortcut="-V">
-        <help><![CDATA[Display this application version]]></help>
-      </option>
-      <option name="--ansi" shortcut="">
-        <help><![CDATA[Force ANSI output]]></help>
-      </option>
-      <option name="--no-ansi" shortcut="">
-        <help><![CDATA[Disable ANSI output]]></help>
-      </option>
-      <option name="--no-interaction" shortcut="-n">
-        <help><![CDATA[Do not ask any interactive question]]></help>
-      </option>
-      <option name="--env" shortcut="" pattern="equals">
-        <help><![CDATA[The environment the command should run under.]]></help>
-      </option>
-    </optionsBefore>
-  </command>
-  <command>
-    <name>calendar:clear-expiries</name>
-    <help><![CDATA[Remove all event reservations that have expired without being confirmed<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> <tr><td>--env</td><td></td><td>The environment the command should run under.</td></tr> </table> <br/>]]></help>
-    <optionsBefore>
-      <option name="--help" shortcut="-h">
-        <help><![CDATA[Display this help message]]></help>
-      </option>
-      <option name="--quiet" shortcut="-q">
-        <help><![CDATA[Do not output any message]]></help>
-      </option>
-      <option name="--verbose" shortcut="-v">
-        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
-      </option>
-      <option name="--version" shortcut="-V">
-        <help><![CDATA[Display this application version]]></help>
-      </option>
-      <option name="--ansi" shortcut="">
-        <help><![CDATA[Force ANSI output]]></help>
-      </option>
-      <option name="--no-ansi" shortcut="">
-        <help><![CDATA[Disable ANSI output]]></help>
-      </option>
-      <option name="--no-interaction" shortcut="-n">
-        <help><![CDATA[Do not ask any interactive question]]></help>
-      </option>
-      <option name="--env" shortcut="" pattern="equals">
-        <help><![CDATA[The environment the command should run under.]]></help>
-      </option>
-    </optionsBefore>
-  </command>
-  <command>
-    <name>calendar:move-reservation</name>
-    <help><![CDATA[Move a reservation from one event to another<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> <tr><td>--env</td><td></td><td>The environment the command should run under.</td></tr> </table> <br/>]]></help>
-    <params>user-identity event-identity new-event-identity</params>
     <optionsBefore>
       <option name="--help" shortcut="-h">
         <help><![CDATA[Display this help message]]></help>
@@ -2019,36 +1988,6 @@
     </optionsBefore>
   </command>
   <command>
-    <name>send:membership-info</name>
-    <help><![CDATA[<table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> <tr><td>--env</td><td></td><td>The environment the command should run under.</td></tr> </table> <br/>]]></help>
-    <optionsBefore>
-      <option name="--help" shortcut="-h">
-        <help><![CDATA[Display this help message]]></help>
-      </option>
-      <option name="--quiet" shortcut="-q">
-        <help><![CDATA[Do not output any message]]></help>
-      </option>
-      <option name="--verbose" shortcut="-v">
-        <help><![CDATA[Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug]]></help>
-      </option>
-      <option name="--version" shortcut="-V">
-        <help><![CDATA[Display this application version]]></help>
-      </option>
-      <option name="--ansi" shortcut="">
-        <help><![CDATA[Force ANSI output]]></help>
-      </option>
-      <option name="--no-ansi" shortcut="">
-        <help><![CDATA[Disable ANSI output]]></help>
-      </option>
-      <option name="--no-interaction" shortcut="-n">
-        <help><![CDATA[Do not ask any interactive question]]></help>
-      </option>
-      <option name="--env" shortcut="" pattern="equals">
-        <help><![CDATA[The environment the command should run under.]]></help>
-      </option>
-    </optionsBefore>
-  </command>
-  <command>
     <name>session:table</name>
     <help><![CDATA[Create a migration for the session database table<br/><br/><table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> <tr><td>--env</td><td></td><td>The environment the command should run under.</td></tr> </table> <br/>]]></help>
     <optionsBefore>
@@ -2177,6 +2116,6 @@
       </option>
     </optionsBefore>
   </command>
-  <help><![CDATA[<p>Usage:<br> [options] command [arguments] </p><br> <table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--env</td><td></td><td>The environment the command should run under.</td></tr> </table> <br/> <table> <tr><td><strong>Available commands:</strong></td></tr> <tr><td>clear-compiled</td><td>Remove the compiled class file</td></tr> <tr><td>down</td><td>Put the application into maintenance mode</td></tr> <tr><td>env</td><td>Display the current framework environment</td></tr> <tr><td>help</td><td>Displays help for a command</td></tr> <tr><td>list</td><td>Lists commands</td></tr> <tr><td>migrate</td><td>Run the database migrations</td></tr> <tr><td>optimize</td><td>Optimize the framework for better performance</td></tr> <tr><td>serve</td><td>Serve the application on the PHP development server</td></tr> <tr><td>tinker</td><td>Interact with your application</td></tr> <tr><td>up</td><td>Bring the application out of maintenance mode</td></tr> <tr><td>app:name</td><td>Set the application namespace</td></tr> <tr><td>auth:clear-resets</td><td>Flush expired password reset tokens</td></tr> <tr><td>cache:clear</td><td>Flush the application cache</td></tr> <tr><td>cache:table</td><td>Create a migration for the cache database table</td></tr> <tr><td>calendar:clear-expiries</td><td>Remove all event reservations that have expired without being confirmed</td></tr> <tr><td>calendar:move-reservation</td><td>Move a reservation from one event to another</td></tr> <tr><td>config:cache</td><td>Create a cache file for faster configuration loading</td></tr> <tr><td>config:clear</td><td>Remove the configuration cache file</td></tr> <tr><td>db:seed</td><td>Seed the database with records</td></tr> <tr><td>event:generate</td><td>Generate the missing events and listeners based on registration</td></tr> <tr><td>ide-helper:generate</td><td>Generate a new IDE Helper file.</td></tr> <tr><td>ide-helper:meta</td><td>Generate metadata for PhpStorm</td></tr> <tr><td>ide-helper:models</td><td>Generate autocompletion for models</td></tr> <tr><td>key:generate</td><td>Set the application key</td></tr> <tr><td>make:auth</td><td>Scaffold basic login and registration views and routes</td></tr> <tr><td>make:command</td><td>Create a new Artisan command</td></tr> <tr><td>make:controller</td><td>Create a new controller class</td></tr> <tr><td>make:event</td><td>Create a new event class</td></tr> <tr><td>make:job</td><td>Create a new job class</td></tr> <tr><td>make:listener</td><td>Create a new event listener class</td></tr> <tr><td>make:mail</td><td>Create a new email class</td></tr> <tr><td>make:middleware</td><td>Create a new middleware class</td></tr> <tr><td>make:migration</td><td>Create a new migration file</td></tr> <tr><td>make:model</td><td>Create a new Eloquent model class</td></tr> <tr><td>make:notification</td><td>Create a new notification class</td></tr> <tr><td>make:policy</td><td>Create a new policy class</td></tr> <tr><td>make:provider</td><td>Create a new service provider class</td></tr> <tr><td>make:request</td><td>Create a new form request class</td></tr> <tr><td>make:seeder</td><td>Create a new seeder class</td></tr> <tr><td>make:test</td><td>Create a new test class</td></tr> <tr><td>migrate:install</td><td>Create the migration repository</td></tr> <tr><td>migrate:refresh</td><td>Reset and re-run all migrations</td></tr> <tr><td>migrate:reset</td><td>Rollback all database migrations</td></tr> <tr><td>migrate:rollback</td><td>Rollback the last database migration</td></tr> <tr><td>migrate:status</td><td>Show the status of each migration</td></tr> <tr><td>notifications:table</td><td>Create a migration for the notifications table</td></tr> <tr><td>queue:failed</td><td>List all of the failed queue jobs</td></tr> <tr><td>queue:failed-table</td><td>Create a migration for the failed queue jobs database table</td></tr> <tr><td>queue:flush</td><td>Flush all of the failed queue jobs</td></tr> <tr><td>queue:forget</td><td>Delete a failed queue job</td></tr> <tr><td>queue:listen</td><td>Listen to a given queue</td></tr> <tr><td>queue:restart</td><td>Restart queue worker daemons after their current job</td></tr> <tr><td>queue:retry</td><td>Retry a failed queue job</td></tr> <tr><td>queue:table</td><td>Create a migration for the queue jobs database table</td></tr> <tr><td>queue:work</td><td>Start processing jobs on the queue as a daemon</td></tr> <tr><td>route:cache</td><td>Create a route cache file for faster route registration</td></tr> <tr><td>route:clear</td><td>Remove the route cache file</td></tr> <tr><td>route:list</td><td>List all registered routes</td></tr> <tr><td>schedule:run</td><td>Run the scheduled commands</td></tr> <tr><td>send:membership-info</td><td></td></tr> <tr><td>session:table</td><td>Create a migration for the session database table</td></tr> <tr><td>storage:link</td><td>Create a symbolic link from "public/storage" to "storage/app/public"</td></tr> <tr><td>vendor:publish</td><td>Publish any publishable assets from vendor packages</td></tr> <tr><td>view:clear</td><td>Clear all compiled view files</td></tr> </table> <br/>]]></help>
+  <help><![CDATA[<p>Usage:<br> [options] command [arguments] </p><br> <table> <tr><td><strong>Options:</strong></td></tr> <tr><td>--no-interaction</td><td>(-n)</td><td>Do not ask any interactive question</td></tr> <tr><td>--ansi</td><td></td><td>Force ANSI output</td></tr> <tr><td>--help</td><td>(-h)</td><td>Display this help message</td></tr> <tr><td>--no-ansi</td><td></td><td>Disable ANSI output</td></tr> <tr><td>--quiet</td><td>(-q)</td><td>Do not output any message</td></tr> <tr><td>--version</td><td>(-V)</td><td>Display this application version</td></tr> <tr><td>--verbose</td><td>(-v)</td><td>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</td></tr> <tr><td>--env</td><td></td><td>The environment the command should run under.</td></tr> </table> <br/> <table> <tr><td><strong>Available commands:</strong></td></tr> <tr><td>clear-compiled</td><td>Remove the compiled class file</td></tr> <tr><td>down</td><td>Put the application into maintenance mode</td></tr> <tr><td>env</td><td>Display the current framework environment</td></tr> <tr><td>help</td><td>Displays help for a command</td></tr> <tr><td>list</td><td>Lists commands</td></tr> <tr><td>migrate</td><td>Run the database migrations</td></tr> <tr><td>optimize</td><td>Optimize the framework for better performance</td></tr> <tr><td>serve</td><td>Serve the application on the PHP development server</td></tr> <tr><td>tinker</td><td>Interact with your application</td></tr> <tr><td>up</td><td>Bring the application out of maintenance mode</td></tr> <tr><td>upgrade</td><td>Upgrade system to the latest released version</td></tr> <tr><td>app:name</td><td>Set the application namespace</td></tr> <tr><td>auth:clear-resets</td><td>Flush expired password reset tokens</td></tr> <tr><td>cache:clear</td><td>Flush the application cache</td></tr> <tr><td>cache:table</td><td>Create a migration for the cache database table</td></tr> <tr><td>config:cache</td><td>Create a cache file for faster configuration loading</td></tr> <tr><td>config:clear</td><td>Remove the configuration cache file</td></tr> <tr><td>db:seed</td><td>Seed the database with records</td></tr> <tr><td>event:generate</td><td>Generate the missing events and listeners based on registration</td></tr> <tr><td>ide-helper:generate</td><td>Generate a new IDE Helper file.</td></tr> <tr><td>ide-helper:meta</td><td>Generate metadata for PhpStorm</td></tr> <tr><td>ide-helper:models</td><td>Generate autocompletion for models</td></tr> <tr><td>key:generate</td><td>Set the application key</td></tr> <tr><td>make:auth</td><td>Scaffold basic login and registration views and routes</td></tr> <tr><td>make:command</td><td>Create a new Artisan command</td></tr> <tr><td>make:controller</td><td>Create a new controller class</td></tr> <tr><td>make:event</td><td>Create a new event class</td></tr> <tr><td>make:job</td><td>Create a new job class</td></tr> <tr><td>make:listener</td><td>Create a new event listener class</td></tr> <tr><td>make:mail</td><td>Create a new email class</td></tr> <tr><td>make:middleware</td><td>Create a new middleware class</td></tr> <tr><td>make:migration</td><td>Create a new migration file</td></tr> <tr><td>make:model</td><td>Create a new Eloquent model class</td></tr> <tr><td>make:notification</td><td>Create a new notification class</td></tr> <tr><td>make:policy</td><td>Create a new policy class</td></tr> <tr><td>make:provider</td><td>Create a new service provider class</td></tr> <tr><td>make:request</td><td>Create a new form request class</td></tr> <tr><td>make:seeder</td><td>Create a new seeder class</td></tr> <tr><td>make:test</td><td>Create a new test class</td></tr> <tr><td>migrate:install</td><td>Create the migration repository</td></tr> <tr><td>migrate:refresh</td><td>Reset and re-run all migrations</td></tr> <tr><td>migrate:reset</td><td>Rollback all database migrations</td></tr> <tr><td>migrate:rollback</td><td>Rollback the last database migration</td></tr> <tr><td>migrate:status</td><td>Show the status of each migration</td></tr> <tr><td>notifications:table</td><td>Create a migration for the notifications table</td></tr> <tr><td>queue:failed</td><td>List all of the failed queue jobs</td></tr> <tr><td>queue:failed-table</td><td>Create a migration for the failed queue jobs database table</td></tr> <tr><td>queue:flush</td><td>Flush all of the failed queue jobs</td></tr> <tr><td>queue:forget</td><td>Delete a failed queue job</td></tr> <tr><td>queue:listen</td><td>Listen to a given queue</td></tr> <tr><td>queue:restart</td><td>Restart queue worker daemons after their current job</td></tr> <tr><td>queue:retry</td><td>Retry a failed queue job</td></tr> <tr><td>queue:table</td><td>Create a migration for the queue jobs database table</td></tr> <tr><td>queue:work</td><td>Start processing jobs on the queue as a daemon</td></tr> <tr><td>route:cache</td><td>Create a route cache file for faster route registration</td></tr> <tr><td>route:clear</td><td>Remove the route cache file</td></tr> <tr><td>route:list</td><td>List all registered routes</td></tr> <tr><td>schedule:run</td><td>Run the scheduled commands</td></tr> <tr><td>session:table</td><td>Create a migration for the session database table</td></tr> <tr><td>storage:link</td><td>Create a symbolic link from "public/storage" to "storage/app/public"</td></tr> <tr><td>vendor:publish</td><td>Publish any publishable assets from vendor packages</td></tr> <tr><td>view:clear</td><td>Clear all compiled view files</td></tr> </table> <br/>]]></help>
 </framework>
 

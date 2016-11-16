@@ -3,6 +3,7 @@
 @section('title', 'Scoring Summary')
 
 @section('content')
+    <!--Headline Statistics-->
     <div class="block-header">
         <h2>SCORE SUMMARY</h2>
     </div>
@@ -21,6 +22,7 @@
         </div>
     </div>
 
+    <!--Round Statistics-->
     <div class="block-header">
         <h2>SCORE STATISTICS</h2>
     </div>
@@ -49,10 +51,10 @@
         </div>
     </div>
 
+    <!--E-League-->
     <div class="block-header">
         <h2>SCORE LOG</h2>
     </div>
-
     <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="card">
@@ -92,7 +94,6 @@
             </div>
         </div>
     </div>
-
     <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         	<div class="card">
@@ -107,7 +108,7 @@
                     @foreach($eleague_scores as $stage_number => $stage)
                         <li role="presentation" {{ 0 == $loop->index? 'class=active':null }}>
                             <a href="#stage_{{ $stage_number }}_panel" data-toggle="tab">
-                                STAGE {{ $stage_number }} ({{ $stage['name'] }})
+                                STAGE {{ $stage_number }} ({{ $stage->name }})
                             </a>
                         </li>
                     @endforeach
@@ -131,7 +132,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($stage['teams'] as $name => $team)
+                                    @foreach($stage->teams as $name => $team)
                                         @if($team->total_score > 0)
                                             <tr>
                                                 <td>{{ $name }}</td>
@@ -143,7 +144,7 @@
                                             </tr>
                                         @endif
                                     @endforeach
-                                    @if(count($stage['scores']) < 1)
+                                    @if(count($stage->scores) < 1)
                                         <tr>
                                             <td colspan="6" class="text-center">
                                                 No team results to show for this stage
@@ -170,8 +171,8 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @forelse($stage['scores'] as $score)
-                                        <tr {{ $score->created_at->gt($stage['end'])? 'class=col-red':null }}>
+                                    @forelse($stage->scores as $score)
+                                        <tr {{ $score->created_at->gt($stage->end)? 'class=col-red':null }}>
                                             <td>{{ $score->shot_at->toFormattedDateString() }}</td>
                                             <td>{{ $score->archer_name }}</td>
                                             <td>{{ $score->experience_level }}</td>

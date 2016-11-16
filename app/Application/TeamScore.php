@@ -1,5 +1,5 @@
 <?php
-namespace TuaWebsite\Domain\Records;
+namespace TuaWebsite\Application;
 
 use Illuminate\Support\Collection;
 

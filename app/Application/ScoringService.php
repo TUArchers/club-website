@@ -3,11 +3,9 @@ namespace TuaWebsite\Application;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use TuaWebsite\Domain\Identity\ExperienceLevel;
 use TuaWebsite\Domain\Records\BowClass;
 use TuaWebsite\Domain\Records\Round;
 use TuaWebsite\Domain\Records\Score;
-use TuaWebsite\Domain\Records\TeamScore;
 
 /**
  * Scoring Service
@@ -20,12 +18,18 @@ use TuaWebsite\Domain\Records\TeamScore;
 class ScoringService
 {
     // Dependencies ----
-    //
+    /** @var ELeagueResultsService */
+    private $eLeagueResultsService;
 
     // Setup ----
-    public function __construct()
+    /**
+     * ScoringService constructor.
+     *
+     * @param ELeagueResultsService $eLeagueResultsService
+     */
+    public function __construct(ELeagueResultsService $eLeagueResultsService)
     {
-        //
+        $this->eLeagueResultsService = $eLeagueResultsService;
     }
 
     // Commands ----
@@ -179,16 +183,13 @@ class ScoringService
      */
     public function scoresEligibleForELeague()
     {
-        // Calculate the start and end dates for this year's competition
+        // Get the dates for the current academic year
         $academicYear = $this->calculateAcademicYearDates(Carbon::now());
-        $start        = $academicYear['year_start'];
-        $end          = $start->copy()->addYear()->month(3)->endOfMonth();
 
-        // Get the results
-        $results = $this->findELeagueEligibleScores($start, $end);
-
-        // Group the results into the competition stages and return
-        return $this->groupELeagueResultsIntoStages($results, $academicYear);
+        return $this->eLeagueResultsService
+            ->allEligibleScoresGroupedByStage(
+                $academicYear['start']->year
+            );
     }
 
     // Internals ----
@@ -241,200 +242,21 @@ class ScoringService
     private function calculateAcademicYearDates(Carbon $date)
     {
         // Academic year starts on the first of September
-        $year_start = $date->copy()
+        $start = $date->copy()
             ->month(9)
             ->startOfMonth();
 
         // If the calendar year has progressed then the academic year started in the previous calendar year
         if($date->month < 9){
-            $year_start->subYear();
+            $start->subYear();
         }
 
         // Academic year ends at the end of August
-        $year_end = $year_start->copy()
+        $end = $start->copy()
             ->addYear()
             ->subDay()
             ->endOfDay();
 
-        return compact('year_start', 'year_end');
-    }
-
-    /**
-     * Find all scores that are eligible for E-League between two dates
-     *
-     * @author  James Drew <jdrew9@hotmail.co.uk>
-     * @version 1.0.0
-     *
-     * @param Carbon $start
-     * @param Carbon $end
-     *
-     * @return Collection
-     */
-    private function findELeagueEligibleScores(Carbon $start, Carbon $end)
-    {
-        // Prepare the query
-        $query = \DB::table('scores')
-            ->selectRaw('scores.*, rounds.name, rounds.max_score, users.first_name, users.last_name, users.experience_level')
-            ->join('rounds', 'scores.round_id', '=', 'rounds.id')
-            ->join('users', 'scores.archer_id', '=', 'users.id')
-            ->where('rounds.name', 'Portsmouth')
-            ->whereBetween('scores.shot_at', [$start, $end])
-            ->where('users.is_student', true)
-            ->whereIn('scores.bow_class', ['B', 'C', 'R', 'L']);
-
-        // Run the query and order the results by the score they achieved
-        return $query->orderBy('total_score', 'desc')->get();
-    }
-    
-    /**
-     * @param Collection $results
-     * @param array      $academicYear
-     *
-     * @return Collection
-     */
-    private function groupELeagueResultsIntoStages(Collection $results, array $academicYear)
-    {
-        // This defines the start and end months for each E-League stage
-        $year   = $academicYear['year_start']->year;
-        $stages = [
-            1 => [
-                'start' => 9,
-                'end'   => 10,
-            ],
-            2 => [
-                'start' => 11,
-                'end'   => 11,
-            ],
-            3 => [
-                'start' => 12,
-                'end'   => 1,
-            ],
-            4 => [
-                'start' => 2,
-                'end'   => 2,
-            ],
-            5 => [
-                'start' => 3,
-                'end'   => 3,
-            ]
-        ];
-
-        // Loop over the defined stage months and fill in this year's start and end dates,
-        // along with the scores for that round
-        foreach ($stages as $stage_number => &$stage){
-
-            // Calculate the start and end dates of the stage
-            $stage_start = Carbon::createFromDate($year, $stage['start'], 1);
-
-            if($stage['end'] < $stage['start']){
-                $year ++;
-            }
-
-            $stage_end   = Carbon::createFromDate($year, $stage['end'])->endOfMonth();
-
-            // Filter out the scores for this stage and parse them
-            $stage_scores = $results->filter(function($score) use($stage_start, $stage_end){
-                $shot_at = Carbon::parse($score->shot_at);
-
-                return $shot_at->gte($stage_start) && $shot_at->lte($stage_end);
-            });
-            $scores       = $this->parseScoreData($stage_scores);
-
-            // Assign the dates and scores to the stage
-            $stage['name']         = $stage['start'] != $stage['end']?
-                $stage_start->format('M') . ' - ' . $stage_end->format('M'):
-                $stage_start->format('M');
-            $stage['start']        = $stage_start;
-            $stage['end']          = $stage_end;
-            $stage['scores']       = $scores;
-            $stage['teams']        = [
-                'Open Recurve'   => $this->calculateTeamScore($scores, Collection::make([BowClass::barebow(), BowClass::recurve()])),
-                'Novice Recurve' => $this->calculateTeamScore($scores, Collection::make([BowClass::barebow(), BowClass::recurve()]), 3, true),
-                'Compound'       => $this->calculateTeamScore($scores, Collection::make([BowClass::compound()])),
-            ];
-        }
-
-        return new Collection($stages);
-    }
-    
-    /**
-     * @param Collection $scores
-     *
-     * @return Collection
-     */
-    private function parseScoreData(Collection $scores)
-    {
-        $parsedScores = [];
-
-        foreach($scores as $score){
-            $parsed = new \stdClass();
-
-            $parsed->shot_at          = Carbon::parse($score->shot_at);
-            $parsed->created_at       = Carbon::parse($score->created_at);
-            $parsed->archer_id        = $score->archer_id;
-            $parsed->archer_name      = trim(
-                sprintf('%s %s', $score->first_name, $score->last_name)
-            );
-            $parsed->experience_level = ExperienceLevel::find($score->experience_level)->name;
-            $parsed->bow_class        = BowClass::find($score->bow_class)->name;
-            $parsed->round_name       = $score->name;
-            $parsed->round_max_score  = $score->max_score;
-            $parsed->total_score      = $score->total_score;
-            $parsed->hit_count        = $score->hit_count;
-            $parsed->gold_count       = $score->gold_count;
-
-            $parsedScores[] = $parsed;
-        }
-
-        return new Collection($parsedScores);
-    }
-
-    /**
-     * Calculate a team score from a set of individual scores
-     *
-     * @author  James Drew <jdrew9@hotmail.co.uk>
-     * @version 1.0.0
-     *
-     * @param Collection $scores
-     * @param Collection $bowClasses
-     * @param int        $teamSize
-     * @param bool       $noviceOnly
-     *
-     * @return TeamScore
-     */
-    private function calculateTeamScore(Collection $scores, Collection $bowClasses, $teamSize = 4, $noviceOnly = false)
-    {
-        // Filter the scores according to the given criteria
-        $filteredScores = $scores->filter(function($score) use($bowClasses, $noviceOnly){
-
-            $isValidBowClass = $bowClasses->contains(function(BowClass $bowClass) use($score){
-                return $bowClass->name == $score->bow_class;
-            });
-
-            return $noviceOnly? 'Novice' == $score->experience_level && $isValidBowClass : $isValidBowClass;
-
-        })->sortByDesc('total_score');
-
-        // Prepare a container for the team scores
-        $teamScores = [];
-
-        // Find the top unique archers from the filtered scores
-        foreach($filteredScores as $score){
-
-            // If the team is already full, stop looping
-            if(count($teamScores) >= $teamSize){
-                continue;
-            }
-
-            // Add this score to the team score if this is a unique archer
-            if(!isset($teamScores[$score->archer_id])){
-                $teamScores[$score->archer_id] = $score;
-            }
-        }
-
-        return TeamScore::fromIndividualScores(
-            Collection::make($teamScores),
-            $teamSize
-        );
+        return compact('start', 'end');
     }
 }
