@@ -100,6 +100,7 @@
                 <div class="header">
                     <h2>
                         <i class="material-icons media-middle">assignment_turned_in</i> E-League Scores
+                        <small>Student-only Portsmouth rounds, shot under competition conditions</small>
                     </h2>
                 </div>
                 <div class="body">
@@ -156,43 +157,39 @@
                             </div>
 
                             <h3 class="card-inside-title">Individual Scores</h3>
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Archer</th>
-                                        <th>Level</th>
-                                        <th class="hidden-sm hidden-xs">Bow Class</th>
-                                        <th class="hidden-sm hidden-xs">Round</th>
-                                        <th>Score</th>
-                                        <th class="hidden-sm hidden-xs">Hits</th>
-                                        <th class="hidden-sm hidden-xs">Golds</th>
+                            <table class="table table-hover{{ count($stage->scores) >1? ' dataTable':null }}">
+                                <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Archer</th>
+                                    <th>Level</th>
+                                    <th class="hidden-sm hidden-xs">Bow Class</th>
+                                    <th>Score</th>
+                                    <th class="hidden-sm hidden-xs">Hits</th>
+                                    <th class="hidden-sm hidden-xs">Golds</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @forelse($stage->scores as $score)
+                                    <tr {{ $score->created_at->gt($stage->end)? 'class=col-red':null }}>
+                                        <td>{{ $score->shot_at->toFormattedDateString() }}</td>
+                                        <td>{{ $score->archer_name }}</td>
+                                        <td>{{ $score->experience_level }}</td>
+                                        <td class="hidden-sm hidden-xs">{{ $score->bow_class }}</td>
+                                        <td>{{ $score->total_score }} <span class="col-grey hidden-xs">/ {{ $score->round_max_score }}</span></td>
+                                        <td class="hidden-sm hidden-xs">{{ $score->hit_count }}</td>
+                                        <td class="hidden-sm hidden-xs">{{ $score->gold_count }}</td>
                                     </tr>
-                                    </thead>
-                                    <tbody>
-                                    @forelse($stage->scores as $score)
-                                        <tr {{ $score->created_at->gt($stage->end)? 'class=col-red':null }}>
-                                            <td>{{ $score->shot_at->toFormattedDateString() }}</td>
-                                            <td>{{ $score->archer_name }}</td>
-                                            <td>{{ $score->experience_level }}</td>
-                                            <td class="hidden-sm hidden-xs">{{ $score->bow_class }}</td>
-                                            <td class="hidden-sm hidden-xs">{{ $score->round_name }}</td>
-                                            <td>{{ $score->total_score }} <span class="col-grey hidden-xs">/ {{ $score->round_max_score }}</span></td>
-                                            <td class="hidden-sm hidden-xs">{{ $score->hit_count }}</td>
-                                            <td class="hidden-sm hidden-xs">{{ $score->gold_count }}</td>
-                                        </tr>
 
-                                    @empty
-                                        <tr>
-                                            <td colspan="8" class="text-center">
-                                                No results to show for this stage
-                                            </td>
-                                        </tr>
-                                    @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
+                                @empty
+                                    <tr>
+                                        <td colspan="7" class="text-center">
+                                            No results to show for this stage
+                                        </td>
+                                    </tr>
+                                @endforelse
+                                </tbody>
+                            </table>
                         </div>
                     @endforeach
                     </div>
@@ -201,3 +198,16 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(function(){
+        $('.dataTable').DataTable({
+            "order": [[ 4, 'desc'], [5, 'desc'], [6, 'desc']],
+            'bLengthChange': false,
+            'bFilter': false,
+            "sDom": 'lfrtip'
+        });
+    });
+</script>
+@endpush
