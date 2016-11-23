@@ -80,9 +80,9 @@
                             @foreach($recent_scores as $score)
                     			<tr>
                     				<td>{{ $score->shot_at->toFormattedDateString() }}</td>
-                    				<td>{{ $score->archer->name }}</td>
+                                    <td><a href="{{ route('admin.users.show', $score->archer_id) }}" class="no-hover">{{ $score->archer->name }}</a></td>
                     				<td class="hidden-sm hidden-xs">{{ $score->bow_class->name }}</td>
-                    				<td>{{ $score->round->name }}</td>
+                                    <td><a href="{{ route('admin.rounds.show', $score->round_id) }}" class="no-hover">{{ $score->round->name }}</a></td>
                     				<td>{{ $score->total_score }} <span class="col-grey">/ {{ $score->round->max_score }}</span></td>
                     				<td class="hidden-sm hidden-xs">@include('components.progress', ['value' => round(($score->total_score/$score->round->max_score)*100), 'classes' => 'bg-green'])</td>
                     			</tr>
@@ -173,7 +173,7 @@
                                 @forelse($stage->scores as $score)
                                     <tr {{ $score->created_at->gt($stage->end)? 'class=col-red':null }}>
                                         <td>{{ $score->shot_at->toFormattedDateString() }}</td>
-                                        <td>{{ $score->archer_name }}</td>
+                                        <td><a href="{{ route('admin.users.show', $score->archer_id) }}" class="no-hover">{{ $score->archer_name }}</a></td>
                                         <td>{{ $score->experience_level }}</td>
                                         <td class="hidden-sm hidden-xs">{{ $score->bow_class }}</td>
                                         <td>{{ $score->total_score }} <span class="col-grey hidden-xs">/ {{ $score->round_max_score }}</span></td>
