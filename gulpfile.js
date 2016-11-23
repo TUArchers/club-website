@@ -32,6 +32,7 @@ elixir(function(mix){
     mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-validation/jquery.validate.js', 'resources/assets/js/vendor/jquery-validate.js');
     mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-datatable/jquery.dataTables.js', 'resources/assets/js/vendor/jquery-datatables.js');
     mix.copy('node_modules/adminbsb-materialdesign/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js', 'resources/assets/js/vendor/bootstrap-datatables.js');
+    mix.copy('node_modules/adminbsb-materialdesign/plugins/bootstrap-notify/bootstrap-notify.js', 'resources/assets/js/vendor/bootstrap-notify.js');
     mix.copy('node_modules/cropit/dist/jquery.cropit.js', 'resources/assets/js/vendor/jquery-cropit.js');
 
     // Compile JS
@@ -43,6 +44,7 @@ elixir(function(mix){
         'jquery-validate.js',
         'jquery-datatables.js',
         'bootstrap-datatables.js',
+        'bootstrap-notify.js',
         'jquery-cropit.js',
         'admin.js'
     ], 'public/js/vendor.js', 'resources/assets/js/vendor').webpack('main.js');

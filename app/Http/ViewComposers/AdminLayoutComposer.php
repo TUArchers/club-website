@@ -8,7 +8,7 @@ use TuaWebsite\Domain\Identity\User;
  * Admin Layout Composer
  *
  * @package TuaWebsite\Http\ViewComposers
- * @author
+ * @author  James Drew <jdrew9@hotmail.co.uk>
  * @version 0.1.0
  * @since   0.1.0
  */

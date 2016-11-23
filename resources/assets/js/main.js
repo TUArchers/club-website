@@ -3,7 +3,7 @@
  */
 require('./bootstrap');
 
-// Add a function to get data from forms using jQuery
+// Get data from forms using jQuery
 $.fn.serializeObject = function()
 {
     var o = {};
@@ -21,7 +21,7 @@ $.fn.serializeObject = function()
     return o;
 };
 
-// Add a function to handle animating elements
+// Handle element animations
 $.fn.extend({
     animateCss: function (animationName) {
         var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
@@ -33,3 +33,37 @@ $.fn.extend({
 
 // Set template delimiters for LoDash
 _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
+
+// Show notifications on-screen
+window.showNotification = function(title, message, colour, placementFrom, placementAlign, animateEnter, animateExit){
+
+    // Apply defaults
+    title          = title || '';
+    message        = message || '';
+    colour         = 'bg-' + colour || 'green';
+    placementFrom  = placementFrom || 'bottom';
+    placementAlign = placementAlign || 'center';
+    animateEnter   = animateEnter || 'animated fadeInDown';
+    animateExit    = animateExit || 'animated fadeOutUp';
+
+    // Show notification
+    $.notify({
+            title: title,
+            message: message
+        },
+        {
+            type: colour,
+            allow_dismiss: true,
+            newest_on_top: true,
+            timer: 1000,
+            placement: {
+                from: placementFrom,
+                align: placementAlign
+            },
+            animate: {
+                enter: animateEnter,
+                exit: animateExit
+            },
+            template: document.getElementById('notification').innerHTML
+        });
+};
