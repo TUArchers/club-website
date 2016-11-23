@@ -359,7 +359,7 @@
         <template id="notification">
             <div data-notify="container" class="bootstrap-notify-container alert alert-dismissible {0}" role="alert">
                 <button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>
-                <span data-notify="icon"></span>
+                <span data-notify="icon" class="material-icons media-middle">{3}</span>
                 <span data-notify="title">{1}</span>
                 <span data-notify="message">{2}</span>
             </div>
@@ -368,11 +368,17 @@
         <!--Scripts-->
         <script src="{{ asset('js/vendor.js') }}"></script>
         <script src="{{ asset('js/main.js') }}"></script>
-        <script>
-            $(function(){
-                showNotification('New!', 'This is a notification', 'green');
-            });
-        </script>
+        @if(Session::has('flash.notification.message'))
+            <script>
+                $(function(){
+                    showNotification(
+                        '{{ Session::get('flash.notification.title') }}',
+                        '{{ Session::get('flash.notification.message') }}',
+                        '{{ Session::get('flash.notification.colour', 'blue') }}'
+                    );
+                });
+            </script>
+        @endif
         @stack('scripts')
 
         <!--Google Analytics-->

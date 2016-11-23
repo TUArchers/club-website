@@ -48,22 +48,23 @@ window.showNotification = function(title, message, colour, placementFrom, placem
 
     // Show notification
     $.notify({
-            title: title,
-            message: message
+        title: title,
+        message: message,
+        url: 'announcement'
+    },
+    {
+        type: colour,
+        allow_dismiss: true,
+        newest_on_top: true,
+        timer: 1000,
+        placement: {
+            from: placementFrom,
+            align: placementAlign
         },
-        {
-            type: colour,
-            allow_dismiss: true,
-            newest_on_top: true,
-            timer: 1000,
-            placement: {
-                from: placementFrom,
-                align: placementAlign
-            },
-            animate: {
-                enter: animateEnter,
-                exit: animateExit
-            },
-            template: document.getElementById('notification').innerHTML
-        });
+        animate: {
+            enter: animateEnter,
+            exit: animateExit
+        },
+        template: document.getElementById('notification').innerHTML
+    });
 };

@@ -173,6 +173,8 @@ class UsersController extends Controller
         // Handle the emergency contact card only
         if($request->has('emergencyContact')){
             $this->updateEmergencyContact($user, $request->get('emergencyContact'));
+
+            $this->notify('Done!', 'Contact details were updated', 'green');
             return $redirect;
         }
 
@@ -191,12 +193,15 @@ class UsersController extends Controller
                 $user->sendPasswordChangedNotification();
             }
 
+            $this->notify('Done!', 'Contact details were updated', 'green');
             return $redirect;
         }
 
         // Handle the memberships card only
         if($request->has('memberships')){
             $this->synchroniseMemberships($user, $request->get('memberships'));
+
+            $this->notify('Done!', 'Contact details were updated', 'green');
             return $redirect;
         }
 
@@ -212,6 +217,7 @@ class UsersController extends Controller
         // Store the updates
         $user->update($user_data);
 
+        $this->notify('Done!', 'Contact details were updated', 'green');
         return $redirect;
     }
 
@@ -373,5 +379,21 @@ class UsersController extends Controller
             }
             return false;
         });
+    }
+
+    /**
+     * Add notification data to a flash message
+     *
+     * TODO: Something like this needs to be more globally available
+     *
+     * @param string $title
+     * @param string $message
+     * @param string $colour
+     */
+    private function notify($title, $message, $colour = null)
+    {
+        \Session::flash('flash.notification.title', $title);
+        \Session::flash('flash.notification.message', $message);
+        \Session::flash('flash.notification.colour', $colour);
     }
 }
