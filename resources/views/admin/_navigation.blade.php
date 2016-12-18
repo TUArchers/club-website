@@ -11,7 +11,7 @@
             </a>
         </li>
 
-        <!--Users-->
+        <!--People-->
         <li>
             <a href="javascript:void(0);" class="menu-toggle">
                 <i class="material-icons">person</i>
@@ -19,13 +19,13 @@
             </a>
             <ul class="ml-menu">
                 <li>
-                    <a href="{{ route('admin.users.index') }}">Contacts</a>
+                    <a href="{{ route('admin.users.index') }}">Manage People</a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.users.create') }}">New Contact</a>
+                    <a href="{{ route('admin.users.create') }}">Register a Person</a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.roles.index') }}">Roles &amp; Permissions</a>
+                    <a href="{{ route('admin.roles.index') }}">Manage Roles &amp; Permissions</a>
                 </li>
                 <li>
                     <a href="{{ route('admin.roles.create') }}">Define a Role</a>

@@ -4,7 +4,10 @@
 
 @section('content')
     <div class="block-header">
-        <h2>REGISTER USER</h2>
+        <h2>
+            REGISTER PERSON <br>
+            <small>Add a new member, past member or associate</small>
+        </h2>
     </div>
 
     <div class="row clearfix">

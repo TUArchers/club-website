@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="footer">
-            <button type="submit" class="btn btn-link waves-effect">REGISTER USER</button>
+            <button type="submit" class="btn btn-link waves-effect">REGISTER PERSON</button>
         </div>
     </div>
 </form>

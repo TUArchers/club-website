@@ -14,7 +14,7 @@
                     <i class="material-icons">more_vert</i>
                 </a>
                 <ul class="dropdown-menu pull-right">
-                    <li><a href="{{ route('admin.users.edit', $user->id) }}" class=" waves-effect waves-block">Edit User Profile</a></li>
+                    <li><a href="{{ route('admin.users.edit', $user->id) }}" class=" waves-effect waves-block">Edit {{ $user->first_name }}'s Profile</a></li>
                 </ul>
             </li>
         </ul>

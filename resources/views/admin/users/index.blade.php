@@ -4,7 +4,10 @@
 
 @section('content')
     <div class="block-header">
-        <h2>ALL CONTACTS</h2>
+        <h2>
+            MEMBERS &amp; CONTACTS <br>
+            <small>All known members, past members and associates</small>
+        </h2>
     </div>
 
     <div class="row clearfix">
