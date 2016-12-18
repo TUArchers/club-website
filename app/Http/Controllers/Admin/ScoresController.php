@@ -109,6 +109,9 @@ class ScoresController extends Controller
             return abort(400, $ex->getMessage()); #TODO: Can Laravel not handle this automatically?
         }
 
+        // Show on-screen confirmation
+        $this->flash('Done!', "Score has been submitted", 'green');
+
         return redirect(
             route('admin.scores.index')
         );

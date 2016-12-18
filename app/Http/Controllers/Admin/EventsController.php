@@ -81,6 +81,9 @@ class EventsController extends Controller
 
         $event = Event::create($event_data);
 
+        // Show on-screen confirmation
+        $this->flash('Done!', "'" . str_limit($event->name, 20) . "' has been scheduled", 'green');
+
         return redirect(
             route('admin.events.show', $event->id)
         );

@@ -25,6 +25,7 @@ use TuaWebsite\Notifications\WelcomeNotification;
  * @version 0.2.0
  * @since   0.1.0 Introduced this class
  * @since   0.2.0 Improved the way scores and memberships are queried/added
+ * @since   0.3.0 Added flash messages to feedback to user
  */
 class UsersController extends Controller
 {
@@ -98,6 +99,9 @@ class UsersController extends Controller
             new WelcomeNotification($password)
         );
 
+        // Show on-screen confirmation
+        $this->flash('Done!', $user->first_name . ' has been registered', 'green');
+
         return redirect(
             route('admin.users.show', $user->id)
         );
@@ -155,6 +159,8 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @TODO Refactor this to reduce the complexity
+     *
      * @param Request $request
      * @param int     $id
      *
@@ -162,24 +168,17 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Set the redirect destination
-        $redirect = redirect(
-            route('admin.users.edit', $id)
-        );
-
         /** @var User $user */
         $user = User::find($id);
 
-        // Handle the emergency contact card only
+        // Based on the content of the request, update the user details
         if($request->has('emergencyContact')){
+            // Handle emergency contact card only
             $this->updateEmergencyContact($user, $request->get('emergencyContact'));
-
-            $this->notify('Done!', 'Contact details were updated', 'green');
-            return $redirect;
+            $this->flash('Done!', $user->first_name . "'s emergency contact details have been updated", 'green');
         }
-
-        // Handle the account card only
-        if($request->has('account')){
+        elseif($request->has('account')){
+            // Handle account details card only
             $passwordChanged = false;
             if($request->has('password') && $request->has('password_confirm')){
                 $user_data['password_hash'] = \Hash::make($request->get('password'));
@@ -193,32 +192,30 @@ class UsersController extends Controller
                 $user->sendPasswordChangedNotification();
             }
 
-            $this->notify('Done!', 'Contact details were updated', 'green');
-            return $redirect;
+            $this->flash('Done!', $user->first_name . "'s account details have been updated", 'green');
         }
-
-        // Handle the memberships card only
-        if($request->has('memberships')){
+        elseif($request->has('memberships')){
+            // Handle memberships card only
             $this->synchroniseMemberships($user, $request->get('memberships'));
+            $this->flash('Done!', $user->first_name . "'s membership history has been updated", 'green');
+        }
+        else{
+            // Handle user profile only
+            $user_data               = array_filter($request->only(['phone', 'first_name', 'last_name', 'gender', 'birth_date', 'experience_level']));
+            $user_data['is_student'] = $request->has('is_student');
 
-            $this->notify('Done!', 'Contact details were updated', 'green');
-            return $redirect;
+            // Handle a new profile picture
+            if($request->has('picture')){
+                $user_data['picture_url'] = $this->storeUserPhoto($request->get('picture'), $user->picture_url);
+            }
+
+            $user->update($user_data);
+            $this->flash('Done!', $user->first_name . "'s profile has been updated", 'green');
         }
 
-        // Get the user profile data
-        $user_data               = array_filter($request->only(['phone', 'first_name', 'last_name', 'gender', 'birth_date', 'experience_level']));
-        $user_data['is_student'] = $request->has('is_student');
-
-        // Handle a new profile picture
-        if($request->has('picture')){
-            $user_data['picture_url'] = $this->storeUserPhoto($request->get('picture'), $user->picture_url);
-        }
-
-        // Store the updates
-        $user->update($user_data);
-
-        $this->notify('Done!', 'Contact details were updated', 'green');
-        return $redirect;
+        return redirect(
+            route('admin.users.edit', $id)
+        );
     }
 
     /**
@@ -230,7 +227,11 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        User::destroy($id);
+        /** @var User $user */
+        $user = User::findOrFail($id);
+
+        $user->delete();
+        $this->flash('Done!', $user->first_name . "'s account has been removed", 'green');
 
         return redirect('/admin/users');
     }
@@ -379,21 +380,5 @@ class UsersController extends Controller
             }
             return false;
         });
-    }
-
-    /**
-     * Add notification data to a flash message
-     *
-     * TODO: Something like this needs to be more globally available
-     *
-     * @param string $title
-     * @param string $message
-     * @param string $colour
-     */
-    private function notify($title, $message, $colour = null)
-    {
-        \Session::flash('flash.notification.title', $title);
-        \Session::flash('flash.notification.message', $message);
-        \Session::flash('flash.notification.colour', $colour);
     }
 }

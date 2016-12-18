@@ -360,7 +360,7 @@
             <div data-notify="container" class="bootstrap-notify-container alert alert-dismissible {0}" role="alert">
                 <button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>
                 <span data-notify="icon" class="material-icons media-middle">{3}</span>
-                <span data-notify="title">{1}</span>
+                <span data-notify="title">{1}</span><br>
                 <span data-notify="message">{2}</span>
             </div>
         </template>

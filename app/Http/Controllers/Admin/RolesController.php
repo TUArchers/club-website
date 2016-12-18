@@ -70,6 +70,9 @@ class RolesController extends Controller
 
         $role->save();
 
+        // Show on-screen confirmation
+        $this->flash('Done!', str_limit($role->name, 20) . " role has been defined", 'green');
+
         return redirect(
             route('admin.roles.index')
         );
@@ -132,6 +135,9 @@ class RolesController extends Controller
 
         $role->save();
 
+        // Show on-screen confirmation
+        $this->flash('Done!', str_limit($role->name, 20) . " role has been updated", 'green');
+
         return redirect(
             route('admin.roles.index')
         );
@@ -145,7 +151,11 @@ class RolesController extends Controller
      */
     public function destroy($id)
     {
-        Role::destroy($id);
+        /** @var Role $role */
+        $role = Role::findOrFail($id);
+
+        $role->delete();
+        $this->flash('Done!', str_limit($role->name, 20) . " role has been removed", 'green');
 
         return redirect(
             route('admin.roles.index')
