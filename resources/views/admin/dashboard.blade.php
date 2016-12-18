@@ -4,7 +4,10 @@
 
 @section('content')
     <div class="block-header">
-        <h2>DASHBOARD</h2>
+        <h2>
+            DASHBOARD <br>
+            <small>Teesside University Archers at a glance</small>
+        </h2>
     </div>
 
     <div class="row clearfix">

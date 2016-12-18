@@ -7,7 +7,7 @@
         <li class="active">
             <a href="{{ route('admin.index') }}">
                 <i class="material-icons">home</i>
-                <span>Dashboard</span>
+                <span>Overview</span>
             </a>
         </li>
 
