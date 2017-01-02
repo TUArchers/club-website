@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use TuaWebsite\Domain\Identity\Organisation;
 use TuaWebsite\Domain\Records\Round;
 use TuaWebsite\Domain\Records\Score;
+use TuaWebsite\Domain\Records\Season;
 use TuaWebsite\Http\Controllers\Controller;
 
 /**
@@ -57,7 +58,33 @@ class RoundsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Check related objects exist
+        $organisation   = Organisation::find($request->get('organisation_id'));
+        $season         = Season::find($request->get('season'));
+        $scoring_system = Round::scoringSystem($request->get('scoring_system_id'));
+
+        // Prepare round data
+        $round_data                 = $request->only(['name', 'total_targets', 'total_shots']);
+        $round_data['organisation'] = $organisation->id;
+        $round_data['season']       = $season->id;
+
+        // Calculate score data for the round
+        $score_values = explode(', ', $scoring_system);
+        $round_data['max_shot_score'] = $score_values[0];
+        $round_data['min_shot_score'] = end($score_values);
+        $round_data['max_score'] =  $round_data['total_shots'] * $round_data['max_shot_score'];
+
+        // Attempt to create and store the round
+        /** @var Round $round */
+        $round = Round::create($round_data);
+
+        // Show on-screen confirmation and redirect
+        $this->flash('Done!', $round->name . ' has been defined', 'green');
+
+        return redirect(
+            route('admin.rounds.show', $round->id)
+        );
+
     }
 
     /**

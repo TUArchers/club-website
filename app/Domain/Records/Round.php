@@ -145,6 +145,34 @@ class Round extends Model
     }
 
     /**
+     * Get a scoring system by ID
+     *
+     * TODO: Move this to a new model
+     *
+     * @param string $id
+     *
+     * @return string
+     * @throws \Exception
+     */
+    public static function scoringSystem($id)
+    {
+        switch ($id){
+            case 'I':
+                return self::S_IMPERIAL;
+            case 'M':
+                return self::S_METRIC_FULL;
+            case 'MH':
+                return self::S_METRIC_HALF;
+            case 'W':
+                return self::S_WORCESTER_FULL;
+            case 'WH':
+                return self::S_WORCESTER_HALF;
+            default:
+                throw new \Exception("Unknown scoring system '${id}'");
+        }
+    }
+
+    /**
      * Get the score value achieved for the given ring number on this round's target face
      *
      * @param int $ring_number
