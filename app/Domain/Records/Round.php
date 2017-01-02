@@ -118,6 +118,33 @@ class Round extends Model
 
     // Queries ----
     /**
+     * Get an array of available scoring systems
+     *
+     * TODO: Move this to a new model
+     *
+     * @return array
+     */
+    public static function scoringSystems()
+    {
+        $systems = [
+            'I'  => 'Imperial (' . self::S_IMPERIAL . ')',
+            'M'  => 'Metric (' . self::S_METRIC_FULL . ')',
+            'MH' => 'Half Metric (' . self::S_METRIC_HALF .  ')',
+            'W'  => 'Worcester (' . self::S_WORCESTER_FULL . ')',
+            'WH' => 'Half Worcester (' . self::S_WORCESTER_HALF . ')'
+        ];
+
+        return array_map(function($id, $name){
+            $obj = new \stdClass();
+
+            $obj->id = $id;
+            $obj->name = $name;
+
+            return $obj;
+        }, array_keys($systems), $systems);
+    }
+
+    /**
      * Get the score value achieved for the given ring number on this round's target face
      *
      * @param int $ring_number

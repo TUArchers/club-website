@@ -4,6 +4,7 @@ namespace TuaWebsite\Http\Controllers\Admin;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
+use TuaWebsite\Domain\Identity\Organisation;
 use TuaWebsite\Domain\Records\Round;
 use TuaWebsite\Domain\Records\Score;
 use TuaWebsite\Http\Controllers\Controller;
@@ -42,7 +43,10 @@ class RoundsController extends Controller
      */
     public function create()
     {
-        //
+        $organisations   = Organisation::all();
+        $scoring_systems = Round::scoringSystems();
+
+        return view('admin.rounds.create', compact('organisations', 'scoring_systems'));
     }
 
     /**
