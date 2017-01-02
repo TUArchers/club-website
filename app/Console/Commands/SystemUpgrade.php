@@ -61,8 +61,19 @@ class SystemUpgrade extends Command
             \Log::error($ex->getMessage(), $ex->getTrace());
         }
 
-        // Clear up by removing the upgrade archive
+        // Update dependencies
+        exec('php composer.phar install --prefer-dist -o', $output, $result);
+        foreach($output as $entry){
+            \Log::debug($entry);
+        }
+        \Log::debug($result);
+
+        // Clear up by removing the upgrade archive and composer
         unlink($this->archive_name);
+        unlink('composer.phar');
+
+        // Clear the framework cache
+        $this->call('cache:clear');
 
         // Bring the system back up
         $this->call('up');
@@ -79,28 +90,8 @@ class SystemUpgrade extends Command
             throw new \RuntimeException('Could not extract files from ' . $archive_name);
         }
 
-        // Cleanly replace the vendor directory, if included in the archive
-        if($archive->statName('vendor/autoload.php')){
-            $this->removeDirectory(base_path() . '/vendor');
-        }
-
         // Extract the archive contents
         $archive->extractTo(base_path());
         $archive->close();
-    }
-
-    /**
-     * Remove a directory and it's contents
-     *
-     * @param string $path
-     */
-    private function removeDirectory($path) {
-        $files = glob($path . '/*');
-
-        foreach ($files as $file) {
-            is_dir($file) ? $this->removeDirectory($file) : unlink($file);
-        }
-
-        rmdir($path);
     }
 }
