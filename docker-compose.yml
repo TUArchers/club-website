@@ -9,7 +9,7 @@ services:
       - .:/var/www/html/app
       - data:/var/lib/mysql
     ports:
-      - "8080:80"
-      - "33066:3306"
+      - 80:80
+      - 33066:3306
 volumes:
   data:
