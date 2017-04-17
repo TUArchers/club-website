@@ -24,7 +24,7 @@ class DashboardController extends Controller
     public function showDashboard()
     {
         $change_log = 'https://trello.com/b/8olcGjLH/club-website';
-        $message    = "This system is still being developed. There are some features that do not do anything yet. Please let James know about anything that actually breaks. <br/><br/> 02-01-2017: Version 0.4.0 has been released. Changes can be seen <a class='alert-link' target='_blank' href='${change_log}'>here</a>";
+        $message    = "This system is still being developed. There are some features that do not do anything yet. Please let James know about anything that actually breaks. <br/><br/> 17-04-2017: Version 0.4.1 has been released. Changes can be seen <a class='alert-link' target='_blank' href='${change_log}'>here</a>";
         $events     = Event::nextSevenDays()->take(6)->get();
         $scores     = Score::orderBy('shot_at', 'desc')->take(6)->get();
         $users      = User::orderBy('updated_at', 'desc')->take(6)->get();
