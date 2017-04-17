@@ -158,7 +158,7 @@ class RoundsController extends Controller
                 $join->on('recs.bow_class', '=', 's.bow_class');
                 $join->on('recs.total_score', '=', 's.total_score');
             })
-            ->groupBy('s.round_id', 's.bow_class', 's.archer_id')
+            ->groupBy('s.round_id', 's.bow_class', 's.archer_id', 's.total_score')
             ->orderBy('s.bow_class')
             ->mergeBindings($subQuery)
             ->get();

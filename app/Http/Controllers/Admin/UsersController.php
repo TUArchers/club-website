@@ -354,7 +354,7 @@ class UsersController extends Controller
                 $join->on('pbs.bow_class', '=', 's.bow_class');
                 $join->on('pbs.total_score', '=', 's.total_score');
             })
-            ->groupBy('s.round_id', 's.archer_id', 's.bow_class')
+            ->groupBy('s.round_id', 's.archer_id', 's.bow_class', 's.total_score', 'r.name')
             ->orderBy('r.name', 'asc')
             ->mergeBindings($subQuery)
             ->get();
