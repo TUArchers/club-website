@@ -145,44 +145,23 @@ class RoundsController extends Controller
     private function getRecordScoresForRound($id)
     {
         $subQuery = \DB::table('scores')
-            ->select(\DB::raw('MAX(total_score) as rec, round_id, bow_class'))
+            ->select(\DB::raw('MAX(total_score) as total_score, round_id, bow_class'))
             ->where('scores.round_id', $id)
             ->groupBy('bow_class', 'round_id');
 
-        $allRecords = Score::from('scores as s')
-            ->where('s.round_id', $id)
+        return Score::from('scores as s')
+            ->select(\DB::raw('s.round_id, s.archer_id, s.bow_class, s.total_score, MIN(s.shot_at) AS shot_at'))
+            ->join('rounds as r', 's.round_id', '=', 'r.id')
+            ->join('users as u', 's.archer_id', '=', 'u.id')
             ->join(\DB::raw('(' . $subQuery->toSql() . ') as recs'), function(JoinClause $join){
                 $join->on('recs.round_id', '=', 's.round_id');
                 $join->on('recs.bow_class', '=', 's.bow_class');
-                $join->on('recs.rec', '=', 's.total_score');
+                $join->on('recs.total_score', '=', 's.total_score');
             })
-            ->join('rounds as r', 's.round_id', '=', 'r.id')
-            ->orderBy('s.total_score', 'desc')
-            ->orderBy('s.shot_at', 'asc')
+            ->groupBy('s.round_id', 's.bow_class', 's.archer_id')
+            ->orderBy('s.bow_class')
             ->mergeBindings($subQuery)
             ->get();
-
-        return $this->filterRecords($allRecords);
-    }
-
-    /**
-     * @param Collection $scores
-     *
-     * @return Collection
-     */
-    private function filterRecords(Collection $scores)
-    {
-        // TODO: While this achieves the same thing, it should be possible to do this at database level. This isn't disastrous though, as there are unlikely to be a large number of equalled records
-
-        $bow_class = [];
-
-        return $scores->filter(function(Score $score) use(&$bow_class){
-            if(!in_array($score->bow_class, $bow_class)){
-                $bow_class[] = $score->bow_class;
-                return true;
-            }
-            return false;
-        });
     }
 
     /**
