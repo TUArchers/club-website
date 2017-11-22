@@ -84,7 +84,11 @@
                                 <div class="date">{{ $score->shot_at->toFormattedDateString() }}</div>
                                 <div class="details">
                                     <strong>{{ $score->total_score }}</strong> <span class="col-grey">/ {{ $score->round->max_score }}</span><br>
-                                    <a href="{{ route('admin.users.show', $score->archer_id) }}" class="no-hover">{{ $score->archer->name }}</a>
+                                    @if(!$score->archer)
+                                        <s>Deleted User</s>
+                                    @else
+                                        <a href="{{ route('admin.users.show', $score->archer_id) }}" class="no-hover">{{ $score->archer->name }}</a>
+                                    @endif
                                 </div>
                                 <div class="bow-style">
                                     <span class="badge bg-{{ $score->bow_class->colour }}">{{ $score->bow_class->name }}</span>
@@ -109,7 +113,11 @@
                                 <div class="date">{{ $score->shot_at->toFormattedDateString() }}</div>
                                 <div class="details">
                                     <strong>{{ $score->total_score }}</strong> <span class="col-grey">/ {{ $score->round->max_score }}</span><br>
-                                    <a href="{{ route('admin.users.show', $score->archer_id) }}" class="no-hover">{{ $score->archer->name }}</a>
+                                    @if(!$score->archer)
+                                        <s>Deleted User</s>
+                                    @else
+                                        <a href="{{ route('admin.users.show', $score->archer_id) }}" class="no-hover">{{ $score->archer->name }}</a>
+                                    @endif
                                 </div>
                                 <div class="bow-style">
                                     <span class="badge bg-{{ $score->bow_class->colour }}">{{ $score->bow_class->name }}</span>

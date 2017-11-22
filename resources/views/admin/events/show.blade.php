@@ -65,7 +65,11 @@
                     <ul class="list-group">
                         @foreach($reservations as $reservation)
                             <li class="list-group-item">
-                                <i class="material-icons media-middle">person</i> {{ $reservation->attendee->name }}
+                                @if(!$reservation->attendee)
+                                    <i class="material-icons media-middle">person</i><s>Deleted User</s>
+                                @else
+                                    <i class="material-icons media-middle">person</i> {{ $reservation->attendee->name }}
+                                @endif
                                 @if($reservation->is_used)
                                     <span class="badge bg-green">ATTENDED</span>
                                 @elseif($reservation->is_cancelled)

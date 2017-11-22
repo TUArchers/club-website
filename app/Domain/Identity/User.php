@@ -86,11 +86,14 @@ class User extends Authenticatable
         parent::boot();
 
         static::deleting(function(User $user){
+            // Cancel all future reservations for events
             /** @var Reservation $reservations */
-            $reservations = Reservation::where('attendee_id', $user->id)->get();
+            $reservations = Reservation::where('attendee_id', $user->id)->whereHas('event', function($q){
+                $q->where('starts_at', '>', Carbon::now());
+            })->get();
 
             foreach($reservations as $reservation){
-                $reservation->attendee()->dissociate();
+                $reservation->cancel();
                 $reservation->save();
             }
         });
