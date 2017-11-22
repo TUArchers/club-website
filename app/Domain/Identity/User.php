@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use TuaWebsite\Domain\Event\Reservation;
@@ -47,6 +48,7 @@ use TuaWebsite\Notifications\ResetPasswordNotification;
 class User extends Authenticatable
 {
     use Notifiable;
+    use SoftDeletes;
 
     // Settings ----
     public $timestamps  = true;
@@ -74,7 +76,8 @@ class User extends Authenticatable
         'birth_date',
         'registered_at',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'deleted_at',
     ];
 
     /** @inheritdoc */
