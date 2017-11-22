@@ -80,7 +80,12 @@
                             @foreach($recent_scores as $score)
                     			<tr>
                     				<td>{{ $score->shot_at->toFormattedDateString() }}</td>
-                                    <td><a href="{{ route('admin.users.show', $score->archer_id) }}" class="no-hover">{{ $score->archer->name }}</a></td>
+                                    @if(!$score->archer)
+                                        <td><s>Deleted user</s></td>
+                                    @else
+                                        <td><a href="{{ route('admin.users.show', $score->archer_id) }}" class="no-hover">{{ $score->archer->name }}</a></td>
+                                    @endif
+
                     				<td class="hidden-sm hidden-xs">{{ $score->bow_class->name }}</td>
                                     <td><a href="{{ route('admin.rounds.show', $score->round_id) }}" class="no-hover">{{ $score->round->name }}</a></td>
                     				<td>{{ $score->total_score }} <span class="col-grey">/ {{ $score->round->max_score }}</span></td>
