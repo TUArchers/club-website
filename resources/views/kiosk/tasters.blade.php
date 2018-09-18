@@ -239,7 +239,7 @@
         $('#event_duration_summary').text(duration);
         $('#event_location_summary').text($event.data('event-location'));
 
-        $('#event_description_summary').text($event.find('.event-description').text());
+        $('#event_description_summary').html($event.find('.event-description').text().replace(/(\r\n|\n\r|\r|\n)/g, "<br>"));
     }
 
     // Generate the data summary for the confirmation view

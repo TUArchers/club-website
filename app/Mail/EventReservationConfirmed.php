@@ -47,12 +47,13 @@ class EventReservationConfirmed extends Mailable
         $first_name  = $this->reservation->attendee->first_name;
         $reference   = 'TUA-E' . $event->id . '-A' . $this->reservation->attendee->id . '-R' . $this->reservation->id;
 
-        $details     = $event->description;
-        $start_time  = $event->starts_at->format('g:ia');
-        $start_day   = $event->starts_at->format('j');
-        $start_month = $event->starts_at->format('F');
-        $location    = $event->location_name;
+        $details      = $event->description;
+        $arrival_time = $event->starts_at->copy()->subMinutes(15)->format('g:ia');
+        $start_time   = $event->starts_at->format('g:ia');
+        $start_day    = $event->starts_at->format('j');
+        $start_month  = $event->starts_at->format('F');
+        $location     = $event->location_name;
 
-        return $this->view('mail.events.registrationConfirmed', compact('first_name', 'reference', 'details', 'start_time', 'start_day', 'start_month', 'location'));
+        return $this->view('mail.events.registrationConfirmed', compact('first_name', 'reference', 'details', 'arrival_time', 'start_time', 'start_day', 'start_month', 'location'));
     }
 }

@@ -158,7 +158,7 @@
                                                     <table align="Left" border="0" cellpadding="0" cellspacing="0" width="200" class="flexibleContainer" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                                                         <tr>
                                                             <td align="Left" valign="top" class="imageContent" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;padding-bottom: 20px;">
-                                                                <img src="http://tuarchers.org.uk/assets/images/tua-club-logo-small.png" width="175" class="flexibleImage" style="max-width: 175px;border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;height: auto;">
+                                                                <img src="{{ asset('img/tua-club-logo-small.png')  }}" width="175" class="flexibleImage" style="max-width: 175px;border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;height: auto;">
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -172,9 +172,6 @@
                                                                 <h3 style="margin: 0;padding: 0;color: #202020;font-family: Helvetica;font-size: 20px;line-height: 125%;text-align: Left;">Hi {{ $first_name }}</h3>
                                                                 <br>
                                                                 We're pleased to say that your free archery taster session with Teesside University Archers has been confirmed.
-                                                                <br>
-                                                                <br>
-                                                                {!! str_replace("\n", "<br><br>", trim(e($details), "\n")) !!}
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -242,6 +239,8 @@
                                                                     <tr>
                                                                         <td valign="top" class="textContent" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #404040;font-family: Helvetica;font-size: 16px;line-height: 125%;text-align: Left;padding-bottom: 20px;">
                                                                             <h3 style="margin: 0;padding: 0;color: #202020;font-family: Helvetica;font-size: 20px;line-height: 125%;text-align: Left;">Your Taster Session</h3>
+                                                                            <br>
+                                                                            <b>Arrival Time: </b>{{ $arrival_time }}
                                                                             <br>
                                                                             <b>Start Time: </b>{{ $start_time }}
                                                                             <br>
@@ -315,6 +314,10 @@
                                                                     <li style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">Shoes that cover your toes</li>
                                                                     <li style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">A copy of this email or something to show it on (save the trees!)</li>
                                                                 </ul>
+                                                                <br>
+                                                                <h3 style="margin: 0;padding: 0;color: #202020;font-family: Helvetica;font-size: 20px;line-height: 125%;text-align: Left;">More Important Stuff</h3>
+                                                                <br>
+                                                                {!! str_replace("\n", "<br><br>", trim(e($details), "\n")) !!}
                                                             </td>
                                                         </tr>
                                                     </table>
