@@ -40,11 +40,11 @@ class TastersController extends Controller
         $genders = Gender::all();
 
         $schools        = $this->arrayToCollection([
-            'SCM'   => 'School of Computing',
-            'DCA'   => 'School of Design, Culture and the Arts',
+            'SCM'   => 'School of Computing, Media & the Arts',
             'SOH'   => 'School of Health & Social Care',
-            'SSE'   => 'School of Science & Engineering',
-            'SSSBL' => 'School of Social Sciences, Business and Law',
+            'SSE'   => 'School of Science, Engineering & Design',
+            'SSSHL' => 'School of Social Sciences, Humanities and Law',
+            'TUBS'  => 'Teesside University Business School',
             'STAFF' => 'University Staff',
             'ASSOC' => 'University Associates and Alumni',
             'O'     => 'Other'
