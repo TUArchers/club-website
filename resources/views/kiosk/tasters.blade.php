@@ -244,6 +244,7 @@
         $('#attendee_phone_summary').text(data['attendee[phone]']);
         $('#attendee_date_of_birth_summary').text(data['attendee[date_of_birth]']);
         $('#attendee_tusc_id_summary').text(data['attendee[tusc_id]']);
+        $('#attendee_agb_id_summary').text(data['attendee[agb_id]']);
     }
 
     // Reserve a space to allow the user to add their details
