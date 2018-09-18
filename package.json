@@ -1,7 +1,7 @@
 {
   "name": "tua-website",
   "description": "Website for Teesside University Archers",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "private": true,
   "scripts": {
     "prod": "gulp --production",
