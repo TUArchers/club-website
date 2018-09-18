@@ -201,6 +201,11 @@
                                     </ul>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: right;">
+                                    By clicking "Finish", you agree to be contacted by Teesside University Archers
+                                </div>
+                            </div>
                         </fieldset>
                     </form>
                 </div>
