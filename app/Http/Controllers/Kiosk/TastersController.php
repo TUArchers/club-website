@@ -151,7 +151,10 @@ class TastersController extends Controller
     private function getTasterEventsGroupedByDay()
     {
         $type   = EventType::where('name', 'Taster Session')->first();
-        $events = Event::where('type_id', $type->id)->orderBy('starts_at', 'asc')->get();
+        $events = Event::where('type_id', $type->id)
+            ->where('starts_at', '>=', new \DateTime())
+            ->orderBy('starts_at', 'asc')
+            ->get();
 
         $eventDays = [];
         foreach($events as $event){
