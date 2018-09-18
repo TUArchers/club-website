@@ -174,7 +174,7 @@
                                                                 We're pleased to say that your free archery taster session with Teesside University Archers has been confirmed.
                                                                 <br>
                                                                 <br>
-                                                                Please make sure that you arrive slightly early so that you get plenty of shooting time.
+                                                                {!! str_replace("\n", "<br><br>", trim(e($details), "\n")) !!}
                                                             </td>
                                                         </tr>
                                                     </table>

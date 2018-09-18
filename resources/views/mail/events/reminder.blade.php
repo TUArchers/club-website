@@ -174,7 +174,7 @@
                                                                 We know just how hectic Freshers week is, so just in case you forgot: your archery taster session is tomorrow.
                                                                 <br>
                                                                 <br>
-                                                                Please make sure that you arrive slightly early so that you get plenty of shooting time.
+                                                                {!! str_replace("\n", "<br><br>", trim(e($details), "\n")) !!}
                                                             </td>
                                                         </tr>
                                                     </table>
