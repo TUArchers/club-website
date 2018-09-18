@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.4.3] - 2018-09-18
+### Fixed
+- Fix logo on tasters sign-up kiosk
+- Only show future sessions on tasters sign-up kiosk
+- Update school names in research section of tasters sign-up kiosk
+- Add "consent to contact" statement to tasters sign-up kiosk
+- Enable automatic, time-based event reservation expiry
+
 ## [0.4.0] - 2017-01-02
 ### Added
 - Allow custom rounds to be defined
