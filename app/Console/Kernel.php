@@ -3,6 +3,8 @@ namespace TuaWebsite\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use TuaWebsite\Console\Commands\MoveEventReservation;
+use TuaWebsite\Console\Commands\RemoveExpiredEventReservations;
 use TuaWebsite\Console\Commands\SystemUpgrade;
 
 /**
@@ -23,8 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         SystemUpgrade::class,
-        #RemoveExpiredEventReservations::class,
-        #MoveEventReservation::class
+        RemoveExpiredEventReservations::class,
+        MoveEventReservation::class
     ];
 
     /**
@@ -34,6 +36,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // Clear expired event reservations
+        $schedule->command('calendar:clear-expiries')
+            ->everyFiveMinutes();
+
         // Handle queued jobs
         $schedule->command('queue:restart')
             ->everyThirtyMinutes();
