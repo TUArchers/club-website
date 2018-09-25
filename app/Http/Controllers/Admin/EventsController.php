@@ -9,6 +9,8 @@ use TuaWebsite\Domain\Event\Event;
 use TuaWebsite\Domain\Event\EventType;
 use TuaWebsite\Domain\Event\Reservation;
 use TuaWebsite\Http\Controllers\Controller;
+use TuaWebsite\Mail\EventReservationChanged;
+use TuaWebsite\Mail\EventReservationReminder;
 
 /**
  * EventsController
@@ -111,7 +113,12 @@ class EventsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $action       = route('admin.events.update', ['id' => $id]);
+        $button_label = 'EDIT EVENT';
+        $event_types  = EventType::all();
+        $event        = Event::find($id);
+
+        return view('admin.events.edit', compact('event', 'button_label', 'action', 'event_types'));
     }
 
     /**
@@ -123,7 +130,31 @@ class EventsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        /** @var Event $event */
+        $event      = Event::find($id);
+        $event_data = $request->only(['type_id', 'name', 'location_name', 'starts_at', 'ends_at', 'capacity', 'description']);
+
+        $event_data['has_waiting_list'] = $request->has('has_waiting_list');
+        $event_data['members_only']     = $request->has('members_only');
+        $event_data['invite_only']      = $request->has('invite_only');
+
+        // Handle date/time without seconds
+        $event_data['starts_at'] = Carbon::parse($event_data['starts_at'] . ':00');
+        $event_data['ends_at']   = Carbon::parse($event_data['ends_at'] . ':00');
+
+        $event->fill($event_data);
+
+        if($event->isDirty() && $event->save()){
+            // Inform attendees of change, and change pending reminder emails
+            $this->notifyAttendees($event, $request->input('message'));
+        }
+
+        // Show on-screen confirmation
+        $this->flash('Done!', "'" . str_limit($event->name, 20) . "' has been updated", 'green');
+
+        return redirect(
+            route('admin.events.show', $event->id)
+        );
     }
 
     /**
@@ -159,5 +190,40 @@ class EventsController extends Controller
         }
 
         return response()->json([], 204);
+    }
+
+    // Internals ----
+
+    /**
+     * Notify all confirmed attendees of the changes to an event
+     *
+     * @param Event  $event
+     * @param string $message
+     */
+    private function notifyAttendees(Event $event, $message)
+    {
+        foreach($event->confirmedReservations as $reservation){
+
+            $r = new EventReservationChanged($reservation, $message);
+
+            dd($r->build());
+
+            \Mail::to($reservation->attendee)->queue(
+                new EventReservationChanged($reservation, $message)
+            );
+
+            // Cancel pending reminders
+            \Queue::getDatabase()->table('jobs')
+                ->where('payload', 'LIKE', '%EventReservationReminder%')
+                ->where('payload', 'LIKE', '%Reservation\\\\";s:2:\\\\"id\\\\";i:' . $reservation->id . '%')
+                ->delete();
+
+            // Schedule new reminder
+            $delay = $event->starts_at->subDays(1)->diffInSeconds(Carbon::now());
+
+            \Mail::to($reservation->attendee)->queue(
+                (new EventReservationReminder($reservation))->delay($delay)
+            );
+        }
     }
 }

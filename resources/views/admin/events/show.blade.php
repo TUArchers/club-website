@@ -18,7 +18,7 @@
                                 <i class="material-icons">more_vert</i>
                             </a>
                             <ul class="dropdown-menu pull-right">
-                                <li><a href="#" class=" waves-effect waves-block"><i class="material-icons">mode_edit</i> Edit event details</a></li>
+                                <li><a href="{{ route('admin.events.edit', ['id' => $event->id])  }}" class=" waves-effect waves-block"><i class="material-icons">mode_edit</i> Edit event details</a></li>
                             </ul>
                         </li>
                     </ul>

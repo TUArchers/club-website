@@ -3,7 +3,5 @@
   <component name="SqlDialectMappings">
     <file url="dbSrc:///ac41ca84/05a9fb07-d73d-4ca5-b0e8-1324c14f5764" dialect="MySQL" />
     <file url="dbSrc:///ac41ca84/f1bf3e77-e60d-4439-a64f-cb21c591aeee" dialect="MySQL" />
-    <file url="dbSrc:///ba223258/05a9fb07-d73d-4ca5-b0e8-1324c14f5764" dialect="MySQL" />
-    <file url="dbSrc:///ba223258/f1bf3e77-e60d-4439-a64f-cb21c591aeee" dialect="MySQL" />
   </component>
 </project>

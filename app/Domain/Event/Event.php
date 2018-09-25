@@ -35,6 +35,8 @@ class Event extends Model
         'location_longitude',
         'capacity',
         'has_waiting_list',
+        'members_only',
+        'invite_only',
         'privacy',
     ];
     protected $dates    = [
@@ -60,6 +62,16 @@ class Event extends Model
     public function reservations()
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    /**
+     * @return HasMany|Collection|Reservation[]
+     */
+    public function confirmedReservations()
+    {
+        return $this->reservations()
+            ->where('confirmed_at', '!=', null)
+            ->where('cancelled_at', '=', null);
     }
 
     /** Scopes */
@@ -134,11 +146,7 @@ class Event extends Model
      */
     public function getSpacesRemainingAttribute()
     {
-        $this->load(['reservations' => function($query){
-            $query->where('cancelled_at', null);
-        }]);
-
-        return $this->capacity - $this->reservations->count();
+        return $this->capacity - $this->confirmedReservations()->count();
     }
 
     /**
@@ -162,6 +170,36 @@ class Event extends Model
 
         // Notify attendees
         // TODO: Notify attendees
+    }
+
+    /**
+     * Change the event type
+     *
+     * @param $typeId
+     */
+    public function changeType($typeId)
+    {
+        $this->type_id = (int) $typeId;
+    }
+
+    /**
+     * Rename this event
+     *
+     * @param $name
+     */
+    public function rename($name)
+    {
+        $this->name = (string) $name;
+    }
+
+    /**
+     * Describe this event
+     *
+     * @param $description
+     */
+    public function describe($description)
+    {
+        $this->description = (string) $description;
     }
 
     /**
@@ -197,6 +235,34 @@ class Event extends Model
 
         // Notify attendees
         // TODO: Notify attendees
+    }
+
+    /**
+     * Adjust the capacity of this event
+     *
+     * @param $capacity
+     */
+    public function adjustCapacity($capacity)
+    {
+        if((int) $capacity < $this->reservations()->count()){
+            throw new \InvalidArgumentException("New capacity cannot be lower than the number of existing reservations");
+        }
+
+        $this->capacity = (int) $capacity;
+    }
+
+    /**
+     * Change event preferences
+     *
+     * @param $hasWaitingList
+     * @param $isMembersOnly
+     * @param $isInviteOnly
+     */
+    public function changePreferences($hasWaitingList, $isMembersOnly, $isInviteOnly)
+    {
+        $this->has_waiting_list = (bool) $hasWaitingList;
+        $this->is_members_only  = (bool) $isMembersOnly;
+        $this->is_invite_only   = (bool) $isInviteOnly;
     }
 
     /**

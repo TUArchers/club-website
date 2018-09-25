@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>Your Reservation is Soon</title>
+    <title>Your Reservation has Changed</title>
 
     <!--
         This email is an experimental proof-of-concept based on the
@@ -171,7 +171,7 @@
                                                             <td valign="top" class="textContent" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #404040;font-family: Helvetica;font-size: 16px;line-height: 125%;text-align: Left;padding-bottom: 20px;">
                                                                 <h3 style="margin: 0;padding: 0;color: #202020;font-family: Helvetica;font-size: 20px;line-height: 125%;text-align: Left;">Hi {{ $first_name }}</h3>
                                                                 <br>
-                                                                We know just how hectic Freshers week is, so just in case you forgot: your archery taster session is tomorrow.
+                                                                We wanted to let you know that an event you're going to has changed. Please read this carefully and get in touch if you have any questions.
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -306,6 +306,13 @@
                                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                                                         <tr>
                                                             <td valign="top" class="textContent" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #404040;font-family: Helvetica;font-size: 16px;line-height: 125%;text-align: Left;padding-bottom: 20px;">
+                                                                @if(isset($update_message) && !empty($update_message))
+                                                                    <h3 style="margin: 0;padding: 0;color: #202020;font-family: Helvetica;font-size: 20px;line-height: 125%;text-align: Left;">Update</h3>
+                                                                    <br>
+                                                                    {!! str_replace("\n", "<br><br>", trim(e($update_message), "\n")) !!}
+                                                                    <br>
+                                                                    <br>
+                                                                @endif
                                                                 <h3 style="margin: 0;padding: 0;color: #202020;font-family: Helvetica;font-size: 20px;line-height: 125%;text-align: Left;">Important Stuff</h3>
                                                                 <br>
                                                                 You'll need to bring the following things with you:
@@ -314,10 +321,13 @@
                                                                     <li style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">Shoes that cover your toes</li>
                                                                     <li style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">A copy of this email or something to show it on (save the trees!)</li>
                                                                 </ul>
-                                                                <br>
-                                                                <h3 style="margin: 0;padding: 0;color: #202020;font-family: Helvetica;font-size: 20px;line-height: 125%;text-align: Left;">More Important Stuff</h3>
-                                                                <br>
-                                                                {!! str_replace("\n", "<br><br>", trim(e($details), "\n")) !!}
+                                                                @if(isset($details) && !empty($details))
+                                                                    <br>
+                                                                    <h3 style="margin: 0;padding: 0;color: #202020;font-family: Helvetica;font-size: 20px;line-height: 125%;text-align: Left;">More Important Stuff</h3>
+                                                                    <br>
+                                                                    {!! str_replace("\n", "<br><br>", trim(e($details), "\n")) !!}
+                                                                @endif
+
                                                             </td>
                                                         </tr>
                                                     </table>
