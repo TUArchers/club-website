@@ -132,3 +132,14 @@ Route::resource('admin/event-types', 'Admin\EventTypesController', [
         'destroy' => 'admin.event-types.destroy',
     ]
 ]);
+Route::resource('admin/event-invites', 'Admin\EventInvitesController', [
+    'names' => [
+        'index'   => 'admin.event-invites.index',
+        'create'  => 'admin.event-invites.create',
+        'store'   => 'admin.event-invites.store',
+        'show'    => 'admin.event-invites.show',
+        'edit'    => 'admin.event-invites.edit',
+        'update'  => 'admin.event-invites.update',
+        'destroy' => 'admin.event-invites.destroy',
+    ]
+]);

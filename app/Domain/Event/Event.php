@@ -18,6 +18,10 @@ use TuaWebsite\Model\Events\Attendee;
  * @author
  * @version 0.1.0
  * @since   0.1.0
+ *
+ * @property Carbon starts_at
+ *
+ * @method static Builder inFuture
  */
 class Event extends Model
 {
@@ -84,10 +88,8 @@ class Event extends Model
      */
     public function scopeOpenToPublic(Builder $query)
     {
-        return $query->where([
-            ['invite_only', false],
-            ['members_only', false]
-        ]);
+        return $query->where('invite_only', '=', false)
+            ->where('members_only', '=', false);
     }
 
     /**
@@ -99,9 +101,7 @@ class Event extends Model
      */
     public function scopeInFuture(Builder $query)
     {
-        return $query->where([
-            ['starts_at', '>', Carbon::now()]
-        ]);
+        return $query->where('starts_at', '>', Carbon::now());
     }
 
     /**

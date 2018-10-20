@@ -68,6 +68,12 @@
                 <li>
                     <a href="{{ route('admin.events.create') }}">Plan Event</a>
                 </li>
+                <li>
+                    <a href="{{ route('admin.event-invites.index') }}">Event Invitations</a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.event-invites.create') }}">Send Event Invitation</a>
+                </li>
             </ul>
         </li>
 
