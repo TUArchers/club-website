@@ -9,6 +9,7 @@ use TuaWebsite\Domain\Event\Event;
 use TuaWebsite\Domain\Event\EventType;
 use TuaWebsite\Domain\Event\Reservation;
 use TuaWebsite\Http\Controllers\Controller;
+use TuaWebsite\Mail\EventCancelled;
 use TuaWebsite\Mail\EventReservationChanged;
 use TuaWebsite\Mail\EventReservationReminder;
 
@@ -41,9 +42,9 @@ class EventsController extends Controller
         $tomorrow = Carbon::today()->addDay();
         $weekEnd  = Carbon::today()->endOfWeek();
 
-        $events_today = Event::whereDate('starts_at', $today)->get();
-        $events_week  = Event::whereBetween('starts_at', [$tomorrow, $weekEnd])->get();
-        $events_future = Event::where('starts_at', '>', $weekEnd)->get();
+        $events_today = Event::whereDate('starts_at', $today)->whereNotNull('cancelled_at')->get();
+        $events_week  = Event::whereBetween('starts_at', [$tomorrow, $weekEnd])->whereNotNull('cancelled_at')->get();
+        $events_future = Event::where('starts_at', '>', $weekEnd)->whereNotNull('cancelled_at')->get();
 
         return view('admin.events.index', compact('events_today', 'events_week', 'events_future'));
     }
@@ -160,12 +161,26 @@ class EventsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Request $request
+     * @param  int    $id
+     *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        /** @var Event $event */
+        $event = Event::find($id);
+        $event->cancel();
+
+        // Inform attendees of cancellation and clear pending reminder emails
+        $this->notifyAttendees($event, $request->input('reason'));
+
+        // Show on-screen confirmation
+        $this->flash('Done!', "'" . str_limit($event->name, 20) . "' has been cancelled", 'green');
+
+        return redirect(
+            route('admin.events.index')
+        );
     }
 
     /**
@@ -204,13 +219,16 @@ class EventsController extends Controller
     {
         foreach($event->confirmedReservations as $reservation){
 
-            $r = new EventReservationChanged($reservation, $message);
-
-            dd($r->build());
-
-            \Mail::to($reservation->attendee)->queue(
-                new EventReservationChanged($reservation, $message)
-            );
+            if($event->isCancelled()){
+                \Mail::to($reservation->attendee)->queue(
+                    new EventCancelled($reservation, $message)
+                );
+            }
+            else{
+                \Mail::to($reservation->attendee)->queue(
+                    new EventReservationChanged($reservation, $message)
+                );
+            }
 
             // Cancel pending reminders
             \Queue::getDatabase()->table('jobs')
@@ -218,12 +236,14 @@ class EventsController extends Controller
                 ->where('payload', 'LIKE', '%Reservation\\\\";s:2:\\\\"id\\\\";i:' . $reservation->id . '%')
                 ->delete();
 
-            // Schedule new reminder
-            $delay = $event->starts_at->subDays(1)->diffInSeconds(Carbon::now());
+            if(!$event->isCancelled()){
+                // Schedule new reminder
+                $delay = $event->starts_at->subDays(1)->diffInSeconds(Carbon::now());
 
-            \Mail::to($reservation->attendee)->queue(
-                (new EventReservationReminder($reservation))->delay($delay)
-            );
+                \Mail::to($reservation->attendee)->queue(
+                    (new EventReservationReminder($reservation))->delay($delay)
+                );
+            }
         }
     }
 }

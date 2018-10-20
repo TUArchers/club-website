@@ -3,6 +3,29 @@
 @section('title', $event->name . ' (Event Details)')
 
 @section('content')
+    <!--Modal-->
+    <div id="modal-cancel-event" class="modal fade" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Cancel Event</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form-cancel-event" action="{{ route('admin.events.destroy', ['id' => $event->id]) }}" method="POST">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
+                        @include('components.form.textarea', ['name' => 'reason', 'rows' => '3', 'label' => 'Message to Attendees'])
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="button-cancel-event">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--Details-->
     <div class="block-header">
         <h2>EVENT DETAILS</h2>
@@ -18,7 +41,8 @@
                                 <i class="material-icons">more_vert</i>
                             </a>
                             <ul class="dropdown-menu pull-right">
-                                <li><a href="{{ route('admin.events.edit', ['id' => $event->id])  }}" class=" waves-effect waves-block"><i class="material-icons">mode_edit</i> Edit event details</a></li>
+                                <li><a href="{{ route('admin.events.edit', ['id' => $event->id])  }}" class="waves-effect waves-block"><i class="material-icons">mode_edit</i> Edit event details</a></li>
+                                <li><a href="javascript:void(0)" class="waves-effect waves-block" data-toggle="modal" data-target="#modal-cancel-event"><i class="material-icons">delete</i> Cancel event</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -150,6 +174,14 @@
             });
         });
 
+        $('#modal-cancel-event').on('shown.bs.modal', function () {
+            $('#reason_textarea').focus();
+        });
+
+        $('#button-cancel-event').on('click', function(e){
+            e.preventDefault();
+            $('#form-cancel-event').submit();
+        });
     });
 </script>
 @endpush;

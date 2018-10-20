@@ -159,6 +159,19 @@ class Event extends Model
         return $this->spaces_remaining < 1;
     }
 
+    /** Queries */
+
+    /**
+     * Check if this is a cancelled event
+     *
+     * @return bool
+     */
+    public function isCancelled()
+    {
+        return !is_null($this->cancelled_at);
+    }
+
+
     /** Methods */
     /**
      * Cancel this event
@@ -167,9 +180,6 @@ class Event extends Model
     {
         // Mark the event as cancelled
         $this->cancelled_at = Carbon::now();
-
-        // Notify attendees
-        // TODO: Notify attendees
     }
 
     /**
