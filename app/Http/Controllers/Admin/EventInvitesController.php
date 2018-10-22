@@ -6,6 +6,7 @@ use TuaWebsite\Domain\Event\Event;
 use TuaWebsite\Domain\Event\Invite;
 use TuaWebsite\Domain\Identity\User;
 use TuaWebsite\Http\Controllers\Controller;
+use TuaWebsite\Mail\EventInvitation;
 
 /**
  * Event Invites Controller
@@ -58,14 +59,14 @@ class EventInvitesController extends Controller
     public function store(Request $request)
     {
         foreach($request->input('user_ids') as $userId){
-            $invite = Invite::create([
-                'user_id' => $userId,
-                'email'   => User::find($userId)->email,
-                'token'   => str_random(),
-            ]);
+            /** @var User $user */
+            $user   = User::query()->where('id', $userId)->first();
+            $invite = $user->inviteToEvents($request->input('event_ids'));
 
-            $invite->events()->attach($request->input('event_ids'));
+            \Mail::to($user)->queue(new EventInvitation($user, $invite));
         }
+
+        $this->flash('Done!', 'Invitations have been sent', 'green');
 
         return redirect(
             route('admin.event-invites.index')

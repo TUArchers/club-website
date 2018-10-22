@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use TuaWebsite\Domain\Event\Invite;
 use TuaWebsite\Domain\Event\Reservation;
 use TuaWebsite\Notifications\PasswordChangedNotification;
 use TuaWebsite\Notifications\ResetPasswordNotification;
@@ -228,4 +229,23 @@ class User extends Authenticatable
         return $this;
     }
 
+    /**
+     * Invite this user to the given events
+     *
+     * @param array $eventIds
+     *
+     * @return Invite
+     */
+    public function inviteToEvents(array $eventIds)
+    {
+        $invite = Invite::create([
+            'user_id' => $this->id,
+            'email'   => $this->email,
+            'token'   => str_random(),
+        ]);
+
+        $invite->events()->attach($eventIds);
+
+        return $invite;
+    }
 }
