@@ -21,7 +21,7 @@ Route::get('/contact', 'PublicPages\ContactController@contact');
 
 # Join
 Route::get('/tasters', 'Kiosk\TastersController@index');
-Route::get('/events', 'Kiosk\EventsController@index');
+Route::get('/events', 'Kiosk\EventsController@index')->name('events.index');
 
 # Auth
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('auth.login.show');

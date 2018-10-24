@@ -52,7 +52,7 @@ class EventInvitation extends Mailable
     {
         return $this->view('mail.events.invitation', [
             'first_name'  => $this->user->first_name,
-            'url'         => url('/events', ['token' => $this->invite->token]),
+            'url'         => route('events.index', ['token' => $this->invite->token]),
             'expires_at'  => $this->invite->expires_at->format('l jS F \a\t g:ia'),
             'event_count' => $this->invite->events->count(),
             'use_count'   => $this->invite->uses,
