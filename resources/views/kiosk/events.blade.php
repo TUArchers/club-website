@@ -175,7 +175,7 @@
         $('#attendee_name_summary').text(attendee.first_name + " " + attendee.last_name);
         $('#attendee_email_summary').text(attendee.email);
         $('#attendee_phone_summary').text(attendee.phone);
-        $('#attendee_date_of_birth_summary').text(attendee.birth_date);
+        $('#attendee_date_of_birth_summary').text(attendee.birth_date || 'Unknown');
         $('#attendee_tusc_id_summary').text(attendee.tusc_id);
         $('#attendee_agb_id_summary').text(attendee.agb_id);
     }

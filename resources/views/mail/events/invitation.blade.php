@@ -239,7 +239,7 @@
                         in this email, simply move or copy the entire
                         MODULE ROW section for each content block.
                     -->
-                    @if(!empty($message))
+                    @if(!empty($information))
                     <tr>
                         <td align="center" valign="top" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                             <!-- CENTERING TABLE // -->
@@ -277,7 +277,7 @@
                                                                 This invitation is good for {{ $use_count }} booking{{ $use_count > 1?'s':null }} and will expire
                                                                 on {{ $expires_at }}.
                                                                 <br>
-                                                                {!! str_replace("\n", "<br><br>", trim(e($message), "\n")) !!}
+                                                                {!! str_replace("\n", "<br><br>", trim(e($information), "\n")) !!}
                                                             </td>
                                                         </tr>
                                                     </table>

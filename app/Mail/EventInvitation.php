@@ -25,22 +25,22 @@ class EventInvitation extends Mailable
     /** @var Invite */
     private $invite;
     /** @var string */
-    private $message;
+    private $information;
 
     /**
      * Create a new message instance
      *
      * @param User   $user
      * @param Invite $invite
-     * @param string $message
+     * @param string $information
      */
-    public function __construct(User $user, Invite $invite, $message)
+    public function __construct(User $user, Invite $invite, $information)
     {
         $this->queue = 'emails';
 
-        $this->user    = $user;
-        $this->invite  = $invite;
-        $this->message = $message;
+        $this->user        = $user;
+        $this->invite      = $invite;
+        $this->information = $information;
     }
 
     /**
@@ -56,7 +56,7 @@ class EventInvitation extends Mailable
             'expires_at'  => $this->invite->expires_at->format('l jS F \a\t g:ia'),
             'event_count' => $this->invite->events->count(),
             'use_count'   => $this->invite->uses,
-            'message'     => $this->message,
+            'information' => $this->information,
         ]);
     }
 }
