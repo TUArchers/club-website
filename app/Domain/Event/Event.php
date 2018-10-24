@@ -146,7 +146,9 @@ class Event extends Model
      */
     public function getSpacesRemainingAttribute()
     {
-        return $this->capacity - $this->confirmedReservations()->count();
+        $nonCancelledReservations = $this->reservations()->where('cancelled_at', '=', null);
+
+        return $this->capacity - $nonCancelledReservations->count();
     }
 
     /**
