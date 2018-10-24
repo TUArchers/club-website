@@ -21,6 +21,7 @@ Route::get('/contact', 'PublicPages\ContactController@contact');
 
 # Join
 Route::get('/tasters', 'Kiosk\TastersController@index');
+Route::get('/events', 'Kiosk\EventsController@index');
 
 # Auth
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('auth.login.show');
@@ -48,9 +49,9 @@ Route::get('/members/{userId}/scores', 'Members\ScoreController@showMemberScores
 Route::post('/members/{userId}/scores', 'Members\ScoreController@submitScore');
 
 # Events
-Route::get('/events');
-Route::get('/events/{eventId}');
-Route::post('/events/{eventId}/register');
+//Route::get('/events');
+//Route::get('/events/{eventId}');
+//Route::post('/events/{eventId}/register');
 
 /*
 |--------------------------------------------------------------------------

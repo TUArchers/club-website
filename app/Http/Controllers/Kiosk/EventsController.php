@@ -42,15 +42,15 @@ class EventsController extends Controller
         }
 
         // Extract the user and all applicable events that haven't started yet
-        $user       = $invite->user;
-        $events     = $invite->events->where('starts_at', '>', new \DateTime());
+        $user   = $invite->user;
+        $events = $invite->events->where('starts_at', '>', new \DateTime())->sortBy('starts_at');
 
         // Group the events into days
         $event_days = $events->groupBy(function(Event $event){
             return $event->starts_at->format('l jS F');
         });
 
-        return view('kiosk.bookings', compact('event_days', 'user'));
+        return view('kiosk.events', compact('event_days', 'user', 'invite'));
     }
 
     // API Actions ----
@@ -89,15 +89,19 @@ class EventsController extends Controller
         /** @var Reservation $reservation */
         $reservation = Reservation::find($reservationId);
         /** @var Event $event */
-        $event       = Event::find($eventId);
+        $event = Event::find($eventId);
+        /** @var User $user */
+        $user = User::find($request->input('user_id'));
 
         // Check reservation is good
         if($reservation->has_expired){
             return response()->json(['message' => 'That reservation has expired'], 408);
         }
 
-        // Get the user account
-        $user = User::find($request->input('user_id'));
+        // Use invite, if specified
+        if($invite = Invite::find($request->input('invite_id'))){
+            $invite->useOnce();
+        }
 
         // Confirm the reservation
         $reservation->confirm($user);

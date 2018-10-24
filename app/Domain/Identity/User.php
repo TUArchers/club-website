@@ -233,15 +233,18 @@ class User extends Authenticatable
      * Invite this user to the given events
      *
      * @param array $eventIds
+     * @param int   $inviteUses
      *
      * @return Invite
      */
-    public function inviteToEvents(array $eventIds)
+    public function inviteToEvents(array $eventIds, $inviteUses = 1)
     {
         $invite = Invite::create([
-            'user_id' => $this->id,
-            'email'   => $this->email,
-            'token'   => str_random(),
+            'user_id'        => $this->id,
+            'email'          => $this->email,
+            'token'          => str_random(),
+            'uses'           => $inviteUses,
+            'uses_remaining' => $inviteUses,
         ]);
 
         $invite->events()->attach($eventIds);

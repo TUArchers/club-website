@@ -19,6 +19,8 @@ use TuaWebsite\Domain\Identity\User;
  * @property int                $id
  * @property string             $email
  * @property string             $token
+ * @property int                $uses
+ * @property int                $uses_remaining
  * @property int                $user_id
  * @property User               $user
  * @property Collection|Event[] $events
@@ -29,7 +31,7 @@ class Invite extends Model
 {
     /** Properties */
     public $timestamps  = true;
-    protected $fillable = ['user_id', 'email', 'token'];
+    protected $fillable = ['user_id', 'email', 'token', 'uses', 'uses_remaining'];
     protected $dates    = ['created_at', 'updated_at'];
 
     /** Relationships */
@@ -72,5 +74,21 @@ class Invite extends Model
         return $event->starts_at
             ->copy()
             ->subMinutes(15);
+    }
+
+    /** Commands */
+
+    /**
+     * @throws \Exception
+     */
+    public function useOnce()
+    {
+        if($this->uses_remaining < 2){
+            $this->events()->detach();
+            $this->delete();
+        }
+        else{
+            $this->decrement('uses_remaining');
+        }
     }
 }

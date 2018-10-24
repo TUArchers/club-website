@@ -18,6 +18,8 @@ class CreateInvitesTable extends Migration
             $table->unsignedInteger('user_id');
             $table->string('email');
             $table->string('token');
+            $table->unsignedTinyInteger('uses');
+            $table->unsignedTinyInteger('uses_remaining');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
