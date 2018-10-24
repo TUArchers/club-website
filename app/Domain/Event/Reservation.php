@@ -14,6 +14,8 @@ use TuaWebsite\Domain\Identity\User;
  * @author
  * @version 0.1.0
  * @since   0.1.0
+ *
+ * @property Event $event
  */
 class Reservation extends Model
 {

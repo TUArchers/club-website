@@ -14,7 +14,7 @@ use TuaWebsite\Mail\EventReservationChanged;
 use TuaWebsite\Mail\EventReservationReminder;
 
 /**
- * EventsController
+ * Events Controller
  *
  * @package TuaWebsite\Http\Controllers\Admin
  * @author  James Drew <jdrew9@hotmail.co.uk>
@@ -229,12 +229,6 @@ class EventsController extends Controller
                     new EventReservationChanged($reservation, $message)
                 );
             }
-
-            // Cancel pending reminders
-            \Queue::getDatabase()->table('jobs')
-                ->where('payload', 'LIKE', '%EventReservationReminder%')
-                ->where('payload', 'LIKE', '%Reservation\\\\";s:2:\\\\"id\\\\";i:' . $reservation->id . '%')
-                ->delete();
 
             if(!$event->isCancelled()){
                 // Schedule new reminder

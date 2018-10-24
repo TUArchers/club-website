@@ -2,7 +2,9 @@
 
 namespace TuaWebsite\Mail;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Mail\Mailer as MailerContract;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use TuaWebsite\Domain\Event\Event;
@@ -20,6 +22,8 @@ class EventReservationReminder extends Mailable
 {
     use Queueable, SerializesModels;
 
+    /** @var Carbon */
+    private $eventStartsAt;
     /** @var Reservation */
     private $reservation;
 
@@ -30,8 +34,27 @@ class EventReservationReminder extends Mailable
      */
     public function __construct(Reservation $reservation)
     {
-        $this->reservation = $reservation;
-        $this->queue       = 'emails';
+        $this->queue         = 'emails';
+
+        $this->eventStartsAt = $reservation->event->starts_at->copy();
+        $this->reservation   = $reservation;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function send(MailerContract $mailer)
+    {
+        // Don't send this email if the event was rescheduled or cancelled
+        $event         = $this->reservation->event;
+        $isRescheduled = !$this->eventStartsAt->eq($event->starts_at);
+        $isCancelled   = $event->isCancelled();
+
+        if($isRescheduled || $isCancelled){
+            return;
+        }
+
+        parent::send($mailer);
     }
 
     /**
