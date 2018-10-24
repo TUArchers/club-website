@@ -24,6 +24,7 @@ use TuaWebsite\Domain\Identity\User;
  * @property int                $user_id
  * @property User               $user
  * @property Collection|Event[] $events
+ * @property Carbon             $expires_at
  * @property Carbon             $created_at
  * @property Carbon             $updated_at
  */

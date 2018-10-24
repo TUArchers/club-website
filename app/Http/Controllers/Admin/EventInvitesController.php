@@ -63,7 +63,7 @@ class EventInvitesController extends Controller
             $user   = User::query()->where('id', $userId)->first();
             $invite = $user->inviteToEvents($request->input('event_ids'));
 
-            \Mail::to($user)->queue(new EventInvitation($user, $invite));
+            \Mail::to($user)->queue(new EventInvitation($user, $invite, $request->input('message')));
         }
 
         $this->flash('Done!', 'Invitations have been sent', 'green');

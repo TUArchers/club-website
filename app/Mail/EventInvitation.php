@@ -24,19 +24,23 @@ class EventInvitation extends Mailable
     protected $user;
     /** @var Invite */
     private $invite;
+    /** @var string */
+    private $message;
 
     /**
      * Create a new message instance
      *
      * @param User   $user
      * @param Invite $invite
+     * @param string $message
      */
-    public function __construct(User $user, Invite $invite)
+    public function __construct(User $user, Invite $invite, $message)
     {
         $this->queue = 'emails';
 
-        $this->user   = $user;
-        $this->invite = $invite;
+        $this->user    = $user;
+        $this->invite  = $invite;
+        $this->message = $message;
     }
 
     /**
@@ -46,6 +50,13 @@ class EventInvitation extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.events.invitation', []);
+        return $this->view('mail.events.invitation', [
+            'first_name'  => $this->user->first_name,
+            'url'         => url('/events', ['token' => $this->invite->token]),
+            'expires_at'  => $this->invite->expires_at->format('l jS F \a\t g:ia'),
+            'event_count' => $this->invite->events->count(),
+            'use_count'   => $this->invite->uses,
+            'message'     => $this->message,
+        ]);
     }
 }
