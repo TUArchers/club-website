@@ -42,7 +42,7 @@ class Kernel extends ConsoleKernel
             ->everyFiveMinutes();
 
         // Handle queued jobs
-        $schedule->command('php artisan queue:work', ['queue' => 'urgent,notifications,emails,default', 'timeout' => 0, 'tries' => 5])
+        $schedule->command('queue:work --queue=urgent,notifications,emails,default --timeout=0 --tries=5')
             ->everyMinute()
             ->withoutOverlapping();
 
