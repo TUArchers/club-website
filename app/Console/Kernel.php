@@ -5,7 +5,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use TuaWebsite\Console\Commands\MoveEventReservation;
 use TuaWebsite\Console\Commands\RemoveExpiredEventReservations;
-use TuaWebsite\Console\Commands\SystemUpgrade;
+use TuaWebsite\Console\Commands\SystemUpdate;
 
 /**
  * Kernel
@@ -15,6 +15,7 @@ use TuaWebsite\Console\Commands\SystemUpgrade;
  * @version 0.1.0
  * @since   0.1.0 Introduced this kernel
  * @since   0.3.0 Moved more upgrade functionality to a dedicated command
+ * @since   0.8.0 Adjusted schedule to make use of "withoutOverlapping" for queue
  */
 class Kernel extends ConsoleKernel
 {
@@ -24,7 +25,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        SystemUpgrade::class,
+        SystemUpdate::class,
         RemoveExpiredEventReservations::class,
         MoveEventReservation::class
     ];
@@ -41,17 +42,16 @@ class Kernel extends ConsoleKernel
             ->everyFiveMinutes();
 
         // Handle queued jobs
-        $schedule->command('queue:restart')
-            ->everyThirtyMinutes();
-        $schedule->exec('php artisan queue:work --queue=urgent,notifications,emails,default --timeout=0 --tries=10')
-            ->everyThirtyMinutes();
+        $schedule->command('php artisan queue:work', ['queue' => 'urgent,notifications,emails,default', 'timeout' => 0, 'tries' => 5])
+            ->everyMinute()
+            ->withoutOverlapping();
 
         // Schedule next system upgrade when the upgrade file is provided
         $schedule->command('upgrade')
             ->everyMinute()
             ->evenInMaintenanceMode()
             ->when(function(){
-                return file_exists('upgrade.zip');
+                return file_exists('update.lock');
             });
     }
 
@@ -60,6 +60,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
+        /** @noinspection PhpIncludeInspection */
         require base_path('routes/console.php');
     }
 }
