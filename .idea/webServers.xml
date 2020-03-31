@@ -2,10 +2,10 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="3e0abd84-cb72-4fda-8363-6cf8661df21f" name="Teesside University Archers (Website)" url="http://tuarchers.org.uk">
+      <webServer id="c051964a-0738-428a-9098-be34210745f8" name="TU Archers (Clook)" url="http://tuarchers.org.uk">
         <fileTransfer host="ftp.tuarchers.org.uk" port="21" rootFolder="/website">
           <advancedOptions>
-            <advancedOptions dataProtectionLevel="Private" />
+            <advancedOptions dataProtectionLevel="Private" shareSSLContext="true" />
           </advancedOptions>
           <option name="port" value="21" />
         </fileTransfer>

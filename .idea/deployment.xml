@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="Teesside University Archers (Website)">
+  <component name="PublishConfigData" serverName="TU Archers (Clook)">
     <serverData>
-      <paths name="Teesside University Archers (Website)">
+      <paths name="Local Docker">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="TU Archers (Clook)">
         <serverdata>
           <mappings>
             <mapping deploy="/" local="$PROJECT_DIR$" web="/" />

@@ -168,7 +168,7 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
         /** @var User $user */
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         // Based on the content of the request, update the user details
         if($request->has('emergencyContact')){

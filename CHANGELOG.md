@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.8.0] - 2020-03-31
+### Changed
+- Queue working schedule improved
+- System update command renamed and simplified
+
 ## [0.5.0] - 2018-09-25
 ### Added
 - Event updates / changes with attendee update emails
