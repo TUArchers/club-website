@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="TU Archers (Clook)">
+  <component name="PublishConfigData" serverName="TU Archers (Clook)" uploadOnCheckin="c051964a-0738-428a-9098-be34210745f8">
     <serverData>
       <paths name="Local Docker">
         <serverdata>
@@ -34,5 +34,6 @@
         </serverdata>
       </paths>
     </serverData>
+    <option name="myUploadOnCheckinName" value="TU Archers (Clook)" />
   </component>
 </project>
